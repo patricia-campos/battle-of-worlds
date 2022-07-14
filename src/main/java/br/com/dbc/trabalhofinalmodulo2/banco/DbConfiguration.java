@@ -9,9 +9,9 @@ public class DbConfiguration {
 
     public static Connection getConnection(){
         Connection connection = null;
-        String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
-        String username = "BATALHA";
-        String password = "oracle";
+        String dbUrl = "jdbc:oracle:thin:@vemser-dbc.dbccompany.com.br:25000:xe";
+        String username = "EQUIPE_6";
+        String password = "xzSZcQtCZEDp";
 
         try {
             Class.forName("oracle.jdbc.OracleDriver");
