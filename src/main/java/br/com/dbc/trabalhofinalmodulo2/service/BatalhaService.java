@@ -1,11 +1,15 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.BatalhaMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
 import br.com.dbc.trabalhofinalmodulo2.repository.BatalhaRepository;
+import br.com.dbc.trabalhofinalmodulo2.repository.BossRepository;
+import br.com.dbc.trabalhofinalmodulo2.repository.CenarioRepository;
+import br.com.dbc.trabalhofinalmodulo2.repository.JogadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,16 @@ public class BatalhaService {
 
     @Autowired
     BatalhaMapper batalhaMapper;
+
+    @Autowired
+    BossRepository bossRepository;
+
+    @Autowired
+    CenarioRepository cenarioRepository;
+
+    @Autowired
+    JogadorRepository jogadorRepository;
+
 
     public BatalhaDTO adicionar(BatalhaCreateDTO batalha) throws BancoDeDadosException {
         Batalha batalha1 = batalhaMapper.fromCreateDTO(batalha);
@@ -43,6 +57,9 @@ public class BatalhaService {
             batalhaRepository.editar(id, batalha);
     }
 
+    public void atacar(int idBoss,int idJogador,int idCenario) throws BossNaoEncontradoException, BancoDeDadosException {
+    bossRepository.buscarBoss(idBoss);
 
+    }
 
 }
