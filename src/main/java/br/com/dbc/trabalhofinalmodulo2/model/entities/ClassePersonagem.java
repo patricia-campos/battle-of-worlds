@@ -1,25 +1,28 @@
 package br.com.dbc.trabalhofinalmodulo2.model.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import br.com.dbc.trabalhofinalmodulo2.interfaces.Impressao;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
-import java.util.Objects;
-
-public class ClassePersonagem implements Impressao {
-    private int idClassePersonagem;
-    private int idPersonagem;
+public class ClassePersonagem {
+    private Integer idClassePersonagem;
+    private Integer idPersonagem;
     private String nomeClassePersonagem;
-    private int vidaClasse;
-    private int defesaClasse;
-    private int ataqueClasse;
+    private Integer vidaClasse;
+    private Integer defesaClasse;
+    private Integer ataqueClasse;
 
-    public int getIdPersonagem() {
-        return idPersonagem;
-    }
+}
 
-    public void setIdPersonagem(int idPersonagem) {
-        this.idPersonagem = idPersonagem;
-    }
+
+//TODO - COMENTADO NA ClassePersonagemService OS MÉTODOS DE RETORNO
+//TODO - REVISAR MÉTODOS COMENTADOS ABAIXO
+
+/*
 
     public ClassePersonagem(String nomeClassePersonagem) {
         if (Objects.equals(nomeClassePersonagem.toUpperCase(), "MAGO")) {
@@ -49,28 +52,7 @@ public class ClassePersonagem implements Impressao {
         this.idPersonagem = idPersonagem;
     }
 
-    public int getIdClassePersonagem() {
-        return idClassePersonagem;
-    }
 
-    public void setIdClassePersonagem(int idClassePersonagem) {
-        this.idClassePersonagem = idClassePersonagem;
-    }
-
-    public String getNomeClassePersonagem() {
-        return nomeClassePersonagem;
-    }
-
-    public void setNomeClassePersonagem(String nomeClassePersonagem) {
-        this.nomeClassePersonagem = nomeClassePersonagem;
-    }
-
-    public ClassePersonagem() {
-    }
-
-    public int getVidaClasse() {
-        return vidaClasse;
-    }
 
     public void setVidaClasse(int vidaClasse) {
         if (vidaClasse < 0) {
@@ -79,40 +61,6 @@ public class ClassePersonagem implements Impressao {
             this.vidaClasse = vidaClasse;
         }
     }
-
-    public int getDefesaClasse() {
-        return defesaClasse;
-    }
-
-    public void setDefesaClasse(int defesaClasse) {
-        this.defesaClasse = defesaClasse;
-    }
-
-    public int getAtaqueClasse() {
-        return ataqueClasse;
-    }
-
-    public void setAtaqueClasse(int ataqueClasse) {
-        this.ataqueClasse = ataqueClasse;
-    }
+*/
 
 
-    @Override
-    public String toString() {
-        return "\n" +
-                "" +
-                "| Nome da classe: " + nomeClassePersonagem +
-                "\n" +
-                "| Vida da classe: " + vidaClasse
-                + "\n" +
-                "| Defesa da classe: " + defesaClasse
-                + "\n" +
-                "| Ataque da classe: " + ataqueClasse +
-                "";
-    }
-
-    @Override
-    public void imprimir() {
-        System.out.println(this);
-    }
-}

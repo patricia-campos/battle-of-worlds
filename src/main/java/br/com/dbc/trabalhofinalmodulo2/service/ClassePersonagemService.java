@@ -46,6 +46,8 @@ public class ClassePersonagemService {
         }
     }
 
+    /*
+
     public ClassePersonagem retornaClasse(String nome) throws BancoDeDadosException {
         return classePersonagemRepository.listar()
                 .stream()
@@ -73,6 +75,6 @@ public class ClassePersonagemService {
             System.out.println(classe);
         }
     }
-
+*/
 }
 

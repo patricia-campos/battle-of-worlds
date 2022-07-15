@@ -34,6 +34,8 @@ public class CenarioService {
         }
     }
 
+    //TODO VERIFICAR
+    /*
     public Cenario retornaCenario(String tipo) throws BancoDeDadosException {
         return cenarioRepository.listar()
                 .stream()
@@ -42,5 +44,7 @@ public class CenarioService {
                 .findFirst()
                 .orElse(null);
     }
+
+     */
 
 }
