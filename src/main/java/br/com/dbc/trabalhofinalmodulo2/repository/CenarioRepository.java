@@ -147,4 +147,45 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
         }
         return cenarios;
     }
+
+    //BUSCAR CENÁRIO POR ID
+    public Cenario findCenarioById(int id) throws  BancoDeDadosException {
+        Connection con = null;
+
+        try {
+            con = DbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM CENARIO WHERE ID_CENARIO = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            ResultSet res = stmt.executeQuery();
+
+            Cenario cenario = new Cenario();
+            while (res.next()) {
+                cenario.setIdCenario(res.getInt("ID_CENARIO"));
+                cenario.setNomeCenario(res.getString("NOME_CENARIO"));
+                cenario.setTipoCenario(res.getString("TIPO_REINO"));
+                cenario.setHorario(res.getDate("HORARIO"));
+                return cenario;
+            }
+
+            return cenario;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new BancoDeDadosException(e.getCause());
+
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
