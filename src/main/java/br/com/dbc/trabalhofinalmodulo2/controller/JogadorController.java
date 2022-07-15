@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/jogador")
@@ -25,6 +26,11 @@ public class JogadorController {
         return jogadorService.listarTodos();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<JogadorDTO> buscar(@PathVariable Integer id) throws BancoDeDadosException {
+        return ResponseEntity.ok(jogadorService.listarPorId(id));
+    }
+
     @PostMapping
     public ResponseEntity<JogadorDTO> post(@Valid @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException {
         return ResponseEntity.ok(jogadorService.adicionar(jogadorDTO));
@@ -37,6 +43,6 @@ public class JogadorController {
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id) throws BancoDeDadosException {
-        jogadorService.remover(jogadorService.findById(id));
+        jogadorService.remover(jogadorService.listarPorId(id));
     }
 }

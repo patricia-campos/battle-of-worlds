@@ -38,16 +38,16 @@ public class JogadorService {
         return jogadorRepository.listar().stream().map(jogadorMapper::toDTO).toList();
     }
 
-    public void remover(Jogador jogador) throws BancoDeDadosException {
+    public void remover(JogadorDTO jogador) throws BancoDeDadosException {
         log.info("Jogador Deletado");
-        Jogador jogadorRecuperado = findById(jogador.getId());
+        Jogador jogadorRecuperado = jogadorRepository.listarPorId(jogador.getId());
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
         jogadorRepository.remover(jogadorDTO.getId());
     }
 
     public JogadorDTO editar(JogadorCreateDTO jogador, Integer id) throws BancoDeDadosException {
         log.info("Jogador Editado");
-        Jogador jogadorRecuperado = findById(id);
+        Jogador jogadorRecuperado = jogadorRepository.listarPorId(id);
         jogadorRecuperado.setNomeJogador(jogador.getNomeJogador());
         jogadorRecuperado.setSenha(jogador.getSenha());
         jogadorRecuperado.setEmail(jogador.getEmail());
@@ -59,11 +59,18 @@ public class JogadorService {
         return jogadorRepository.listarPorNome(nome);
     }
 
-    public Jogador findById(Integer idPessoa) throws BancoDeDadosException {
-        Jogador pessoaRecuperada = jogadorRepository.listar().stream()
-                .filter(pessoa -> pessoa.getId().equals(idPessoa))
-                .findFirst()
-                .orElseThrow(() -> new BancoDeDadosException("Pessoa não encontrada"));
-        return pessoaRecuperada;
+//    public Jogador findById(Integer idPessoa) throws BancoDeDadosException {
+//        Jogador pessoaRecuperada = jogadorRepository.listar().stream()
+//                .filter(pessoa -> pessoa.getId().equals(idPessoa))
+//                .findFirst()
+//                .orElseThrow(() -> new BancoDeDadosException("Pessoa não encontrada"));
+//        JogadorDTO jogadorDTO = jogadorMapper.toDTO(pessoaRecuperada);
+//        return pessoaRecuperada;
+//    }
+
+    public JogadorDTO listarPorId(Integer id) throws BancoDeDadosException {
+        Jogador jogadorRecuperado = jogadorRepository.listarPorId(id);
+        JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
+        return jogadorDTO;
     }
 }
