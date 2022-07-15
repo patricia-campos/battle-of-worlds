@@ -1,37 +1,55 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.mapper.PersonagemMapper;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.*;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.repository.PersonagemRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Service
+@Slf4j
 public class PersonagemService {
 
-    PersonagemRepository personagemRepository = new PersonagemRepository();
+    @Autowired
+    private PersonagemRepository personagemRepository;
 
-    public void adicionar(Jogador jogador, Personagem personagem) throws BancoDeDadosException {
-        if (personagem == null) {
-            System.out.println("Personagem esta vazio");
-        } else if (jogador == null) {
-            System.out.println("Jogador esta vazio");
-        } else if (this.verificaNomePersonagem(personagem)) {
-            personagemRepository.adicionar(personagem, jogador.getId());
+    @Autowired
+    private PersonagemMapper personagemMapper;
+
+
+    public PersonagemDTO adicionar(PersonagemCreateDTO personagem, Integer idJogador) throws BancoDeDadosException {
+        log.info("Personagem criado");
+        if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
+            throw new BancoDeDadosException("Personagem já existe");
         }
+
+        Personagem personagemEntity = personagemMapper.fromCreateDTO(personagem);
+        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.adicionar(personagemEntity, idJogador));
+        return personagemDTO;
     }
 
-    public void editar(Personagem personagem, String nome) throws BancoDeDadosException {
-        if (personagem == null) {
-        } else {
-            personagem.setNomePersonagem(nome);
-            if (this.verificaNomePersonagem(personagem)) {
-                personagemRepository.editar(personagem.getId(), personagem);
-            }
-        }
+    public List<PersonagemDTO> listarTodos() throws BancoDeDadosException {
+        return personagemRepository.listar().stream().map(personagemMapper::toDTO).toList();
     }
+
+    public PersonagemDTO editar(PersonagemPutDTO personagem, Integer idPersonagem) throws BancoDeDadosException {
+        if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
+            throw new BancoDeDadosException("Personagem já existe");
+        }
+        personagem.setNomePersonagem(personagem.getNomePersonagem());
+        Personagem personagemEntity = personagemMapper.fromPutDTO(personagem);
+        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.editar(idPersonagem, personagemEntity));
+        return personagemDTO;
+    }
+
 
     public void listar() throws BancoDeDadosException {
         for (Personagem personagem : personagemRepository.listar()) {
@@ -39,35 +57,32 @@ public class PersonagemService {
         }
     }
 
-    public void remover(Personagem personagem) throws BancoDeDadosException {
-        if (personagem == null) {
-        } else {
-            personagemRepository.remover(personagem.getId());
-        }
+    public void remover(PersonagemDTO personagem) throws BancoDeDadosException {
+        Personagem personagemRecuperado = personagemRepository.listarPorId(personagem.getId());
+        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRecuperado);
+        personagemRepository.remover(personagemDTO.getId());
     }
 
-    public Personagem retornaPersonagem(String nome) throws BancoDeDadosException {
-        return personagemRepository
-                .listar()
-                .stream()
-                .filter(a -> Objects.equals(a.getNomePersonagem(), nome))
-                .map(a -> new Personagem(a.getId(), a.getNomePersonagem()))
-                .findFirst()
-                .orElse(null);
+//    public Personagem retornaPersonagem(String nome) throws BancoDeDadosException {
+//        return personagemRepository
+//                .listar()
+//                .stream()
+//                .filter(a -> Objects.equals(a.getNomePersonagem(), nome))
+//                .map(a -> new Personagem(a.getId(), a.getNomePersonagem()))
+//                .findFirst()
+//                .orElse(null);
+//    }
+
+    public PersonagemDTO listarPorId(Integer id) throws BancoDeDadosException {
+        Personagem personagemRecuperado = personagemRepository.listarPorId(id);
+        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRecuperado);
+        return personagemDTO;
     }
 
     public void listarPersonagemsPorJogador(int idJogador) throws BancoDeDadosException {
-        List<Personagem> listaPersonagem = personagemRepository.listar().stream().filter(a ->Objects.equals(a.getIdJogador(), idJogador)).collect(Collectors.toList());
+        List<Personagem> listaPersonagem = personagemRepository.listar().stream().filter(a -> Objects.equals(a.getIdJogador(), idJogador)).collect(Collectors.toList());
         for (Personagem personagem : listaPersonagem) {
             System.out.println(personagem);
         }
-    }
-
-    public boolean verificaNomePersonagem(Personagem personagem) throws BancoDeDadosException {
-        if (personagem != null) {
-            Personagem personagem1 = this.retornaPersonagem(personagem.getNomePersonagem());
-            return personagem1 == null;
-        }
-        return false;
     }
 }

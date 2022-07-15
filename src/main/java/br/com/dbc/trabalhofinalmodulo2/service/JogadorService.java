@@ -33,7 +33,6 @@ public class JogadorService {
         return jogadorDTO;
     }
 
-
     public List<JogadorDTO> listarTodos() throws BancoDeDadosException {
         return jogadorRepository.listar().stream().map(jogadorMapper::toDTO).toList();
     }

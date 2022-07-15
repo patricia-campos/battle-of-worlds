@@ -3,6 +3,7 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -12,6 +13,9 @@ import java.util.List;
 @Repository
 public class CenarioRepository implements Repositorio<Integer, Cenario> {
         Connection con = null;
+
+        @Autowired
+        private DbConfiguration dbConfiguration;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -29,7 +33,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     @Override
     public Cenario adicionar(Cenario object) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "INSERT INTO CENARIO (ID_CENARIO, NOME_CENARIO, HORARIO, TIPO_REINO)\n" +
                     "\tVALUES (SEQ_CENARIO.nextval, ?, CURRENT_DATE, ?)";
@@ -52,7 +56,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "DELETE FROM CENARIO WHERE ID_CENARIO = ?";
 
@@ -81,7 +85,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     @Override
     public Cenario editar(Integer id, Cenario cenario) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE CENARIO SET ");
@@ -117,7 +121,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     public List<Cenario> listar() throws BancoDeDadosException {
         List<Cenario> cenarios = new ArrayList<>();
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             Statement stmt = con.createStatement();
 
             String sql = "SELECT * FROM CENARIO";

@@ -3,6 +3,7 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -15,27 +16,40 @@ import java.util.Optional;
 public class JogadorRepository implements Repositorio<Integer, Jogador> {
     Connection con = null;
 
+    @Autowired
+    private DbConfiguration dbConfiguration;
+
     @Override
-    public Integer getProximoId(Connection connection) {
+    public Integer getProximoId(Connection connection) throws SQLException {
+        String sql = "SELECT SEQ_JOGADOR.nextval proximoIdJogador from DUAL";
+
+        Statement stmt = connection.createStatement();
+        ResultSet res = stmt.executeQuery(sql);
+
+        if (res.next()) {
+            return res.getInt("proximoIdJogador");
+        }
         return null;
     }
 
     @Override
     public Jogador adicionar(Jogador object) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
-
+            con = dbConfiguration.getConnection();
+            int id = getProximoId(con);
             String sql = """
                     INSERT INTO JOGADOR
                     (ID_JOGADOR, NOME_JOGADOR, SENHA, EMAIL)
-                    VALUES(SEQ_JOGADOR.nextval, ?, ?, ?)""";
+                    VALUES(?, ?, ?, ?)""";
 
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, object.getNomeJogador());
-            stmt.setString(2, object.getSenha());
-            stmt.setString(3, object.getEmail());
+            stmt.setInt(1, id);
+            stmt.setString(2, object.getNomeJogador());
+            stmt.setString(3, object.getSenha());
+            stmt.setString(4, object.getEmail());
 
             stmt.executeUpdate();
+            object.setId(id);
             ResultSet rs = con.prepareStatement("SELECT SEQ_JOGADOR.currval FROM dual").executeQuery();
             if (rs.next()) {
                object.setId(rs.getInt(1));
@@ -60,7 +74,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "DELETE FROM JOGADOR WHERE ID_JOGADOR = ?";
 
@@ -90,7 +104,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     @Override
     public Jogador editar(Integer id, Jogador jogador) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = """
                     UPDATE JOGADOR
@@ -126,7 +140,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     public List<Jogador> listar() throws BancoDeDadosException {
         List<Jogador> jogadorList = new ArrayList<>();
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             Statement stmt = con.createStatement();
 
 
@@ -159,7 +173,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
     public Optional<Jogador> listarPorNome(String nome) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
 
@@ -194,7 +208,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
     public Jogador listarPorId(Integer id) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM JOGADOR WHERE ID_JOGADOR = ?";
 

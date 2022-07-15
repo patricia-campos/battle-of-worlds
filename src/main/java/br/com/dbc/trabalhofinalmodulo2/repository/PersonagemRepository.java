@@ -2,16 +2,32 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
+@Repository
 public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
+    @Autowired
+    private DbConfiguration dbConfiguration;
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
+        String sql = "SELECT SEQ_PERSONAGEM.nextval proximoIdPersonagem from DUAL";
+
+        Statement stmt = connection.createStatement();
+        ResultSet res = stmt.executeQuery(sql);
+
+        if (res.next()) {
+            return res.getInt("proximoIdPersonagem");
+        }
         return null;
     }
 
@@ -23,17 +39,22 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     public Personagem adicionar(Personagem object, int id) throws BancoDeDadosException {
         Connection con = null;
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
+            int idPersonagem = getProximoId(con);
 
             String sql = "INSERT INTO PERSONAGEM\n" +
                     "(ID_PERSONAGEM, ID_JOGADOR, NOME_PERSONAGEM)\n" +
-                    "VALUES(SEQ_PERSONAGEM.nextval, ?, ?)\n";
+                    "VALUES(?, ?, ?)\n";
 
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.setString(2, object.getNomePersonagem());
+
+            stmt.setInt(1, idPersonagem);
+            stmt.setInt(2, id);
+            stmt.setString(3, object.getNomePersonagem());
 
             int res = stmt.executeUpdate();
+            object.setId(idPersonagem);
+            object.setIdJogador(id);
             System.out.println("Adicionado com sucesso");
             return object;
         } catch (SQLException e) {
@@ -54,7 +75,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     public boolean remover(Integer id) throws BancoDeDadosException {
         Connection con = null;
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "DELETE FROM PERSONAGEM WHERE ID_PERSONAGEM = ?";
 
@@ -84,7 +105,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     public Personagem editar(Integer id, Personagem personagem) throws BancoDeDadosException {
         Connection con = null;
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE PERSONAGEM SET ");
@@ -95,9 +116,10 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
             stmt.setString(1, personagem.getNomePersonagem());
             stmt.setInt(2, id);
-
             // Executa-se a consulta
             int res = stmt.executeUpdate();
+            personagem.setId(id);
+            personagem.setIdJogador(personagem.getIdJogador());
             System.out.println("Personagem Editado com Sucesso");
 
             return personagem;
@@ -114,12 +136,80 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         }
     }
 
+    public Optional<Personagem> listarPorNome(String nome) throws BancoDeDadosException {
+        Connection con = null;
+        try {
+            con = dbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, nome);
+            // Executa-se a consulta
+
+            ResultSet res = stmt.executeQuery();
+
+            if (res.next()) {
+                Personagem personagem = new Personagem();
+                personagem.setNomePersonagem(res.getString("NOME_JOGADOR"));
+                personagem.setId(res.getInt("ID_PERSONAGEM"));
+                personagem.setIdJogador(res.getInt("ID_JOGADOR"));
+                return Optional.of(personagem);
+            } else return Optional.empty();
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public Personagem listarPorId(Integer id) throws BancoDeDadosException {
+        Connection con = null;
+        try {
+            con = dbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM PERSONAGEM WHERE ID_PERSONAGEM = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+            // Executa-se a consulta
+
+            ResultSet res = stmt.executeQuery();
+
+            if (res.next()) {
+                Personagem personagem = new Personagem();
+                personagem.setNomePersonagem(res.getString("NOME_PERSONAGEM"));
+                personagem.setId(res.getInt("ID_PERSONAGEM"));
+                personagem.setIdJogador(res.getInt("ID_JOGADOR"));
+                return Objects.equals(personagem.getId(), id) ? personagem : null;
+            } else return null;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public List<Personagem> listar() throws BancoDeDadosException {
         List<Personagem> personagemList = new ArrayList<>();
         Connection con = null;
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             Statement stmt = con.createStatement();
 
             String sql = "SELECT * FROM PERSONAGEM";

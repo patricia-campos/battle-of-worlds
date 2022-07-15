@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.model.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
@@ -8,6 +9,9 @@ import javax.validation.constraints.NotNull;
 public class PersonagemDTO extends PersonagemCreateDTO {
 
     @NotNull
-    private Integer idPersonagem;
+    private Integer id;
+
+    @NotNull
+    private int idJogador;
 
 }

@@ -10,7 +10,6 @@ public class TrabalhoFinalModulo2Application {
 
     public static void main(String[] args) {
 
-        DbConfiguration.getConnection();
         SpringApplication.run(TrabalhoFinalModulo2Application.class, args);
     }
 }

@@ -3,6 +3,7 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -14,6 +15,8 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
     Connection con = null;
 
+    @Autowired
+    private DbConfiguration dbConfiguration;
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
         String sql = "Select SEQ_BATALHA.nextval mysequence FROM DUAL";
@@ -34,7 +37,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
         Connection con = null;
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             Integer proximoId = this.getProximoId(con);
 
             String sql = """
@@ -74,7 +77,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
         List<Batalha> batalhas = new ArrayList<>();
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             Statement  stmt = con.createStatement();
 
             String sql = "SELECT * FROM BATALHA";

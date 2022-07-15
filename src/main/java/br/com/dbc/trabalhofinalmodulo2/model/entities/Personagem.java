@@ -12,10 +12,6 @@ public class Personagem {
     private int id;
     private int idJogador;
     private String nomePersonagem;
-    private ClassePersonagem classePersonagem = new ClassePersonagem();
 
-    public Personagem(int id, String nomePersonagem) {
-
-    }
 }
 

@@ -4,6 +4,7 @@ import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -12,6 +13,9 @@ import java.util.List;
 
 @Repository
 public class BossRepository implements Repositorio<Integer, Boss> {
+
+    @Autowired
+    private DbConfiguration dbConfiguration;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -23,9 +27,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         if (res.next()) {
             return res.getInt("proximoIdBoss");
         }
-
         return null;
-
     }
 
     @Override
@@ -34,7 +36,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         Connection con = null;
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             int id = getProximoId(con);
 
             String sql = "INSERT INTO BOSS (ID_BOSS, NOME_BOSS, VIDA_BOSS, DEFESA_BOSS, ATAQUE_BOSS)\n" +
@@ -73,7 +75,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         Connection con = null;
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "DELETE FROM BOSS WHERE ID_BOSS = ?";
 
@@ -107,7 +109,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         Connection con = null;
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE BOSS SET ");
@@ -150,7 +152,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         Connection con = null;
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             Statement stmt = con.createStatement();
 
             String sql = "SELECT * FROM BOSS";
@@ -185,7 +187,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     public Boss buscarBoss(int id) throws BossNaoEncontradoException, BancoDeDadosException {
         Connection con = null;
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM BOSS WHERE ID_BOSS = ?";
 

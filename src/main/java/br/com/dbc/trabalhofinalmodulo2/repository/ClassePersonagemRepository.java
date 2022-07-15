@@ -3,6 +3,7 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.List;
 public class ClassePersonagemRepository implements Repositorio<Integer, ClassePersonagem> {
     Connection con = null;
 
+    @Autowired
+    private DbConfiguration dbConfiguration;
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
         String sql = "Select SEQ_CLASSE_PERSONAGEM.nextval mysequence from dual";
@@ -32,7 +35,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
     public ClassePersonagem adicionar(ClassePersonagem objeto, int idPersonagem) throws BancoDeDadosException {
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "INSERT INTO CLASSE_PERSONAGEM (ID_CLASSE_PERSONAGEM, ID_PERSONAGEM, NOME_CLASSE_PERSONAGEM, VIDA_PERSONAGEM, DEFESA_PERSONAGEM, ATAQUE_PERSONAGEM)\n" +
                     "\tVALUES (SEQ_CLASSE_PERSONAGEM.nextval, ?, ?, ?, ?, ?)";
@@ -70,7 +73,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
     @Override
     public ClassePersonagem editar(Integer id, ClassePersonagem object) throws BancoDeDadosException {
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE CLASSE_PERSONAGEM SET ");
@@ -111,7 +114,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
     public List<ClassePersonagem> listar() throws BancoDeDadosException {
         List<ClassePersonagem> classes = new ArrayList<>();
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
             Statement stmt = con.createStatement();
 
             String sql = "SELECT * FROM CLASSE_PERSONAGEM";
