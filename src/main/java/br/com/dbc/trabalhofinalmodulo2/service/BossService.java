@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.BossMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossDTO;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +30,7 @@ public class BossService {
     }
 
     public BossDTO adicionar(BossCreateDTO boss) throws BancoDeDadosException {
-            return bossMapper.toBossDTO(bossRepository.adicionar(bossMapper.toBoss(boss)));
+            return bossMapper.toBossDTO(bossRepository.adicionar(bossMapper.toCreateFromBoss(boss)));
     }
 
     public void remover(int id) throws BancoDeDadosException {
@@ -38,8 +38,10 @@ public class BossService {
     }
 
     public BossDTO editar(BossCreateDTO boss) throws BancoDeDadosException {
-        return bossMapper.toBossDTO(bossRepository.editar(bossMapper.toBoss(boss).getIdBoss(), bossMapper.toBoss(boss)));
+        return bossMapper.toBossDTO(bossRepository.editar(bossMapper.toCreateFromBoss(boss).getIdBoss(), bossMapper.toCreateFromBoss(boss)));
     }
 
-
+    public Boss buscarBoss(int id) throws BancoDeDadosException, Exception {
+        return bossRepository.buscarBoss(id);
+    }
 }

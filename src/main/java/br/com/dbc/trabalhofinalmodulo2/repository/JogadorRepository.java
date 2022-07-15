@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -190,26 +191,39 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
         }
     }
 
-//    public Boolean verificarNomeJogador(Jogador jogador) throws BancoDeDadosException {
-//        try (Connection con = DbConfiguration.getConnection()) {
-//
-//            String sql = "SELECT FROM JOGADOR WHERE NOME_JOGADOR = ?";
-//
-//            PreparedStatement stmt = con.prepareStatement(sql);
-//
-//            stmt.setString(1, jogador.getNomeJogador());
-//
-//            // Executa-se a consulta
-//            ResultSet res = stmt.executeQuery();
-//            System.out.println("Jogador recuperado com sucesso");
-//
-//            if (res.first()) {
-//                return listarPorNome(j)
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new BancoDeDadosException(e.getCause());
-//        }
-//    }
+
+    public Jogador listarPorId(Integer id) throws BancoDeDadosException {
+        try {
+            con = DbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM JOGADOR WHERE ID_JOGADOR = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+            // Executa-se a consulta
+
+            ResultSet res = stmt.executeQuery();
+
+            if (res.next()) {
+                Jogador jogador = new Jogador();
+                jogador.setNomeJogador(res.getString("NOME_JOGADOR"));
+                jogador.setSenha(res.getString("SENHA"));
+                jogador.setEmail(res.getString("EMAIL"));
+                jogador.setId(res.getInt("ID_JOGADOR"));
+                return Objects.equals(jogador.getId(), id) ? jogador : null;
+            } else return null;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 

@@ -2,6 +2,7 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import org.springframework.stereotype.Repository;
 
@@ -180,4 +181,43 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         }
         return bossList;
     }
+
+    public Boss buscarBoss(int id) throws BossNaoEncontradoException, BancoDeDadosException {
+        Connection con = null;
+        try {
+            con = DbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM BOSS WHERE ID_BOSS = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            ResultSet res = stmt.executeQuery();
+
+            Boss boss = new Boss();
+            while (res.next()) {
+                boss.setIdBoss(res.getInt("ID_BOSS"));
+                boss.setNome(res.getString("NOME_BOSS"));
+                boss.setVida(res.getInt("VIDA_BOSS"));
+                boss.setDefesa(res.getInt("DEFESA_BOSS"));
+                boss.setAtaque(res.getInt("ATAQUE_BOSS"));
+                return boss;
+            }
+
+            return boss;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new BancoDeDadosException(e.getCause());
+
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
