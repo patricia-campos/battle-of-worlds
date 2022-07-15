@@ -45,9 +45,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1,id);
             stmt.setString(2, object.getNome());
-            stmt.setInt(3, object.getVida());
-            stmt.setInt(4, object.getDefesa());
-            stmt.setInt(5, object.getAtaque());
+            stmt.setDouble(3, object.getVida());
+            stmt.setDouble(4, object.getDefesa());
+            stmt.setDouble(5, object.getAtaque());
 
             stmt.executeUpdate();
             object.setIdBoss(id);
@@ -111,25 +111,25 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         try {
             con = dbConfiguration.getConnection();
 
-            StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE BOSS SET ");
-            sql.append("NOME_BOSS = ?,");
-            sql.append("VIDA_BOSS = ?,");
-            sql.append("DEFESA_BOSS = ? ");
-            sql.append("ATAQUE_BOSS = ? ");
+            String sql = """
+                    UPDATE BOSS
+                    SET NOME_BOSS = ?, VIDA_BOSS = ?, DEFESA_BOSS = ?, ATAQUE_BOSS = ?
+                    WHERE ID_BOSS = ?""";
 
-            PreparedStatement stmt = con.prepareStatement(sql.toString());
+            PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setString(1, boss.getNome());
-            stmt.setInt(2, boss.getVida());
-            stmt.setInt(3, boss.getDefesa());
-            stmt.setInt(4, boss.getAtaque());
+            stmt.setDouble(2, boss.getVida());
+            stmt.setDouble(3, boss.getDefesa());
+            stmt.setDouble(4, boss.getAtaque());
+            stmt.setDouble(5, id);
 
-            int res = stmt.executeUpdate();
+            stmt.executeUpdate();
 
             return boss;
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new BancoDeDadosException(e.getCause());
 
         } finally {
@@ -163,9 +163,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
                 Boss boss = new Boss();
                 boss.setIdBoss(res.getInt("ID_BOSS"));
                 boss.setNome(res.getString("NOME_BOSS"));
-                boss.setVida(res.getInt("VIDA_BOSS"));
-                boss.setDefesa(res.getInt("DEFESA_BOSS"));
-                boss.setAtaque(res.getInt("ATAQUE_BOSS"));
+                boss.setVida(res.getDouble("VIDA_BOSS"));
+                boss.setDefesa(res.getDouble("DEFESA_BOSS"));
+                boss.setAtaque(res.getDouble("ATAQUE_BOSS"));
                 bossList.add(boss);
             }
 
@@ -200,9 +200,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
             while (res.next()) {
                 boss.setIdBoss(res.getInt("ID_BOSS"));
                 boss.setNome(res.getString("NOME_BOSS"));
-                boss.setVida(res.getInt("VIDA_BOSS"));
-                boss.setDefesa(res.getInt("DEFESA_BOSS"));
-                boss.setAtaque(res.getInt("ATAQUE_BOSS"));
+                boss.setVida(res.getDouble("VIDA_BOSS"));
+                boss.setDefesa(res.getDouble("DEFESA_BOSS"));
+                boss.setAtaque(res.getDouble("ATAQUE_BOSS"));
                 return boss;
             }
 

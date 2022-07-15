@@ -1,7 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.controller;
 
-
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaDTO;
 import br.com.dbc.trabalhofinalmodulo2.service.BatalhaService;
@@ -26,11 +26,48 @@ public class BatalhaController {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @PostMapping("/inicia")
-    public BatalhaDTO create(@RequestBody BatalhaCreateDTO batalhaCreateDTO) throws BancoDeDadosException {
+    @PostMapping("/iniciar")
+    public BatalhaDTO iniciar(@RequestBody BatalhaCreateDTO batalhaCreateDTO) throws BancoDeDadosException {
         return batalhaService.adicionar(batalhaCreateDTO);
     }
 
+    @Operation(summary = "Ataca o boss", description = "Jogador faz um ataque no boss")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso no ataque"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/atacar")
+    public String atacar(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+        return batalhaService.atacar(idBatalha);
+    }
 
+    @Operation(summary = "Defender ataque", description = "Jogador faz uma defesa e toma menos dano")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso na defesa"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/defender")
+    public String defender(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+        return batalhaService.defender(idBatalha);
+    }
+
+    @Operation(summary = "Fugir da batalha", description = "Jogador foge da batalha")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso na fuga"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/fugir")
+    public String fugir(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+        return batalhaService.fugir(idBatalha);
+    }
 
 }

@@ -23,16 +23,16 @@ public class BossCreateDTO {
     @NotNull
     @NotEmpty
     @Schema(description = "Vida do boss")
-    private int vida;
+    private Double vida;
 
     @NotNull
     @NotEmpty
     @Schema(description = "Ataque do boss")
-    private int ataque;
+    private Double ataque;
 
     @NotNull
     @NotEmpty
     @Schema(description = "Defesa do boss")
-    private int defesa;
+    private Double defesa;
 
 }
