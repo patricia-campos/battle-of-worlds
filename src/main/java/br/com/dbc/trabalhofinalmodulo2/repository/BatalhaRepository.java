@@ -3,11 +3,13 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
     Connection con = null;
@@ -63,8 +65,8 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
     }
 
     @Override
-    public boolean editar(Integer id, Batalha batalha) throws BancoDeDadosException {
-        return false;
+    public Batalha editar(Integer id, Batalha batalha) throws BancoDeDadosException {
+        return batalha;
     }
 
     @Override

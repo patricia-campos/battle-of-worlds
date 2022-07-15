@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BatalhaDTO extends BatalhaCreateDTO{
+public class BossDTO extends BossCreateDTO{
 
-    @Schema(description = "Id da Batalha")
-    @NotNull
-    private int idBatalha;
+    @NotEmpty
+    @Schema(description = "ID do boss")
+    private int idBoss;
 }

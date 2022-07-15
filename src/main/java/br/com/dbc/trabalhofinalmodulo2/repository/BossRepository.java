@@ -3,13 +3,14 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class BossRepository implements Repositorio<Integer,Boss>{
+@Repository
+public class BossRepository implements Repositorio<Integer, Boss> {
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -33,18 +34,20 @@ public class BossRepository implements Repositorio<Integer,Boss>{
 
         try {
             con = DbConfiguration.getConnection();
+            int id = getProximoId(con);
 
             String sql = "INSERT INTO BOSS (ID_BOSS, NOME_BOSS, VIDA_BOSS, DEFESA_BOSS, ATAQUE_BOSS)\n" +
-                    "VALUES(SEQ_BOSS.nextval, ?, ?, ?, ?)\n";
+                    "VALUES(?, ?, ?, ?, ?)\n";
 
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, object.getNome());
-            stmt.setInt(2, object.getVida());
-            stmt.setInt(3, object.getDefesa());
-            stmt.setInt(4, object.getAtaque());
+            stmt.setInt(1,id);
+            stmt.setString(2, object.getNome());
+            stmt.setInt(3, object.getVida());
+            stmt.setInt(4, object.getDefesa());
+            stmt.setInt(5, object.getAtaque());
 
             stmt.executeUpdate();
-            System.out.println("Boss adicionado com sucesso!");
+            object.setIdBoss(id);
 
             return object;
 
@@ -98,7 +101,7 @@ public class BossRepository implements Repositorio<Integer,Boss>{
     }
 
     @Override
-    public boolean editar(Integer id, Boss boss) throws BancoDeDadosException {
+    public Boss editar(Integer id, Boss boss) throws BancoDeDadosException {
 
         Connection con = null;
 
@@ -120,9 +123,8 @@ public class BossRepository implements Repositorio<Integer,Boss>{
             stmt.setInt(4, boss.getAtaque());
 
             int res = stmt.executeUpdate();
-            System.out.println("Boss editado com sucesso!");
 
-            return res > 0;
+            return boss;
 
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());

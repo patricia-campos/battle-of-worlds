@@ -77,7 +77,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     }
 
     @Override
-    public boolean editar(Integer id, Cenario cenario) throws BancoDeDadosException {
+    public Cenario editar(Integer id, Cenario cenario) throws BancoDeDadosException {
         try {
             con = DbConfiguration.getConnection();
 
@@ -97,7 +97,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             int res = stmt.executeUpdate();
             System.out.println("Cenario editado com sucesso" + res);
 
-            return res > 0;
+            return cenario;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
