@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class ClassePersonagem {
-    private Double idClassePersonagem;
-    private Double idPersonagem;
+    private int idClassePersonagem;
+    private int idPersonagem;
     private String nomeClassePersonagem;
     private Double vidaClasse;
     private Double defesaClasse;

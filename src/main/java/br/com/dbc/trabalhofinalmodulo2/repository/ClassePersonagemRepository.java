@@ -125,12 +125,12 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
             while (res.next()) {
                 ClassePersonagem classePersonagem = new ClassePersonagem();
-                classePersonagem.setIdClassePersonagem(res.getDouble("ID_CLASSE_PERSONAGEM"));
+                classePersonagem.setIdClassePersonagem(res.getInt("ID_CLASSE_PERSONAGEM"));
                 classePersonagem.setNomeClassePersonagem(res.getString("NOME_CLASSE_PERSONAGEM"));
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
                 classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
                 classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
-                classePersonagem.setIdPersonagem(res.getDouble("ID_PERSONAGEM"));
+                classePersonagem.setIdPersonagem(res.getInt("ID_PERSONAGEM"));
                 classes.add(classePersonagem);
             }
         } catch (SQLException e) {
@@ -163,8 +163,8 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
             if (res.next()) {
                 ClassePersonagem classePersonagem = new ClassePersonagem();
-                classePersonagem.setIdClassePersonagem(res.getDouble("ID_CLASSE_PERSONAGEM"));
-                classePersonagem.setIdPersonagem(res.getDouble("ID_PERSONAGEM"));
+                classePersonagem.setIdClassePersonagem(res.getInt("ID_CLASSE_PERSONAGEM"));
+                classePersonagem.setIdPersonagem(res.getInt("ID_PERSONAGEM"));
                 classePersonagem.setNomeClassePersonagem(res.getString("NOME_CLASSE_PERSONAGEM"));
                 classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
