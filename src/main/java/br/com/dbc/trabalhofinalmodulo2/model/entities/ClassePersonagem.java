@@ -20,7 +20,7 @@ public class ClassePersonagem {
 
 
 //TODO - COMENTADO NA ClassePersonagemService OS MÉTODOS DE RETORNO
-//TODO - REVISAR MÉTODOS COMENTADOS ABAIXO
+//TODO - REVISAR COMENTADOS ABAIXO
 
 /*
 
@@ -41,15 +41,6 @@ public class ClassePersonagem {
             this.defesaClasse = 50;
             this.ataqueClasse = 40;
         }
-    }
-
-    public ClassePersonagem(int id, String nomeClassePersonagem, int vidaClasse, int defesaClasse, int ataqueClasse, int idPersonagem) {
-        this.idClassePersonagem = id;
-        this.nomeClassePersonagem = nomeClassePersonagem;
-        this.vidaClasse = vidaClasse;
-        this.defesaClasse = defesaClasse;
-        this.ataqueClasse = ataqueClasse;
-        this.idPersonagem = idPersonagem;
     }
 
 

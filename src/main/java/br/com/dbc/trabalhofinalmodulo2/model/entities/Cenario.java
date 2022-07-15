@@ -19,26 +19,3 @@ public class Cenario {
 
 }
 
-
-    //TODO - COMENTADO NA CenarioService OS MÉTODOS DE RETORNO
-    //TODO - REVISAR MÉTODOS COMENTADOS ABAIXO
-
-    /*
-    public Cenario() {
-    }
-
-    public Cenario(int idCenario, String nomeCenario, String tipoCenario, Date horario) {
-        this.idCenario = idCenario;
-        this.nomeCenario = nomeCenario;
-        this.tipoCenario = tipoCenario;
-        this.horario = horario;
-    }
-    public Cenario( String nomeCenario, String tipoCenario, Date horario) {
-        this.nomeCenario = nomeCenario;
-        this.tipoCenario = tipoCenario;
-        this.horario = horario;
-    }
-
-
-     */
-
