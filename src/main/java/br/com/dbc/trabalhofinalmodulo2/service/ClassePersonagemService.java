@@ -1,19 +1,28 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.mapper.ClassePersonagemMapper;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.repository.ClassePersonagemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-
+@Service
 public class ClassePersonagemService {
 
-    ClassePersonagemRepository classePersonagemRepository = new ClassePersonagemRepository();
+    @Autowired
+    ClassePersonagemRepository classePersonagemRepository;
 
+    @Autowired
+    ClassePersonagemMapper classePersonagemMapper;
+
+    /*
     public void adicionarClassePersonagem(Personagem personagem, ClassePersonagem classePersonagem) throws BancoDeDadosException {
         if(personagem == null){
             System.out.println("");
@@ -24,11 +33,33 @@ public class ClassePersonagemService {
         }
     }
 
+     */
+
+    public ClassePersonagemCreateDTO adicionar(ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException {
+        return classePersonagemMapper
+                .toClassePersonagemDTO(classePersonagemRepository
+                        .adicionar(classePersonagemMapper.fromCreateDTO(classePersonagem)));
+    }
+
+
+    /*
+    //TODO RETORNA CLASSE PERSONAGEM
+
     public void listarTodos() throws BancoDeDadosException {
         for (ClassePersonagem classe : classePersonagemRepository.listar()) {
             System.out.println(classe);
         }
     }
+    */
+
+
+    public ClassePersonagemCreateDTO editar(ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException {
+        return classePersonagemMapper
+                .toClassePersonagemDTO(classePersonagemRepository
+                        .editar(classePersonagemMapper.fromCreateDTO(classePersonagem).getIdClassePersonagem(),
+                                classePersonagemMapper.fromCreateDTO(classePersonagem)));
+    }
+
 
     public void remover(ClassePersonagem classePersonagem) throws BancoDeDadosException {
         if(classePersonagem == null){
