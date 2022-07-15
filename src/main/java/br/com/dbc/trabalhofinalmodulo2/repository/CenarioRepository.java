@@ -151,7 +151,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     }
 
     //BUSCAR CENÁRIO POR ID
-    public Cenario buscarCenario(int id) throws  BancoDeDadosException {
+    public Cenario findCenarioById(int id) throws  BancoDeDadosException {
         Connection con = null;
 
         try {

@@ -1,7 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.mapper.BossMapper;
 import br.com.dbc.trabalhofinalmodulo2.mapper.CenarioMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioDTO;
@@ -10,7 +9,9 @@ import br.com.dbc.trabalhofinalmodulo2.repository.CenarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class CenarioService {
@@ -28,18 +29,13 @@ public class CenarioService {
     }
 
 
-    /*
-    //TODO RETORNA CENÁRIO
-    public Cenario retornaCenario(String tipo) throws BancoDeDadosException {
-        return cenarioRepository.listar()
+    public List<CenarioDTO> listar() throws BancoDeDadosException {
+        return cenarioRepository
+                .listar()
                 .stream()
-                .filter(a -> Objects.equals(a.getTipoCenario(), tipo))
-                .map(a -> new Cenario(a.getIdCenario(), a.getNomeCenario(), a.getTipoCenario(), a.getHorario()))
-                .findFirst()
-                .orElse(null);
+                .map(x -> cenarioMapper.toCreateDTO(x))
+                .collect(Collectors.toList());
     }
-
-     */
 
 
     public CenarioDTO editar(CenarioCreateDTO cenario) throws BancoDeDadosException {
@@ -54,6 +50,10 @@ public class CenarioService {
     public void remover(int id) throws BancoDeDadosException {
 
         cenarioRepository.remover(id);
+    }
+
+    public Cenario buscarCenario(int id) throws BancoDeDadosException {
+        return cenarioRepository.findCenarioById(id);
     }
 
 }
