@@ -81,7 +81,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     }
 
     @Override
-    public boolean editar(Integer id, Personagem personagem) throws BancoDeDadosException {
+    public Personagem editar(Integer id, Personagem personagem) throws BancoDeDadosException {
         Connection con = null;
         try {
             con = DbConfiguration.getConnection();
@@ -100,7 +100,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             int res = stmt.executeUpdate();
             System.out.println("Personagem Editado com Sucesso");
 
-            return res > 0;
+            return personagem;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
