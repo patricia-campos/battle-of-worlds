@@ -2,7 +2,9 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -103,6 +105,45 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
             }
         }
         return batalhas;
+    }
+
+    public Batalha buscarBatalha(int id) throws BancoDeDadosException {
+        Connection con = null;
+        try {
+            con = DbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM BATALHA WHERE ID_BATALHA = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+
+            ResultSet res = stmt.executeQuery();
+
+            Batalha batalha = new Batalha();
+            while (res.next()) {
+                batalha.setIdBatalha(res.getInt("ID_BATALHA"));
+                batalha.setIdBoss(res.getInt("ID_BOSS"));
+                batalha.setIdCenario(res.getInt("ID_CENARIO"));
+                batalha.setIdJogador(res.getInt("ID_JOGADOR"));
+                batalha.setRoundBatalha(res.getInt("ROUND_BATALHA"));
+                batalha.setStatus(res.getString("STATUS"));
+                return batalha;
+            }
+
+            return batalha;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new BancoDeDadosException(e.getCause());
+
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

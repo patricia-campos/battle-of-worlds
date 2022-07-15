@@ -6,6 +6,8 @@ import br.com.dbc.trabalhofinalmodulo2.mapper.BatalhaMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import br.com.dbc.trabalhofinalmodulo2.repository.BatalhaRepository;
 import br.com.dbc.trabalhofinalmodulo2.repository.BossRepository;
 import br.com.dbc.trabalhofinalmodulo2.repository.CenarioRepository;
@@ -37,7 +39,7 @@ public class BatalhaService {
 
     public BatalhaDTO adicionar(BatalhaCreateDTO batalha) throws BancoDeDadosException {
         Batalha batalha1 = batalhaMapper.fromCreateDTO(batalha);
-            return batalhaMapper.toBatalhaDTO(batalhaRepository.adicionar(batalha1));
+        return batalhaMapper.toBatalhaDTO(batalhaRepository.adicionar(batalha1));
     }
 
     public List<BatalhaCreateDTO> listar() throws BancoDeDadosException {
@@ -49,17 +51,40 @@ public class BatalhaService {
 
     //No momento do projeto não está implementado
     public void remover(Batalha batalha) throws BancoDeDadosException {
-            batalhaRepository.remover(batalha.getIdBatalha());
+        batalhaRepository.remover(batalha.getIdBatalha());
     }
 
     //No momento do projeto não está implementado
     public void editar(Integer id, Batalha batalha) throws BancoDeDadosException {
-            batalhaRepository.editar(id, batalha);
+        batalhaRepository.editar(id, batalha);
     }
 
-    public void atacar(int idBoss,int idJogador,int idCenario) throws BossNaoEncontradoException, BancoDeDadosException {
-    bossRepository.buscarBoss(idBoss);
+    public String atacar(int idBatalha) throws BossNaoEncontradoException, BancoDeDadosException {
+        Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
+        Boss bossAtacado = bossRepository.buscarBoss(batalha.getIdBoss());
+        Double defesaBoss = bossAtacado.getDefesa() * 0.4;
+        Jogador jogadorAtacante = jogadorRepository.listarPorId(batalha.getIdJogador());
 
+        bossAtacado.setVida(bossAtacado.getVida() + defesaBoss - 10);
+        bossRepository.editar(batalha.getIdBoss(), bossAtacado);
+
+    return "Ataque bem sucedido você causou " + 10 + " de dano no boss";
+    }
+
+    public String defender(int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+        Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
+        Boss bossAtacado = bossRepository.buscarBoss(batalha.getIdBoss());
+        Double ataqueBoss = bossAtacado.getAtaque();
+        Jogador jogadorAtacante = jogadorRepository.listarPorId(batalha.getIdJogador());
+
+        return "Defesa bem sucedida você levou " + 10 + " de dano do boss";
+    }
+
+    public String fugir(int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+        Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
+        batalhaRepository.adicionar(batalha);
+
+        return "Você fugiu com sucesso o boss era de mais para você :( ";
     }
 
 }

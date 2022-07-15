@@ -13,8 +13,8 @@ public class Boss {
 
     private int idBoss;
     private String nome;
-    private int vida;
-    private int ataque;
-    private int defesa;
+    private Double vida;
+    private Double ataque;
+    private Double defesa;
 
 }
