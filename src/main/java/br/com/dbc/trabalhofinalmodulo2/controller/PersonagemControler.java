@@ -42,9 +42,11 @@ public class PersonagemControler {
             }
     )
     @PostMapping("/{idJogador}")
-   public PersonagemDTO post(@PathVariable ("idJogador") Integer idJogador, @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO) throws BancoDeDadosException {
-       return personagemService.adicionar(personagemCreateDTO, idJogador);
-   }
+    public PersonagemDTO post(@PathVariable("idJogador") Integer idJogador,
+                              @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO,
+                              @Valid @RequestBody ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException {
+        return personagemService.adicionar(personagemCreateDTO, idJogador);
+    }
 
     @Operation(summary = "Edita um Personagem", description = "Edita um Personagem ja existente")
     @ApiResponses(
@@ -68,7 +70,7 @@ public class PersonagemControler {
             }
     )
     @DeleteMapping("/{idPersonagem}")
-    public void delete(@PathVariable ("idPersonagem") Integer idPersonagem) throws BancoDeDadosException {
+    public void delete(@PathVariable("idPersonagem") Integer idPersonagem) throws BancoDeDadosException {
         personagemService.remover(personagemService.listarPorId(idPersonagem));
     }
 }

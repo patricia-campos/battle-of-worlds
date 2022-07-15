@@ -43,11 +43,11 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
                     "\tVALUES (SEQ_CLASSE_PERSONAGEM.nextval, ?, ?, ?, ?, ?)";
 
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, idPersonagem);
+            stmt.setDouble(1, idPersonagem);
             stmt.setString(2, objeto.getNomeClassePersonagem());
-            stmt.setInt(3, objeto.getVidaClasse());
-            stmt.setInt(4, objeto.getDefesaClasse());
-            stmt.setInt(5, objeto.getAtaqueClasse());
+            stmt.setDouble(3, objeto.getVidaClasse());
+            stmt.setDouble(4, objeto.getDefesaClasse());
+            stmt.setDouble(5, objeto.getAtaqueClasse());
 
             int res = stmt.executeUpdate();
             System.out.println("Classe adicionada com sucesso");
@@ -89,12 +89,12 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
-            stmt.setInt(1, id);
+            stmt.setDouble(1, id);
             stmt.setString(2, object.getNomeClassePersonagem());
-            stmt.setInt(3, object.getVidaClasse());
-            stmt.setInt(4, object.getDefesaClasse());
-            stmt.setInt(5, object.getAtaqueClasse());
-            stmt.setInt(6, object.getIdClassePersonagem());
+            stmt.setDouble(3, object.getVidaClasse());
+            stmt.setDouble(4, object.getDefesaClasse());
+            stmt.setDouble(5, object.getAtaqueClasse());
+            stmt.setDouble(6, object.getIdClassePersonagem());
 
             int res = stmt.executeUpdate();
             System.out.println("Editado com sucesso");
@@ -125,12 +125,12 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
             while (res.next()) {
                 ClassePersonagem classePersonagem = new ClassePersonagem();
-                classePersonagem.setIdClassePersonagem(res.getInt("ID_CLASSE_PERSONAGEM"));
+                classePersonagem.setIdClassePersonagem(res.getDouble("ID_CLASSE_PERSONAGEM"));
                 classePersonagem.setNomeClassePersonagem(res.getString("NOME_CLASSE_PERSONAGEM"));
-                classePersonagem.setVidaClasse(res.getInt("VIDA_PERSONAGEM"));
-                classePersonagem.setDefesaClasse(res.getInt("DEFESA_PERSONAGEM"));
-                classePersonagem.setAtaqueClasse(res.getInt("ATAQUE_PERSONAGEM"));
-                classePersonagem.setIdPersonagem(res.getInt("ID_PERSONAGEM"));
+                classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
+                classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
+                classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
+                classePersonagem.setIdPersonagem(res.getDouble("ID_PERSONAGEM"));
                 classes.add(classePersonagem);
             }
         } catch (SQLException e) {
@@ -145,6 +145,43 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             }
         }
         return classes;
+    }
+
+    public ClassePersonagem listarClassePorPersonagemID(Integer id) throws BancoDeDadosException {
+        Connection con = null;
+        try {
+            con = dbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM CLASSE_PERSONAGEM WHERE ID_PERSONAGEM = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+            // Executa-se a consulta
+
+            ResultSet res = stmt.executeQuery();
+
+            if (res.next()) {
+                ClassePersonagem classePersonagem = new ClassePersonagem();
+                classePersonagem.setIdClassePersonagem(res.getDouble("ID_CLASSE_PERSONAGEM"));
+                classePersonagem.setIdPersonagem(res.getDouble("ID_PERSONAGEM"));
+                classePersonagem.setNomeClassePersonagem(res.getString("NOME_CLASSE_PERSONAGEM"));
+                classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
+                classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
+                classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
+                return classePersonagem;
+            } else return null;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
