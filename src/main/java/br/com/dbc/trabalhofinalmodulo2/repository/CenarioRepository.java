@@ -157,7 +157,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
         Connection con = null;
 
         try {
-            con = DbConfiguration.getConnection();
+            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM CENARIO WHERE ID_CENARIO = ?";
 
