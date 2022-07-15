@@ -3,11 +3,14 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 public class JogadorRepository implements Repositorio<Integer, Jogador> {
     Connection con = null;
 
@@ -23,19 +26,24 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
             String sql = """
                     INSERT INTO JOGADOR
-                    (ID_JOGADOR, NOME_JOGADOR, SENHA)
-                    VALUES(SEQ_JOGADOR.nextval, ?, ?)""";
+                    (ID_JOGADOR, NOME_JOGADOR, SENHA, EMAIL)
+                    VALUES(SEQ_JOGADOR.nextval, ?, ?, ?)""";
 
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, object.getNomeJogador());
             stmt.setString(2, object.getSenha());
-
+            stmt.setString(3, object.getEmail());
 
             stmt.executeUpdate();
+            ResultSet rs = con.prepareStatement("SELECT SEQ_JOGADOR.currval FROM dual").executeQuery();
+            if (rs.next()) {
+               object.setId(rs.getInt(1));
+            }
             System.out.println("Jogador adicionado com sucesso");
 
             return object;
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
@@ -83,17 +91,17 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
         try {
             con = DbConfiguration.getConnection();
 
-            StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE JOGADOR SET ");
-            sql.append(" NOME_JOGADOR = ?,");
-            sql.append(" SENHA = ?");
-            sql.append(" WHERE ID_JOGADOR = ?");
+            String sql = """
+                    UPDATE JOGADOR
+                    SET NOME_JOGADOR = ?, SENHA = ?, EMAIL = ?
+                    WHERE ID_JOGADOR = ?""";
 
-            PreparedStatement stmt = con.prepareStatement(sql.toString());
+            PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setString(1, jogador.getNomeJogador());
             stmt.setString(2, jogador.getSenha());
-            stmt.setInt(3, id);
+            stmt.setString(3, jogador.getEmail());
+            stmt.setInt(4, id);
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
@@ -130,6 +138,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
                 Jogador jogador = new Jogador();
                 jogador.setNomeJogador(res.getString("NOME_JOGADOR"));
                 jogador.setSenha(res.getString("SENHA"));
+                jogador.setEmail(res.getString("EMAIL"));
                 jogador.setId(res.getInt("ID_JOGADOR"));
                 jogadorList.add(jogador);
             }
@@ -147,11 +156,11 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
         return jogadorList;
     }
 
-    public Jogador listarPorNome(String nome) throws BancoDeDadosException {
+    public Optional<Jogador> listarPorNome(String nome) throws BancoDeDadosException {
         try {
             con = DbConfiguration.getConnection();
 
-           String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
+            String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -160,13 +169,14 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
             ResultSet res = stmt.executeQuery();
 
-            while (res.next()) {
+            if (res.next()) {
                 Jogador jogador = new Jogador();
                 jogador.setNomeJogador(res.getString("NOME_JOGADOR"));
                 jogador.setSenha(res.getString("SENHA"));
+                jogador.setEmail(res.getString("EMAIL"));
                 jogador.setId(res.getInt("ID_JOGADOR"));
-                return jogador;
-            }
+                return Optional.of(jogador);
+            } else return Optional.empty();
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
@@ -178,8 +188,28 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
                 e.printStackTrace();
             }
         }
-        return null;
     }
 
-
+//    public Boolean verificarNomeJogador(Jogador jogador) throws BancoDeDadosException {
+//        try (Connection con = DbConfiguration.getConnection()) {
+//
+//            String sql = "SELECT FROM JOGADOR WHERE NOME_JOGADOR = ?";
+//
+//            PreparedStatement stmt = con.prepareStatement(sql);
+//
+//            stmt.setString(1, jogador.getNomeJogador());
+//
+//            // Executa-se a consulta
+//            ResultSet res = stmt.executeQuery();
+//            System.out.println("Jogador recuperado com sucesso");
+//
+//            if (res.first()) {
+//                return listarPorNome(j)
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new BancoDeDadosException(e.getCause());
+//        }
+//    }
 }
+

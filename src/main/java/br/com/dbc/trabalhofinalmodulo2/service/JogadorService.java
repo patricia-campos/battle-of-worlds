@@ -1,61 +1,69 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.mapper.JogadorMapper;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import br.com.dbc.trabalhofinalmodulo2.repository.JogadorRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@Slf4j
 public class JogadorService {
-    JogadorRepository jogadorRepository = new JogadorRepository();
 
-    public void adicionar(Jogador jogador) throws BancoDeDadosException {
-        if (jogador == null) {
-            System.out.println("Jogador não encontrado");
-        } else {
-            if (this.verificaNomeJogador(jogador)) {
-                jogadorRepository.adicionar(jogador);
-            } else {
-                System.out.println("Jogador ja cadastrado");
-            }
-        }
+    @Autowired
+    private JogadorRepository jogadorRepository;
+
+    @Autowired
+    private JogadorMapper jogadorMapper;
+
+    public JogadorDTO adicionar(JogadorCreateDTO jogador) throws BancoDeDadosException {
+        log.info("Jogador criado");
+         if (jogadorRepository.listarPorNome(jogador.getNomeJogador()).isPresent()) {
+             throw new BancoDeDadosException("Jogador já existe");
+         }
+        Jogador jogadorEntity = jogadorMapper.fromCreateDTO(jogador);
+        JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRepository.adicionar(jogadorEntity));
+        return jogadorDTO;
     }
 
-    public void listarTodos() throws BancoDeDadosException {
-     for(Jogador jogador: jogadorRepository.listar()){
-         System.out.println(jogador);
-     }
+
+    public List<JogadorDTO> listarTodos() throws BancoDeDadosException {
+        return jogadorRepository.listar().stream().map(jogadorMapper::toDTO).toList();
     }
 
     public void remover(Jogador jogador) throws BancoDeDadosException {
-
-
-        if (jogador == null) {
-            System.out.println("Jogador não encontrado");
-        } else {
-            jogadorRepository.remover(jogador.getId());
-        }
+        log.info("Jogador Deletado");
+        Jogador jogadorRecuperado = findById(jogador.getId());
+        JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
+        jogadorRepository.remover(jogadorDTO.getId());
     }
 
-    public void editar(Jogador jogador, String nome) throws BancoDeDadosException {
-        if (jogador == null) {
-            System.out.println("Jogador não encontrado");
-        } else {
-            jogador.setNomeJogador(nome);
-            if (this.verificaNomeJogador(jogador)) {
-                jogadorRepository.editar(jogador.getId(), jogador);
-            } else {
-                System.out.println("Não possivel editar nome ja existente");
-            }
-        }
+    public JogadorDTO editar(JogadorCreateDTO jogador, Integer id) throws BancoDeDadosException {
+        log.info("Jogador Editado");
+        Jogador jogadorRecuperado = findById(id);
+        jogadorRecuperado.setNomeJogador(jogador.getNomeJogador());
+        jogadorRecuperado.setSenha(jogador.getSenha());
+        jogadorRecuperado.setEmail(jogador.getEmail());
+        jogadorRepository.editar(id, jogadorRecuperado);
+        return jogadorMapper.toDTO(jogadorRecuperado);
     }
 
-    public Jogador retornaJogador(String nome) throws BancoDeDadosException {
+    public Optional<Jogador> retornaJogador(String nome) throws BancoDeDadosException {
         return jogadorRepository.listarPorNome(nome);
     }
 
-    //Verifica se existe um jogador com o nome na minha base de dados, caso exista ele traz o objeto com valor e retorna false nao podendo alterar.
-    public boolean verificaNomeJogador(Jogador jogador) throws BancoDeDadosException {
-        Jogador jogador1 = this.retornaJogador(jogador.getNomeJogador());
-            return jogador1 == null;
+    public Jogador findById(Integer idPessoa) throws BancoDeDadosException {
+        Jogador pessoaRecuperada = jogadorRepository.listar().stream()
+                .filter(pessoa -> pessoa.getId().equals(idPessoa))
+                .findFirst()
+                .orElseThrow(() -> new BancoDeDadosException("Pessoa não encontrada"));
+        return pessoaRecuperada;
     }
-
 }
