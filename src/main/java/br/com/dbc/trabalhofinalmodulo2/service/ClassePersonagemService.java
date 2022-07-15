@@ -22,18 +22,6 @@ public class ClassePersonagemService {
     @Autowired
     ClassePersonagemMapper classePersonagemMapper;
 
-    /*
-    public void adicionarClassePersonagem(Personagem personagem, ClassePersonagem classePersonagem) throws BancoDeDadosException {
-        if(personagem == null){
-            System.out.println("");
-        }else if(classePersonagem == null){
-            System.out.println("");
-        }else{
-            classePersonagemRepository.adicionar(classePersonagem, personagem.getId());
-        }
-    }
-
-     */
 
     public ClassePersonagemCreateDTO adicionar(ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException {
         return classePersonagemMapper
@@ -69,13 +57,7 @@ public class ClassePersonagemService {
         }
     }
 
-    public void editar(ClassePersonagem classePersonagem) throws BancoDeDadosException {
-        if(classePersonagem == null){
-            System.out.println("Classe inexistente");
-        }else{
-            classePersonagemRepository.editar(classePersonagem.getIdClassePersonagem(), classePersonagem);
-        }
-    }
+
 
     /*
 
