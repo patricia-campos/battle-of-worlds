@@ -2,6 +2,7 @@ package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.VidaMenorQueZero;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaDTO;
 import br.com.dbc.trabalhofinalmodulo2.service.BatalhaService;
@@ -40,7 +41,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/atacar")
-    public String atacar(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+    public String atacar(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero {
         return batalhaService.atacar(idBatalha);
     }
 
@@ -53,7 +54,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/defender")
-    public String defender(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+    public String defender(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero {
         return batalhaService.defender(idBatalha);
     }
 

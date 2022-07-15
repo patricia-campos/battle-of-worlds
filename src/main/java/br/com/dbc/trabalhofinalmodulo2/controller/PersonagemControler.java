@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/personagem")
+@RequestMapping("/personagem")
 public class PersonagemControler {
 
     @Autowired
@@ -23,17 +23,19 @@ public class PersonagemControler {
     }
 
     @PostMapping("/{idJogador}")
-   public PersonagemDTO post(@PathVariable ("idJogador") Integer idJogador, @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO) throws BancoDeDadosException {
-       return personagemService.adicionar(personagemCreateDTO, idJogador);
-   }
+    public PersonagemDTO post(@PathVariable("idJogador") Integer idJogador,
+                              @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO,
+                              @Valid @RequestBody ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException {
+        return personagemService.adicionar(personagemCreateDTO, idJogador);
+    }
 
-   @PutMapping("/{idPersonagem}")
-    public PersonagemDTO put(@PathVariable ("idPersonagem") Integer idPersonagem, @Valid @RequestBody PersonagemPutDTO personagemDTO) throws BancoDeDadosException {
-         return personagemService.editar(personagemDTO, idPersonagem);
+    @PutMapping("/{idPersonagem}")
+    public PersonagemDTO put(@PathVariable("idPersonagem") Integer idPersonagem, @Valid @RequestBody PersonagemPutDTO personagemDTO) throws BancoDeDadosException {
+        return personagemService.editar(personagemDTO, idPersonagem);
     }
 
     @DeleteMapping("/{idPersonagem}")
-    public void delete(@PathVariable ("idPersonagem") Integer idPersonagem) throws BancoDeDadosException {
+    public void delete(@PathVariable("idPersonagem") Integer idPersonagem) throws BancoDeDadosException {
         personagemService.remover(personagemService.listarPorId(idPersonagem));
     }
 }
