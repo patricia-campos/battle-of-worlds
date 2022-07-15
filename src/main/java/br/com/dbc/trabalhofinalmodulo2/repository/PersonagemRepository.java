@@ -203,6 +203,40 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             }
         }
     }
+
+    public Personagem retornaPersonagemPorJogador(Integer id) throws BancoDeDadosException {
+        Connection con = null;
+        try {
+            con = dbConfiguration.getConnection();
+
+            String sql = "SELECT * FROM PERSONAGEM WHERE ID_JOGADOR = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+            // Executa-se a consulta
+
+            ResultSet res = stmt.executeQuery();
+
+            if (res.next()) {
+                Personagem personagem = new Personagem();
+                personagem.setNomePersonagem(res.getString("NOME_PERSONAGEM"));
+                personagem.setId(res.getInt("ID_PERSONAGEM"));
+                personagem.setIdJogador(res.getInt("ID_JOGADOR"));
+                return Objects.equals(personagem.getId(), id) ? personagem : null;
+            } else return null;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public List<Personagem> listar() throws BancoDeDadosException {
         List<Personagem> personagemList = new ArrayList<>();

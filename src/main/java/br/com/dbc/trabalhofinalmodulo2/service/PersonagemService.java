@@ -64,16 +64,6 @@ public class PersonagemService {
         personagemRepository.remover(personagemDTO.getId());
     }
 
-//    public Personagem retornaPersonagem(String nome) throws BancoDeDadosException {
-//        return personagemRepository
-//                .listar()
-//                .stream()
-//                .filter(a -> Objects.equals(a.getNomePersonagem(), nome))
-//                .map(a -> new Personagem(a.getId(), a.getNomePersonagem()))
-//                .findFirst()
-//                .orElse(null);
-//    }
-
     public PersonagemDTO listarPorId(Integer id) throws BancoDeDadosException {
         Personagem personagemRecuperado = personagemRepository.listarPorId(id);
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRecuperado);
