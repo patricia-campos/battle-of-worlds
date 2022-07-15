@@ -23,7 +23,6 @@ public class CenarioService {
     CenarioMapper cenarioMapper;
 
 
-
     public CenarioDTO adicionar(CenarioCreateDTO cenario) throws BancoDeDadosException {
                 return cenarioMapper.toCreateDTO(cenarioRepository.adicionar(cenarioMapper.fromCreateDTO(cenario)));
     }

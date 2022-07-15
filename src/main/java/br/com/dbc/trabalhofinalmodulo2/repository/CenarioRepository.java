@@ -2,8 +2,6 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
 import org.springframework.stereotype.Repository;
 
