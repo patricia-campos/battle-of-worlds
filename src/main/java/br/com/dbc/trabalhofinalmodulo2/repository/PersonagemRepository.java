@@ -2,6 +2,7 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,13 +118,11 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             stmt.setString(1, personagem.getNomePersonagem());
             stmt.setInt(2, id);
             // Executa-se a consulta
-            int res = stmt.executeUpdate();
-            personagem.setId(id);
-            personagem.setIdJogador(personagem.getIdJogador());
-            System.out.println("Personagem Editado com Sucesso");
-
+            stmt.executeUpdate();
+            ResultSet res = stmt.executeQuery();
             return personagem;
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
@@ -176,7 +175,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         try {
             con = dbConfiguration.getConnection();
 
-            String sql = "SELECT * FROM PERSONAGEM WHERE ID_PERSONAGEM = ?";
+            String sql = "SELECT * FROM PERSONAGEM WHERE ID_PERSONAGEM = ?"; //TODO: verificar se o id é o mesmo do personagem
 
             PreparedStatement stmt = con.prepareStatement(sql);
 

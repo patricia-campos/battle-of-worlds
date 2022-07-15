@@ -44,9 +44,10 @@ public class PersonagemService {
         if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
             throw new BancoDeDadosException("Personagem já existe");
         }
+        Personagem personagemDoBanco = personagemRepository.listarPorId(idPersonagem);
+        personagemDoBanco.setNomePersonagem(personagem.getNomePersonagem());
         personagem.setNomePersonagem(personagem.getNomePersonagem());
-        Personagem personagemEntity = personagemMapper.fromPutDTO(personagem);
-        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.editar(idPersonagem, personagemEntity));
+        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.editar(idPersonagem, personagemDoBanco));
         return personagemDTO;
     }
 
