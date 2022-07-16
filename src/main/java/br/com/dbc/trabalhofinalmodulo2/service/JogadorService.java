@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class JogadorService {
     @Autowired
     private EmailService emailService;
 
-    public JogadorDTO adicionar(JogadorCreateDTO jogador) throws BancoDeDadosException {
+    public JogadorDTO adicionar(JogadorCreateDTO jogador) throws BancoDeDadosException, SQLException {
         log.info("Jogador criado");
          if (jogadorRepository.listarPorNome(jogador.getNomeJogador()).isPresent()) {
              throw new BancoDeDadosException("Jogador já existe");
@@ -41,11 +42,11 @@ public class JogadorService {
         return jogadorDTO;
     }
 
-    public List<JogadorDTO> listarTodos() throws BancoDeDadosException {
+    public List<JogadorDTO> listarTodos() throws BancoDeDadosException, SQLException {
         return jogadorRepository.listar().stream().map(jogadorMapper::toDTO).toList();
     }
 
-    public void remover(JogadorDTO jogador) throws BancoDeDadosException {
+    public void remover(JogadorDTO jogador) throws BancoDeDadosException, SQLException {
         log.info("Jogador Deletado");
         Jogador jogadorRecuperado = jogadorRepository.listarPorId(jogador.getId());
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
@@ -57,7 +58,7 @@ public class JogadorService {
         jogadorRepository.remover(jogadorDTO.getId());
     }
 
-    public JogadorDTO editar(JogadorCreateDTO jogador, Integer id) throws BancoDeDadosException {
+    public JogadorDTO editar(JogadorCreateDTO jogador, Integer id) throws BancoDeDadosException, SQLException {
         log.info("Jogador Editado");
         Jogador jogadorRecuperado = jogadorRepository.listarPorId(id);
         jogadorRecuperado.setNomeJogador(jogador.getNomeJogador());
@@ -72,7 +73,7 @@ public class JogadorService {
         return jogadorMapper.toDTO(jogadorRecuperado);
     }
 
-    public Optional<Jogador> retornaJogador(String nome) throws BancoDeDadosException {
+    public Optional<Jogador> retornaJogador(String nome) throws BancoDeDadosException, SQLException {
         return jogadorRepository.listarPorNome(nome);
     }
 
@@ -85,7 +86,7 @@ public class JogadorService {
 //        return pessoaRecuperada;
 //    }
 
-    public JogadorDTO listarPorId(Integer id) throws BancoDeDadosException {
+    public JogadorDTO listarPorId(Integer id) throws BancoDeDadosException, SQLException {
         Jogador jogadorRecuperado = jogadorRepository.listarPorId(id);
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
         return jogadorDTO;

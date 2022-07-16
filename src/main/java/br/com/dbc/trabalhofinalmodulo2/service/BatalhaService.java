@@ -14,6 +14,7 @@ import br.com.dbc.trabalhofinalmodulo2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,12 +43,12 @@ public class BatalhaService {
     ClassePersonagemRepository classePersonagemRepository;
 
 
-    public BatalhaDTO adicionar(BatalhaCreateDTO batalha) throws BancoDeDadosException {
+    public BatalhaDTO adicionar(BatalhaCreateDTO batalha) throws BancoDeDadosException, SQLException {
         Batalha batalha1 = batalhaMapper.fromCreateDTO(batalha);
         return batalhaMapper.toBatalhaDTO(batalhaRepository.adicionar(batalha1));
     }
 
-    public List<BatalhaCreateDTO> listar() throws BancoDeDadosException {
+    public List<BatalhaCreateDTO> listar() throws BancoDeDadosException, SQLException {
         List<Batalha> batalhaList = batalhaRepository.listar();
         return batalhaList.stream()
                 .map(a -> batalhaMapper.toCreateDTO(a))
@@ -64,7 +65,7 @@ public class BatalhaService {
         batalhaRepository.editar(id, batalha);
     }
 
-    public String atacar(int idBatalha) throws BossNaoEncontradoException, BancoDeDadosException, VidaMenorQueZero {
+    public String atacar(int idBatalha) throws BossNaoEncontradoException, BancoDeDadosException, VidaMenorQueZero, SQLException {
 
 
         Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
@@ -86,7 +87,7 @@ public class BatalhaService {
         return "Seu dano foi de: " + danoEfetuado + "\nA vida do boss é " + vidaNova;
     }
 
-    public String defender(int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero {
+    public String defender(int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero, SQLException {
         Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
         Boss bossAtacado = bossRepository.buscarBoss(batalha.getIdBoss());
         Double ataqueBoss = bossAtacado.getAtaque();
@@ -108,7 +109,7 @@ public class BatalhaService {
         return "Defesa bem sucedida você levou " + danoEfetuado + " de dano do boss" + "\n Sua vida e de: " + classePersonagem.getVidaClasse();
     }
 
-    public String fugir(int idBatalha) throws BancoDeDadosException {
+    public String fugir(int idBatalha) throws BancoDeDadosException, SQLException {
         Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
         batalha.setStatus("Derrota");
         batalhaRepository.adicionar(batalha);

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class BossController {
             }
     )
     @PostMapping("/adiciona")
-    public BossDTO create(@RequestBody BossCreateDTO bossCreateDTO) throws BancoDeDadosException {
+    public BossDTO create(@RequestBody BossCreateDTO bossCreateDTO) throws BancoDeDadosException, SQLException {
         return bossService.adicionar(bossCreateDTO);
     }
 
@@ -42,7 +43,7 @@ public class BossController {
             }
     )
     @GetMapping("/listar")
-    public List<BossDTO> list() throws BancoDeDadosException {
+    public List<BossDTO> list() throws BancoDeDadosException, SQLException {
         return bossService.listar();
     }
 
@@ -55,7 +56,7 @@ public class BossController {
             }
     )
     @PutMapping("/editar")
-    public BossDTO editar(@RequestBody BossCreateDTO bossCreateDTO) throws BancoDeDadosException {
+    public BossDTO editar(@RequestBody BossCreateDTO bossCreateDTO) throws BancoDeDadosException, SQLException {
         return bossService.editar(bossCreateDTO);
     }
 
@@ -68,7 +69,7 @@ public class BossController {
             }
     )
     @DeleteMapping("/deletar")
-    public void editar(@RequestParam int id) throws BancoDeDadosException {
+    public void editar(@RequestParam int id) throws BancoDeDadosException, SQLException {
         bossService.remover(id);
     }
 

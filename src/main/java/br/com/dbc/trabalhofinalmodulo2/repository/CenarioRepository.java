@@ -1,5 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
+import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.TipoReino;
@@ -13,8 +14,8 @@ import java.util.List;
 @Repository
 public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
-        @Autowired
-        private Connection connection;
+    @Autowired
+    private DbConfiguration dbConfiguration;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -30,13 +31,13 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     }
 
     @Override
-    public Cenario adicionar(Cenario object) throws BancoDeDadosException {
+    public Cenario adicionar(Cenario object) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
 
             String sql = "INSERT INTO CENARIO (ID_CENARIO, NOME_CENARIO, HORARIO, TIPO_REINO)\n" +
                     "\tVALUES (SEQ_CENARIO.nextval, ?, CURRENT_DATE, ?)";
 
-            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, object.getNomeCenario());
@@ -54,12 +55,12 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     }
 
     @Override
-    public boolean remover(Integer id) throws BancoDeDadosException {
+    public boolean remover(Integer id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
 
             String sql = "DELETE FROM CENARIO WHERE ID_CENARIO = ?";
 
-            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
@@ -83,9 +84,9 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     }
 
     @Override
-    public Cenario editar(Integer id, Cenario cenario) throws BancoDeDadosException {
+    public Cenario editar(Integer id, Cenario cenario) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE CENARIO SET ");
             sql.append(" NOME_CENARIO = ?,");
@@ -93,7 +94,6 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             sql.append(" TIPO_REINO = ?");
             sql.append("WHERE ID_CENARIO = ? ");
 
-            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql.toString());
 
             stmt.setString(1, cenario.getNomeCenario());
@@ -118,10 +118,10 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     }
 
     @Override
-    public List<Cenario> listar() throws BancoDeDadosException {
+    public List<Cenario> listar() throws BancoDeDadosException, SQLException {
         List<Cenario> cenarios = new ArrayList<>();
+        Connection connection = dbConfiguration.getConnection();
         try {
-
             Statement stmt = connection.createStatement();
 
             String sql = "SELECT * FROM CENARIO";
@@ -157,9 +157,8 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     }
 
     //BUSCAR CENÁRIO POR ID
-    public Cenario findCenarioById(int id) throws  BancoDeDadosException {
-        Connection con = null;
-
+    public Cenario findCenarioById(int id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
 
             String sql = "SELECT * FROM CENARIO WHERE ID_CENARIO = ?";

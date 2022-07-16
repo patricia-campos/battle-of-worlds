@@ -1,5 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
+import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
@@ -13,8 +14,9 @@ import java.util.List;
 @Repository
 public class BossRepository implements Repositorio<Integer, Boss> {
 
+
     @Autowired
-    private Connection connection;
+    private DbConfiguration dbConfiguration;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -30,10 +32,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     }
 
     @Override
-    public Boss adicionar(Boss object) throws BancoDeDadosException {
-
+    public Boss adicionar(Boss object) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
             int id = getProximoId(connection);
 
             String sql = "INSERT INTO BOSS (ID_BOSS, NOME_BOSS, VIDA_BOSS, DEFESA_BOSS, ATAQUE_BOSS)\n" +
@@ -67,10 +68,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     }
 
     @Override
-    public boolean remover(Integer idBoss) throws BancoDeDadosException {
-
+    public boolean remover(Integer idBoss) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
 
             String sql = "DELETE FROM BOSS WHERE ID_BOSS = ?";
 
@@ -99,10 +99,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     }
 
     @Override
-    public Boss editar(Integer id, Boss boss) throws BancoDeDadosException {
-
+    public Boss editar(Integer id, Boss boss) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
             String sql = """
                     UPDATE BOSS
                     SET NOME_BOSS = ?, VIDA_BOSS = ?, DEFESA_BOSS = ?, ATAQUE_BOSS = ?
@@ -137,10 +136,11 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     }
 
     @Override
-    public List<Boss> listar() throws BancoDeDadosException {
+    public List<Boss> listar() throws BancoDeDadosException, SQLException {
 
         List<Boss> bossList = new ArrayList<>();
 
+        Connection connection = dbConfiguration.getConnection();
 
         try {
 
@@ -175,9 +175,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         return bossList;
     }
 
-    public Boss buscarBoss(int id) throws BossNaoEncontradoException, BancoDeDadosException {
+    public Boss buscarBoss(int id) throws BossNaoEncontradoException, BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
             String sql = "SELECT * FROM BOSS WHERE ID_BOSS = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);

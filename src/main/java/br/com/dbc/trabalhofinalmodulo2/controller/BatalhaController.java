@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @RestController
 @RequestMapping("/batalha")
 public class BatalhaController {
@@ -28,7 +30,7 @@ public class BatalhaController {
             }
     )
     @PostMapping("/iniciar")
-    public BatalhaDTO iniciar(@RequestBody BatalhaCreateDTO batalhaCreateDTO) throws BancoDeDadosException {
+    public BatalhaDTO iniciar(@RequestBody BatalhaCreateDTO batalhaCreateDTO) throws BancoDeDadosException, SQLException {
         return batalhaService.adicionar(batalhaCreateDTO);
     }
 
@@ -41,7 +43,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/atacar")
-    public String atacar(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero {
+    public String atacar(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero, SQLException {
         return batalhaService.atacar(idBatalha);
     }
 
@@ -54,7 +56,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/defender")
-    public String defender(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero {
+    public String defender(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero, SQLException {
         return batalhaService.defender(idBatalha);
     }
 
@@ -67,7 +69,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/fugir")
-    public String fugir(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException {
+    public String fugir(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, SQLException {
         return batalhaService.fugir(idBatalha);
     }
 

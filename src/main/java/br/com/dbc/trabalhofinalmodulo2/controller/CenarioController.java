@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ public class CenarioController {
     )
 
     @GetMapping("/listar")
-    public List<CenarioDTO> list()throws BancoDeDadosException {
+    public List<CenarioDTO> list() throws BancoDeDadosException, SQLException {
         return cenarioService.listar();
     }
 
@@ -54,7 +55,7 @@ public class CenarioController {
             }
     )
     @PostMapping
-    public ResponseEntity<CenarioDTO> post(@Valid @RequestBody CenarioDTO cenarioDTO) throws BancoDeDadosException {
+    public ResponseEntity<CenarioDTO> post(@Valid @RequestBody CenarioDTO cenarioDTO) throws BancoDeDadosException, SQLException {
 
         return ResponseEntity.ok(cenarioService.adicionar(cenarioDTO));
     }
@@ -76,7 +77,7 @@ public class CenarioController {
 
     @PutMapping("/{idCenario}") // (deve receber todos os dados)
     public ResponseEntity<CenarioDTO> update(@PathVariable("id") Integer id,
-                                             @Valid @RequestBody CenarioCreateDTO cenarioDTO) throws BancoDeDadosException {
+                                             @Valid @RequestBody CenarioCreateDTO cenarioDTO) throws BancoDeDadosException, SQLException {
         return ResponseEntity.ok(cenarioService.editar(cenarioDTO));
     }
 
@@ -93,7 +94,7 @@ public class CenarioController {
             }
     )
     @DeleteMapping("/{idCenario}")
-    public void remover(@PathVariable("idCenario") Integer id) throws BancoDeDadosException {
+    public void remover(@PathVariable("idCenario") Integer id) throws BancoDeDadosException, SQLException {
         cenarioService.remover(id);
     }
     //=================================================================================================================

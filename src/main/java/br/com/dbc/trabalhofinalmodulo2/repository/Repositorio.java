@@ -10,11 +10,11 @@ public interface Repositorio<CHAVE, OBJETO> {
 
     Integer getProximoId(Connection connection) throws SQLException;
 
-    OBJETO adicionar(OBJETO object) throws BancoDeDadosException;
+    OBJETO adicionar(OBJETO object) throws BancoDeDadosException, SQLException;
 
-    boolean remover(CHAVE id) throws BancoDeDadosException;
+    boolean remover(CHAVE id) throws BancoDeDadosException, SQLException;
 
-    OBJETO editar(CHAVE id, OBJETO objeto) throws BancoDeDadosException;
+    OBJETO editar(CHAVE id, OBJETO objeto) throws BancoDeDadosException, SQLException;
 
-    List<OBJETO> listar() throws BancoDeDadosException;
+    List<OBJETO> listar() throws BancoDeDadosException, SQLException;
 }

@@ -8,6 +8,7 @@ import br.com.dbc.trabalhofinalmodulo2.repository.CenarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,12 +23,12 @@ public class CenarioService {
     CenarioMapper cenarioMapper;
 
 
-    public CenarioDTO adicionar(CenarioCreateDTO cenario) throws BancoDeDadosException {
+    public CenarioDTO adicionar(CenarioCreateDTO cenario) throws BancoDeDadosException, SQLException {
                 return cenarioMapper.toCreateDTO(cenarioRepository.adicionar(cenarioMapper.fromCreateDTO(cenario)));
     }
 
 
-    public List<CenarioDTO> listar() throws BancoDeDadosException {
+    public List<CenarioDTO> listar() throws BancoDeDadosException, SQLException {
         return cenarioRepository
                 .listar()
                 .stream()
@@ -37,7 +38,7 @@ public class CenarioService {
 
 
     //todo checar id no repository pq n passa como parametro id no controller
-    public CenarioDTO editar(CenarioCreateDTO cenario) throws BancoDeDadosException {
+    public CenarioDTO editar(CenarioCreateDTO cenario) throws BancoDeDadosException, SQLException {
 
         return cenarioMapper
                 .toCreateDTO(cenarioRepository.editar(cenarioMapper
@@ -46,7 +47,7 @@ public class CenarioService {
     }
 
 
-    public void remover(int id) throws BancoDeDadosException {
+    public void remover(int id) throws BancoDeDadosException, SQLException {
 
         cenarioRepository.remover(id);
     }

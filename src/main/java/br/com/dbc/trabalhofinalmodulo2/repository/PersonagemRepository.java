@@ -1,5 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
+import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,9 @@ import java.util.Optional;
 @Repository
 public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
+
     @Autowired
-    private Connection connection;
+    private DbConfiguration dbConfiguration;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -33,10 +35,10 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         return null;
     }
 
-    public Personagem adicionar(Personagem object, int id) throws BancoDeDadosException {
+    public Personagem adicionar(Personagem object, int id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
             int idPersonagem = getProximoId(connection);
-            connection.createStatement();
 
             String sql = "INSERT INTO PERSONAGEM\n" +
                     "(ID_PERSONAGEM, ID_JOGADOR, NOME_PERSONAGEM)\n" +
@@ -68,9 +70,10 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     }
 
     @Override
-    public boolean remover(Integer id) throws BancoDeDadosException {
+    public boolean remover(Integer id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
+
         try {
-            connection.createStatement();
             String sql = "DELETE FROM PERSONAGEM WHERE ID_PERSONAGEM = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -96,9 +99,9 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     }
 
     @Override
-    public Personagem editar(Integer id, Personagem personagem) throws BancoDeDadosException {
+    public Personagem editar(Integer id, Personagem personagem) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
             String sql = "UPDATE PERSONAGEM SET " +
                     " NOME_PERSONAGEM = ?" +
                     " WHERE ID_PERSONAGEM = ? ";
@@ -125,9 +128,9 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         }
     }
 
-    public Optional<Personagem> listarPorNome(String nome) throws BancoDeDadosException {
+    public Optional<Personagem> listarPorNome(String nome) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
             String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -158,9 +161,9 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     }
 
 
-    public Personagem listarPorId(Integer id) throws BancoDeDadosException {
+    public Personagem listarPorId(Integer id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
             String sql = "SELECT * FROM PERSONAGEM WHERE ID_PERSONAGEM = ?"; //TODO: verificar se o id é o mesmo do personagem
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -190,9 +193,9 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         }
     }
 
-    public Personagem retornaPersonagemPorJogador(Integer id) throws BancoDeDadosException {
+    public Personagem retornaPersonagemPorJogador(Integer id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
             String sql = "SELECT * FROM PERSONAGEM WHERE ID_JOGADOR = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -222,8 +225,9 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         }
     }
     @Override
-    public List<Personagem> listar() throws BancoDeDadosException {
+    public List<Personagem> listar() throws BancoDeDadosException, SQLException {
         List<Personagem> personagemList = new ArrayList<>();
+        Connection connection = dbConfiguration.getConnection();
         try {
             Statement stmt = connection.createStatement();
 

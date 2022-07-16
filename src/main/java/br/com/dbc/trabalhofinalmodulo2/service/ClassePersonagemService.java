@@ -11,6 +11,7 @@ import br.com.dbc.trabalhofinalmodulo2.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class ClassePersonagemService {
     private PersonagemMapper personagemMapper;
 
 
-    public List<ClassePersonagemDTO> listarClassePersonagem() throws BancoDeDadosException {
+    public List<ClassePersonagemDTO> listarClassePersonagem() throws BancoDeDadosException, SQLException {
         return classePersonagemRepository.listar().stream().map(classePersonagemMapper::toClassePersonagemDTO).toList();
     }
 

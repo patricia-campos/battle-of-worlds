@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.List;
 @RestController
 @RequestMapping("/classePersonagem")
@@ -30,7 +31,7 @@ public class ClassePersonagemController {
             }
     )
     @GetMapping
-    public List<ClassePersonagemDTO> listar() throws BancoDeDadosException {
+    public List<ClassePersonagemDTO> listar() throws BancoDeDadosException, SQLException {
         return classePersonagemService.listarClassePersonagem();
     }
 

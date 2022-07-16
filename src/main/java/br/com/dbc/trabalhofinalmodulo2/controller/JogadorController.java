@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -35,7 +36,7 @@ public class JogadorController {
             }
     )
     @GetMapping
-    public List<JogadorDTO> listar() throws BancoDeDadosException {
+    public List<JogadorDTO> listar() throws BancoDeDadosException, SQLException {
         return jogadorService.listarTodos();
     }
 
@@ -48,7 +49,7 @@ public class JogadorController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<JogadorDTO> buscar(@PathVariable Integer id) throws BancoDeDadosException {
+    public ResponseEntity<JogadorDTO> buscar(@PathVariable Integer id) throws BancoDeDadosException, SQLException {
         return ResponseEntity.ok(jogadorService.listarPorId(id));
     }
 
@@ -61,7 +62,7 @@ public class JogadorController {
             }
     )
     @PostMapping
-    public ResponseEntity<JogadorDTO> post(@Valid @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException {
+    public ResponseEntity<JogadorDTO> post(@Valid @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException {
         return ResponseEntity.ok(jogadorService.adicionar(jogadorDTO));
     }
 
@@ -75,7 +76,7 @@ public class JogadorController {
     )
     @PutMapping("/{id}")
     public ResponseEntity<JogadorDTO> put(@PathVariable("id") Integer id,
-                                          @Validated @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException {
+                                          @Validated @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException {
         return ResponseEntity.ok(jogadorService.editar(jogadorDTO, id));
     }
 
@@ -88,7 +89,7 @@ public class JogadorController {
             }
     )
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) throws BancoDeDadosException {
+    public void delete(@PathVariable("id") Integer id) throws BancoDeDadosException, SQLException {
         jogadorService.remover(jogadorService.listarPorId(id));
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class PersonagemControler {
             }
     )
     @GetMapping
-    public List<PersonagemDTO> listar() throws BancoDeDadosException {
+    public List<PersonagemDTO> listar() throws BancoDeDadosException, SQLException {
         return personagemService.listarTodos();
     }
 
@@ -47,7 +48,7 @@ public class PersonagemControler {
     @PostMapping("/{idJogador}")
     public PersonagemDTO post(@PathVariable("idJogador") Integer idJogador,
                               @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO,
-                              @Valid @RequestBody ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException {
+                              @Valid @RequestBody ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException, SQLException {
         return personagemService.adicionar(personagemCreateDTO, idJogador);
     }
 
@@ -60,7 +61,7 @@ public class PersonagemControler {
             }
     )
     @PostMapping("/novoPersonagemClasse")
-    public PersonagemDTO criarPersonLigadoJogador(@RequestBody PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException {
+    public PersonagemDTO criarPersonLigadoJogador(@RequestBody PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException, SQLException {
         return personagemClasseService.adicionarPersonagemComClasse(personagemClasseDTO);
     }
 
@@ -73,7 +74,7 @@ public class PersonagemControler {
             }
     )
    @PutMapping("/{idPersonagem}")
-    public PersonagemDTO put(@PathVariable ("idPersonagem") Integer idPersonagem, @Valid @RequestBody PersonagemPutDTO personagemDTO) throws BancoDeDadosException {
+    public PersonagemDTO put(@PathVariable ("idPersonagem") Integer idPersonagem, @Valid @RequestBody PersonagemPutDTO personagemDTO) throws BancoDeDadosException, SQLException {
          return personagemService.editar(personagemDTO, idPersonagem);
     }
 
@@ -86,7 +87,7 @@ public class PersonagemControler {
             }
     )
     @DeleteMapping("/{idPersonagem}")
-    public void delete(@PathVariable("idPersonagem") Integer idPersonagem) throws BancoDeDadosException {
+    public void delete(@PathVariable("idPersonagem") Integer idPersonagem) throws BancoDeDadosException, SQLException {
         personagemService.remover(personagemService.listarPorId(idPersonagem));
     }
 }

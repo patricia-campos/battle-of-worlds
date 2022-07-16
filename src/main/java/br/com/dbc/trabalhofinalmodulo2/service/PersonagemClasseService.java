@@ -13,6 +13,8 @@ import br.com.dbc.trabalhofinalmodulo2.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+
 
 @Service
 public class PersonagemClasseService {
@@ -31,7 +33,7 @@ public class PersonagemClasseService {
 
 
 
-    public PersonagemDTO adicionarPersonagemComClasse(PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException {
+    public PersonagemDTO adicionarPersonagemComClasse(PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException, SQLException {
         ClassePersonagem classePersonagem = classePersonagemMapper.fromCreateClasse(personagemClasseDTO);
         if (TipoClassePersonagem.MAGO == personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem()) {
             classePersonagem.setVidaClasse(800.0);

@@ -1,5 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
+import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.TipoClassePersonagem;
@@ -13,8 +14,9 @@ import java.util.List;
 @Repository
 public class ClassePersonagemRepository implements Repositorio<Integer, ClassePersonagem> {
 
+
     @Autowired
-    private Connection connection;
+    private DbConfiguration dbConfiguration;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -34,14 +36,13 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
         return null;
     }
 
-    public ClassePersonagem adicionar(ClassePersonagem objeto, int idPersonagem) throws BancoDeDadosException {
-
+    public ClassePersonagem adicionar(ClassePersonagem objeto, int idPersonagem) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
 
             String sql = "INSERT INTO CLASSE_PERSONAGEM (ID_CLASSE_PERSONAGEM, ID_PERSONAGEM, NOME_CLASSE_PERSONAGEM, VIDA_PERSONAGEM, DEFESA_PERSONAGEM, ATAQUE_PERSONAGEM)\n" +
                     "\tVALUES (SEQ_CLASSE_PERSONAGEM.nextval, ?, ?, ?, ?, ?)";
 
-            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setDouble(1, idPersonagem);
             stmt.setString(2, objeto.getTipoPersonagem().toString());
@@ -73,7 +74,9 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
     }
 
     @Override
-    public ClassePersonagem editar(Integer id, ClassePersonagem object) throws BancoDeDadosException {
+    public ClassePersonagem editar(Integer id, ClassePersonagem object) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
+
         try {
 
             StringBuilder sql = new StringBuilder();
@@ -85,7 +88,6 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             sql.append("ATAQUE_PERSONAGEM");
             sql.append("WHERE ID_CLASSE_PERSONAGEM = ?");
 
-            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql.toString());
 
             stmt.setDouble(1, id);
@@ -112,8 +114,10 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
     }
 
     @Override
-    public List<ClassePersonagem> listar() throws BancoDeDadosException {
+    public List<ClassePersonagem> listar() throws BancoDeDadosException, SQLException {
         List<ClassePersonagem> classes = new ArrayList<>();
+        Connection connection = dbConfiguration.getConnection();
+
         try {
 
             Statement stmt = connection.createStatement();
@@ -151,13 +155,12 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
         return classes;
     }
 
-    public ClassePersonagem listarClassePorPersonagemID(Integer id) throws BancoDeDadosException {
-
+    public ClassePersonagem listarClassePorPersonagemID(Integer id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
 
             String sql = "SELECT * FROM CLASSE_PERSONAGEM WHERE ID_PERSONAGEM = ?";
 
-            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);

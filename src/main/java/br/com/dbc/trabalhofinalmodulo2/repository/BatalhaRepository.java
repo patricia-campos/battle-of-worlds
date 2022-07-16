@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
 
+import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,9 @@ import java.util.List;
 @Repository
 public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
+
     @Autowired
-    private Connection connection;
+    private DbConfiguration dbConfiguration;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -31,10 +33,9 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
     //Adicionando uma batalhaController - CREATE
     @Override
-    public Batalha adicionar (Batalha object) throws BancoDeDadosException {
-
+    public Batalha adicionar (Batalha object) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
 
             Integer proximoId = this.getProximoId(connection);
 
@@ -71,9 +72,9 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
     }
 
     @Override
-    public List<Batalha> listar() throws BancoDeDadosException {
+    public List<Batalha> listar() throws BancoDeDadosException, SQLException {
         List<Batalha> batalhas = new ArrayList<>();
-
+        Connection connection = dbConfiguration.getConnection();
         try {
             Statement  stmt = connection.createStatement();
 
@@ -105,11 +106,9 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
         return batalhas;
     }
 
-    public Batalha buscarBatalha(int id) throws BancoDeDadosException {
-        Connection con = null;
+    public Batalha buscarBatalha(int id) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
         try {
-            connection.createStatement();
-
             String sql = "SELECT * FROM BATALHA WHERE ID_BATALHA = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
