@@ -1,6 +1,5 @@
 package br.com.dbc.trabalhofinalmodulo2;
 
-import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -3,7 +3,6 @@ package br.com.dbc.trabalhofinalmodulo2.banco;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
 import java.sql.Connection;
@@ -26,7 +25,7 @@ public class DbConfiguration {
     private String schema;
 
     @Bean
-    @RequestScope // sempre cria uma nova instancia
+    @RequestScope
     public Connection getConnection() throws SQLException {
         Connection con = DriverManager.getConnection(jdbcString, user, pass);
 

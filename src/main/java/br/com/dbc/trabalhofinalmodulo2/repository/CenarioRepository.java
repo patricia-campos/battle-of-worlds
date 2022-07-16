@@ -1,6 +1,5 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
-import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
 import org.springframework.beans.factory.annotation.Autowired;
