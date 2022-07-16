@@ -1,5 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.model.dto;
 
+import br.com.dbc.trabalhofinalmodulo2.model.entities.TipoReino;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ public class CenarioCreateDTO {
     @NotBlank(message = "Tipo de cenário não pode estar em branco")
     @NotNull(message = "Tipo de cenário não pode ser nulo")
     @Size(max = 1, message = "Nome do cenário deve conter no máximo 1 caractere")
-    private String tipoCenario;
+    private TipoReino tipoReino;
 
     @NotNull(message = "Horário não pode ser nulo")
     private Date horario;

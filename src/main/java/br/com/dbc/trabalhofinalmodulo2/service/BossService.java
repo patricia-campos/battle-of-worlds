@@ -1,7 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.BossMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossDTO;

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BatalhaDTO extends BatalhaCreateDTO{
+public class BatalhaDTO extends BatalhaCreateDTO {
 
     @Schema(description = "Id da Batalha")
     @NotNull

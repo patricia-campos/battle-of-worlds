@@ -31,7 +31,7 @@ public class PersonagemClasseService {
 
 
     public PersonagemDTO adicionarPersonagemComClasse(PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException {
-        ClassePersonagem classePersonagem = classePersonagemMapper.fromCreateClasse(personagemClasseDTO);
+        ClassePersonagem classePersonagem = classePersonagemMapper.fromCreateDTO(personagemClasseDTO);
         if (TipoClassePersonagem.MAGO == personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem()) {
             classePersonagem.setVidaClasse(800.0);
             classePersonagem.setAtaqueClasse(200.0);

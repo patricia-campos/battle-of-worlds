@@ -1,12 +1,15 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.VidaMenorQueZero;
 import br.com.dbc.trabalhofinalmodulo2.mapper.BatalhaMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.*;
 import br.com.dbc.trabalhofinalmodulo2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

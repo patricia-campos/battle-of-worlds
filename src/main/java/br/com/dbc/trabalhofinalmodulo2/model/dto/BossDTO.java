@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BossDTO extends BossCreateDTO{
+public class BossDTO extends BossCreateDTO {
 
     @NotEmpty
     @Schema(description = "ID do boss")

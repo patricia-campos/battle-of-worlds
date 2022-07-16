@@ -1,8 +1,10 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemPutDTO;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.PersonagemMapper;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.*;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.repository.PersonagemRepository;
 import lombok.extern.slf4j.Slf4j;

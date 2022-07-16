@@ -4,7 +4,6 @@ import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.CenarioMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
 import br.com.dbc.trabalhofinalmodulo2.repository.CenarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +36,7 @@ public class CenarioService {
     }
 
 
+    //todo checar id no repository pq n passa como parametro id no controller
     public CenarioDTO editar(CenarioCreateDTO cenario) throws BancoDeDadosException {
 
         return cenarioMapper
@@ -49,10 +49,6 @@ public class CenarioService {
     public void remover(int id) throws BancoDeDadosException {
 
         cenarioRepository.remover(id);
-    }
-
-    public Cenario buscarCenario(int id) throws BancoDeDadosException {
-        return cenarioRepository.findCenarioById(id);
     }
 
 }

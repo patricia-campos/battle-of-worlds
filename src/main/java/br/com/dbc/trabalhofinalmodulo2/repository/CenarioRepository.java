@@ -1,8 +1,8 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
-import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.TipoReino;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -40,7 +40,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, object.getNomeCenario());
-            stmt.setString(2, object.getTipoCenario());
+            stmt.setString(2, object.getTipoReino().toString());
 
             stmt.executeUpdate();
             System.out.println("Cenário adicionado com sucesso!");
@@ -133,7 +133,11 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
                 cenario.setIdCenario(res.getInt("ID_CENARIO"));
                 cenario.setNomeCenario(res.getString("NOME_CENARIO"));
                 cenario.setHorario(res.getDate("HORARIO"));
-                cenario.setTipoCenario(res.getString("TIPO_REINO"));
+
+                String tipoReino = res.getString("TIPO_REINO");
+                TipoReino tipoReino1 = TipoReino.valueOf(tipoReino);
+                cenario.setTipoReino(tipoReino1);
+
                 cenarios.add(cenario);
             }
 
@@ -170,7 +174,11 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             while (res.next()) {
                 cenario.setIdCenario(res.getInt("ID_CENARIO"));
                 cenario.setNomeCenario(res.getString("NOME_CENARIO"));
-                cenario.setTipoCenario(res.getString("TIPO_REINO"));
+
+                String tipoReino = res.getString("TIPO_REINO");
+                TipoReino tipoReino1 = TipoReino.valueOf(tipoReino);
+                cenario.setTipoReino(tipoReino1);
+
                 cenario.setHorario(res.getDate("HORARIO"));
                 return cenario;
             }

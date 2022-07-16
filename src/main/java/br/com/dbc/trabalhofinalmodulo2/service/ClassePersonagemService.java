@@ -6,7 +6,6 @@ import br.com.dbc.trabalhofinalmodulo2.mapper.PersonagemMapper;
 
 import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemDTO;
 
-import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
 import br.com.dbc.trabalhofinalmodulo2.repository.ClassePersonagemRepository;
 import br.com.dbc.trabalhofinalmodulo2.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -14,7 +14,7 @@ public class Cenario {
 
     private Integer idCenario;
     private String nomeCenario;
-    private String tipoCenario;
+    private TipoReino tipoReino;
     private Date horario;
 
 }
