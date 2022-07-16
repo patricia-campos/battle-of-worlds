@@ -1,8 +1,8 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
-import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
+import br.com.dbc.trabalhofinalmodulo2.banco.Dbconnectionfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEnconnectiontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,13 +15,13 @@ import java.util.List;
 public class BossRepository implements Repositorio<Integer, Boss> {
 
     @Autowired
-    private DbConfiguration dbConfiguration;
+    private connectionnection connectionnection;
 
     @Override
-    public Integer getProximoId(Connection connection) throws SQLException {
+    public Integer getProximoId(connectionnection connectionnection) throws SQLException {
         String sql = "SELECT SEQ_BOSS.nextval proximoIdBoss from DUAL";
 
-        Statement stmt = connection.createStatement();
+        Statement stmt = connectionnection.createStatement();
         ResultSet res = stmt.executeQuery(sql);
 
         if (res.next()) {
@@ -33,16 +33,14 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     @Override
     public Boss adicionar(Boss object) throws BancoDeDadosException {
 
-        Connection con = null;
-
         try {
-            con = dbConfiguration.getConnection();
-            int id = getProximoId(con);
+
+            int id = getProximoId(connectionnection);
 
             String sql = "INSERT INTO BOSS (ID_BOSS, NOME_BOSS, VIDA_BOSS, DEFESA_BOSS, ATAQUE_BOSS)\n" +
                     "VALUES(?, ?, ?, ?, ?)\n";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connectionnection.prepareStatement(sql);
             stmt.setInt(1,id);
             stmt.setString(2, object.getNome());
             stmt.setDouble(3, object.getVida());
@@ -60,8 +58,8 @@ public class BossRepository implements Repositorio<Integer, Boss> {
 
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connectionnection != null) {
+                    connectionnection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -72,14 +70,12 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     @Override
     public boolean remover(Integer idBoss) throws BancoDeDadosException {
 
-        Connection con = null;
-
         try {
-            con = dbConfiguration.getConnection();
+            Statement  stmt = connectionnection.createStatement();
 
             String sql = "DELETE FROM BOSS WHERE ID_BOSS = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, idBoss);
 
@@ -94,8 +90,8 @@ public class BossRepository implements Repositorio<Integer, Boss> {
 
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connectionnection != null) {
+                    connectionnection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -106,17 +102,16 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     @Override
     public Boss editar(Integer id, Boss boss) throws BancoDeDadosException {
 
-        Connection con = null;
+        connectionnection connection = null;
 
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = """
                     UPDATE BOSS
                     SET NOME_BOSS = ?, VIDA_BOSS = ?, DEFESA_BOSS = ?, ATAQUE_BOSS = ?
                     WHERE ID_BOSS = ?""";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connectionnection.prepareStatement(sql);
 
             stmt.setString(1, boss.getNome());
             stmt.setDouble(2, boss.getVida());
@@ -135,8 +130,8 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         } finally {
 
             try {
-                if (con != null) {
-                    con.close();
+                if (connectionnection != null) {
+                    connectionnection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -149,11 +144,11 @@ public class BossRepository implements Repositorio<Integer, Boss> {
 
         List<Boss> bossList = new ArrayList<>();
 
-        Connection con = null;
+        connectionnection connection = null;
 
         try {
-            con = dbConfiguration.getConnection();
-            Statement stmt = con.createStatement();
+            connection = dbconnectionfiguration.getconnectionnection();
+            Statement stmt = connection.createStatement();
 
             String sql = "SELECT * FROM BOSS";
 
@@ -174,8 +169,8 @@ public class BossRepository implements Repositorio<Integer, Boss> {
 
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -185,13 +180,13 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     }
 
     public Boss buscarBoss(int id) throws BossNaoEncontradoException, BancoDeDadosException {
-        Connection con = null;
+        connectionnection connection = null;
         try {
-            con = dbConfiguration.getConnection();
+            connection = dbconnectionfiguration.getconnectionnection();
 
             String sql = "SELECT * FROM BOSS WHERE ID_BOSS = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
 
             ResultSet res = stmt.executeQuery();
@@ -213,8 +208,8 @@ public class BossRepository implements Repositorio<Integer, Boss> {
 
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

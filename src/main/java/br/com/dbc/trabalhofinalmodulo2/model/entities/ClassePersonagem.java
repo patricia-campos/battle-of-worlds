@@ -11,15 +11,13 @@ import lombok.NoArgsConstructor;
 public class ClassePersonagem {
     private int idClassePersonagem;
     private int idPersonagem;
-    private String nomeClassePersonagem;
+    private TipoClassePersonagem tipoPersonagem;
     private Double vidaClasse;
     private Double defesaClasse;
     private Double ataqueClasse;
 
 }
 
-
-//TODO - COMENTADO NA ClassePersonagemService OS MÉTODOS DE RETORNO
 //TODO - REVISAR COMENTADOS ABAIXO
 
 /*

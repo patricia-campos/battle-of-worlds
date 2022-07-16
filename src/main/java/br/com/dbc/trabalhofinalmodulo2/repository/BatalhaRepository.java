@@ -13,10 +13,8 @@ import java.util.List;
 @Repository
 public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
-    Connection con = null;
-
     @Autowired
-    private DbConfiguration dbConfiguration;
+    private Connection connection;
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
         String sql = "Select SEQ_BATALHA.nextval mysequence FROM DUAL";
@@ -34,11 +32,9 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
     @Override
     public Batalha adicionar (Batalha object) throws BancoDeDadosException {
 
-        Connection con = null;
-
         try {
-            con = dbConfiguration.getConnection();
-            Integer proximoId = this.getProximoId(con);
+
+            Integer proximoId = this.getProximoId(connection);
 
             String sql = """
                          INSERT INTO BATALHA
@@ -46,7 +42,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
                          VALUES(SEQ_BATALHA.nextval, ?, ?, ?, ?, ?)
                         """;
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, object.getIdCenario());
             stmt.setInt(2, object.getIdJogador());
             stmt.setInt(3, object.getIdBoss());
@@ -77,8 +73,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
         List<Batalha> batalhas = new ArrayList<>();
 
         try {
-            con = dbConfiguration.getConnection();
-            Statement  stmt = con.createStatement();
+            Statement  stmt = connection.createStatement();
 
             String sql = "SELECT * FROM BATALHA";
 
@@ -98,8 +93,8 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -111,11 +106,10 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
     public Batalha buscarBatalha(int id) throws BancoDeDadosException {
         Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM BATALHA WHERE ID_BATALHA = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
 
             ResultSet res = stmt.executeQuery();
@@ -138,8 +132,8 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
