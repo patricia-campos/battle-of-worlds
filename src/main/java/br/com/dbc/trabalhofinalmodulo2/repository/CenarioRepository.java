@@ -12,10 +12,9 @@ import java.util.List;
 
 @Repository
 public class CenarioRepository implements Repositorio<Integer, Cenario> {
-        Connection con = null;
 
         @Autowired
-        private DbConfiguration dbConfiguration;
+        private Connection connection;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -33,11 +32,10 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     @Override
     public Cenario adicionar(Cenario object) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "INSERT INTO CENARIO (ID_CENARIO, NOME_CENARIO, HORARIO, TIPO_REINO)\n" +
                     "\tVALUES (SEQ_CENARIO.nextval, ?, CURRENT_DATE, ?)";
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, object.getNomeCenario());
             stmt.setString(2, object.getTipoCenario());
@@ -56,11 +54,10 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "DELETE FROM CENARIO WHERE ID_CENARIO = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
 
@@ -73,8 +70,8 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -85,7 +82,6 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     @Override
     public Cenario editar(Integer id, Cenario cenario) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE CENARIO SET ");
@@ -94,7 +90,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             sql.append(" TIPO_REINO = ?");
             sql.append("WHERE ID_CENARIO = ? ");
 
-            PreparedStatement stmt = con.prepareStatement(sql.toString());
+            PreparedStatement stmt = connection.prepareStatement(sql.toString());
 
             stmt.setString(1, cenario.getNomeCenario());
             stmt.setDate(2, (Date) cenario.getHorario());
@@ -108,8 +104,8 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -121,8 +117,8 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     public List<Cenario> listar() throws BancoDeDadosException {
         List<Cenario> cenarios = new ArrayList<>();
         try {
-            con = dbConfiguration.getConnection();
-            Statement stmt = con.createStatement();
+
+            Statement stmt = connection.createStatement();
 
             String sql = "SELECT * FROM CENARIO";
 
@@ -142,8 +138,8 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -157,11 +153,10 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
         Connection con = null;
 
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM CENARIO WHERE ID_CENARIO = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
 
             ResultSet res = stmt.executeQuery();
@@ -183,8 +178,8 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
