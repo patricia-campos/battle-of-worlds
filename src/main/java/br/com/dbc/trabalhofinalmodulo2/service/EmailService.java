@@ -58,7 +58,7 @@ public class EmailService {
         Map<String, Object> dados = new HashMap<>();
 
         dados.put("nome", "Olá, " + jogadorDTO.getNomeJogador() + "! Finalmente você chegou para salvar o reino!");
-        dados.put("mensagem", "Você foi cadastrado(a) com sucesso em Battle of Worlds"
+        dados.put("mensagem", "Você foi cadastrado(a) com sucesso em Battle of Worlds, seu id no jogo é "
                 + jogadorCadsatrado.getId() + ". Seja bem vindo(a)!");
         dados.put("email", "Qualquer dúvida, nos contate através do e-mail " + from);
 
