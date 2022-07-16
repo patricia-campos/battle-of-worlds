@@ -23,6 +23,9 @@ public class JogadorService {
     @Autowired
     private JogadorMapper jogadorMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     public JogadorDTO adicionar(JogadorCreateDTO jogador) throws BancoDeDadosException {
         log.info("Jogador criado");
          if (jogadorRepository.listarPorNome(jogador.getNomeJogador()).isPresent()) {
@@ -30,6 +33,11 @@ public class JogadorService {
          }
         Jogador jogadorEntity = jogadorMapper.fromCreateDTO(jogador);
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRepository.adicionar(jogadorEntity));
+
+        //Chama método de envio de e-mail
+        emailService.sendEmailJogadorCadastrado(jogadorDTO, jogadorEntity);
+        log.warn("Enviando E-mail.. " + jogadorDTO.getEmail()+ "!");
+
         return jogadorDTO;
     }
 
@@ -41,6 +49,11 @@ public class JogadorService {
         log.info("Jogador Deletado");
         Jogador jogadorRecuperado = jogadorRepository.listarPorId(jogador.getId());
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
+
+        //Chama método de envio de e-mail
+        emailService.sendEmailJogadorExcluido(jogadorRecuperado);
+        log.warn("Enviando E-mail.. " + jogadorDTO.getEmail()+ "!");
+
         jogadorRepository.remover(jogadorDTO.getId());
     }
 
@@ -51,6 +64,11 @@ public class JogadorService {
         jogadorRecuperado.setSenha(jogador.getSenha());
         jogadorRecuperado.setEmail(jogador.getEmail());
         jogadorRepository.editar(id, jogadorRecuperado);
+
+        //Chama método de envio de e-mail
+        emailService.sendEmailJogadorEditado(jogador);
+        log.warn("Enviando E-mail.. " + jogadorRecuperado.getEmail()+ "!");
+
         return jogadorMapper.toDTO(jogadorRecuperado);
     }
 

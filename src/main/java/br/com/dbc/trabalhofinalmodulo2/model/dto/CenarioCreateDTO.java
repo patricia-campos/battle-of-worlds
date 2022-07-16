@@ -18,10 +18,8 @@ public class CenarioCreateDTO {
     @Size(max = 200, message = "Nome do cenário deve conter no máximo 200 caracteres")
     private String nomeCenario;
 
-    @NotEmpty(message = "Tipo de cenário não pode estar vazio")
-    @NotBlank(message = "Tipo de cenário não pode estar em branco")
+
     @NotNull(message = "Tipo de cenário não pode ser nulo")
-    @Size(max = 1, message = "Nome do cenário deve conter no máximo 1 caractere")
     private TipoReino tipoReino;
 
     @NotNull(message = "Horário não pode ser nulo")
