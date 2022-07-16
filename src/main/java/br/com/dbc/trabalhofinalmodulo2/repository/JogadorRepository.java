@@ -39,6 +39,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
                     (ID_JOGADOR, NOME_JOGADOR, SENHA, EMAIL)
                     VALUES(?, ?, ?, ?)""";
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             stmt.setString(2, object.getNomeJogador());
@@ -75,6 +76,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             String sql = "DELETE FROM JOGADOR WHERE ID_JOGADOR = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
+            connection.createStatement();
 
             stmt.setInt(1, id);
 
@@ -106,6 +108,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
                     WHERE ID_JOGADOR = ?""";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
+            connection.createStatement();
 
             stmt.setString(1, jogador.getNomeJogador());
             stmt.setString(2, jogador.getSenha());
@@ -135,7 +138,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
         List<Jogador> jogadorList = new ArrayList<>();
         try {
             Statement stmt = connection.createStatement();
-
+            connection.createStatement();
 
             String sql = "SELECT * FROM JOGADOR";
 
@@ -169,6 +172,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
             String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, nome);
@@ -203,6 +207,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
             String sql = "SELECT * FROM JOGADOR WHERE ID_JOGADOR = ?";
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);

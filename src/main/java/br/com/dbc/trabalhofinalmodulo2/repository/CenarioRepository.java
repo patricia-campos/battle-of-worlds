@@ -35,6 +35,8 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
             String sql = "INSERT INTO CENARIO (ID_CENARIO, NOME_CENARIO, HORARIO, TIPO_REINO)\n" +
                     "\tVALUES (SEQ_CENARIO.nextval, ?, CURRENT_DATE, ?)";
+
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, object.getNomeCenario());
@@ -57,6 +59,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
             String sql = "DELETE FROM CENARIO WHERE ID_CENARIO = ?";
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
@@ -90,6 +93,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             sql.append(" TIPO_REINO = ?");
             sql.append("WHERE ID_CENARIO = ? ");
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql.toString());
 
             stmt.setString(1, cenario.getNomeCenario());
@@ -156,6 +160,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
             String sql = "SELECT * FROM CENARIO WHERE ID_CENARIO = ?";
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
 
