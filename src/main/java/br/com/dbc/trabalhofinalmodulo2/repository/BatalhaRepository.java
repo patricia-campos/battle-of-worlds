@@ -15,6 +15,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
     @Autowired
     private Connection connection;
+
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
         String sql = "Select SEQ_BATALHA.nextval mysequence FROM DUAL";

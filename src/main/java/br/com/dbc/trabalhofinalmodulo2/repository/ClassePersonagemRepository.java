@@ -15,6 +15,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
     @Autowired
     private Connection connection;
+
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
         String sql = "Select SEQ_CLASSE_PERSONAGEM.nextval mysequence from dual";

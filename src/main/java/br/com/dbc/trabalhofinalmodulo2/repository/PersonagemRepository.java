@@ -1,6 +1,5 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
-import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,8 @@ import java.util.Optional;
 public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     @Autowired
-    private DbConfiguration dbConfiguration;
+    private Connection connection;
+
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
         String sql = "SELECT SEQ_PERSONAGEM.nextval proximoIdPersonagem from DUAL";
@@ -36,16 +36,14 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     }
 
     public Personagem adicionar(Personagem object, int id) throws BancoDeDadosException {
-        Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
-            int idPersonagem = getProximoId(con);
+            int idPersonagem = getProximoId(connection);
 
             String sql = "INSERT INTO PERSONAGEM\n" +
                     "(ID_PERSONAGEM, ID_JOGADOR, NOME_PERSONAGEM)\n" +
                     "VALUES(?, ?, ?)\n";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, idPersonagem);
             stmt.setInt(2, id);
@@ -60,8 +58,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             e.printStackTrace();
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -72,13 +70,11 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
-        Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "DELETE FROM PERSONAGEM WHERE ID_PERSONAGEM = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
 
@@ -91,8 +87,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -102,16 +98,13 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     @Override
     public Personagem editar(Integer id, Personagem personagem) throws BancoDeDadosException {
-        Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
 
-            StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE PERSONAGEM SET ");
-            sql.append(" NOME_PERSONAGEM = ?");
-            sql.append(" WHERE ID_PERSONAGEM = ? ");
+            String sql = "UPDATE PERSONAGEM SET " +
+                    " NOME_PERSONAGEM = ?" +
+                    " WHERE ID_PERSONAGEM = ? ";
 
-            PreparedStatement stmt = con.prepareStatement(sql.toString());
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, personagem.getNomePersonagem());
             stmt.setInt(2, id);
@@ -124,8 +117,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -134,13 +127,11 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     }
 
     public Optional<Personagem> listarPorNome(String nome) throws BancoDeDadosException {
-        Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, nome);
             // Executa-se a consulta
@@ -158,8 +149,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -169,13 +160,11 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
 
     public Personagem listarPorId(Integer id) throws BancoDeDadosException {
-        Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM PERSONAGEM WHERE ID_PERSONAGEM = ?"; //TODO: verificar se o id é o mesmo do personagem
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
             // Executa-se a consulta
@@ -193,8 +182,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -203,13 +192,11 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     }
 
     public Personagem retornaPersonagemPorJogador(Integer id) throws BancoDeDadosException {
-        Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM PERSONAGEM WHERE ID_JOGADOR = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
             // Executa-se a consulta
@@ -227,8 +214,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -238,10 +225,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     @Override
     public List<Personagem> listar() throws BancoDeDadosException {
         List<Personagem> personagemList = new ArrayList<>();
-        Connection con = null;
         try {
-            con = dbConfiguration.getConnection();
-            Statement stmt = con.createStatement();
+            Statement stmt = connection.createStatement();
 
             String sql = "SELECT * FROM PERSONAGEM";
 
@@ -259,8 +244,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
             throw new BancoDeDadosException("Erro ao listar Jogador");
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

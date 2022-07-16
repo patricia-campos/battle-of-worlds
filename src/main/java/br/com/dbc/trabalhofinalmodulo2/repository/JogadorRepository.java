@@ -1,6 +1,5 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
-import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,9 @@ import java.util.Optional;
 
 @Repository
 public class JogadorRepository implements Repositorio<Integer, Jogador> {
-    Connection con = null;
 
     @Autowired
-    private DbConfiguration dbConfiguration;
+    private Connection connection;
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
@@ -35,14 +33,13 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     @Override
     public Jogador adicionar(Jogador object) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
-            int id = getProximoId(con);
+            int id = getProximoId(connection);
             String sql = """
                     INSERT INTO JOGADOR
                     (ID_JOGADOR, NOME_JOGADOR, SENHA, EMAIL)
                     VALUES(?, ?, ?, ?)""";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             stmt.setString(2, object.getNomeJogador());
             stmt.setString(3, object.getSenha());
@@ -50,7 +47,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
             stmt.executeUpdate();
             object.setId(id);
-            ResultSet rs = con.prepareStatement("SELECT SEQ_JOGADOR.currval FROM dual").executeQuery();
+            ResultSet rs = connection.prepareStatement("SELECT SEQ_JOGADOR.currval FROM dual").executeQuery();
             if (rs.next()) {
                object.setId(rs.getInt(1));
             }
@@ -62,8 +59,8 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -74,11 +71,10 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "DELETE FROM JOGADOR WHERE ID_JOGADOR = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
 
@@ -92,8 +88,8 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -104,14 +100,12 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     @Override
     public Jogador editar(Integer id, Jogador jogador) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
-
             String sql = """
                     UPDATE JOGADOR
                     SET NOME_JOGADOR = ?, SENHA = ?, EMAIL = ?
                     WHERE ID_JOGADOR = ?""";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, jogador.getNomeJogador());
             stmt.setString(2, jogador.getSenha());
@@ -127,8 +121,8 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -140,8 +134,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     public List<Jogador> listar() throws BancoDeDadosException {
         List<Jogador> jogadorList = new ArrayList<>();
         try {
-            con = dbConfiguration.getConnection();
-            Statement stmt = con.createStatement();
+            Statement stmt = connection.createStatement();
 
 
             String sql = "SELECT * FROM JOGADOR";
@@ -161,8 +154,8 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -173,11 +166,10 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
     public Optional<Jogador> listarPorNome(String nome) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, nome);
             // Executa-se a consulta
@@ -196,8 +188,8 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -208,11 +200,10 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
     public Jogador listarPorId(Integer id) throws BancoDeDadosException {
         try {
-            con = dbConfiguration.getConnection();
 
             String sql = "SELECT * FROM JOGADOR WHERE ID_JOGADOR = ?";
 
-            PreparedStatement stmt = con.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);
             // Executa-se a consulta
@@ -231,8 +222,8 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
-                if (con != null) {
-                    con.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
