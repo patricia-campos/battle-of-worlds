@@ -1,6 +1,5 @@
 package br.com.dbc.trabalhofinalmodulo2.controller;
 
-import br.com.dbc.trabalhofinalmodulo2.dto.*;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.*;
 import br.com.dbc.trabalhofinalmodulo2.service.PersonagemClasseService;
