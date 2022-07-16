@@ -19,9 +19,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
-        connection.createStatement();
-            String sql = "SELECT SEQ_PERSONAGEM.nextval proximoIdPersonagem from DUAL";
-        System.out.println(connection);
+        String sql = "SELECT SEQ_PERSONAGEM.nextval proximoIdPersonagem from DUAL";
         Statement stmt = connection.createStatement();
         ResultSet res = stmt.executeQuery(sql);
         if (res.next()) {
@@ -37,8 +35,8 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     public Personagem adicionar(Personagem object, int id) throws BancoDeDadosException {
         try {
-            connection.createStatement();
             int idPersonagem = getProximoId(connection);
+            connection.createStatement();
 
             String sql = "INSERT INTO PERSONAGEM\n" +
                     "(ID_PERSONAGEM, ID_JOGADOR, NOME_PERSONAGEM)\n" +
