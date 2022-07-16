@@ -18,9 +18,9 @@ public class BossRepository implements Repositorio<Integer, Boss> {
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
+        Statement stmt = connection.createStatement();
         String sql = "SELECT SEQ_BOSS.nextval proximoIdBoss from DUAL";
 
-        Statement stmt = connection.createStatement();
         ResultSet res = stmt.executeQuery(sql);
 
         if (res.next()) {
@@ -33,7 +33,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     public Boss adicionar(Boss object) throws BancoDeDadosException {
 
         try {
-
+            connection.createStatement();
             int id = getProximoId(connection);
 
             String sql = "INSERT INTO BOSS (ID_BOSS, NOME_BOSS, VIDA_BOSS, DEFESA_BOSS, ATAQUE_BOSS)\n" +
@@ -70,6 +70,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     public boolean remover(Integer idBoss) throws BancoDeDadosException {
 
         try {
+            connection.createStatement();
 
             String sql = "DELETE FROM BOSS WHERE ID_BOSS = ?";
 
@@ -101,7 +102,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
     public Boss editar(Integer id, Boss boss) throws BancoDeDadosException {
 
         try {
-
+            connection.createStatement();
             String sql = """
                     UPDATE BOSS
                     SET NOME_BOSS = ?, VIDA_BOSS = ?, DEFESA_BOSS = ?, ATAQUE_BOSS = ?
@@ -176,7 +177,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
 
     public Boss buscarBoss(int id) throws BossNaoEncontradoException, BancoDeDadosException {
         try {
-
+            connection.createStatement();
             String sql = "SELECT * FROM BOSS WHERE ID_BOSS = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);

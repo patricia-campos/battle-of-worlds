@@ -19,11 +19,11 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
-        String sql = "SELECT SEQ_PERSONAGEM.nextval proximoIdPersonagem from DUAL";
-
+        connection.createStatement();
+            String sql = "SELECT SEQ_PERSONAGEM.nextval proximoIdPersonagem from DUAL";
+        System.out.println(connection);
         Statement stmt = connection.createStatement();
         ResultSet res = stmt.executeQuery(sql);
-        connection.close();
         if (res.next()) {
             return res.getInt("proximoIdPersonagem");
         }
@@ -37,6 +37,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     public Personagem adicionar(Personagem object, int id) throws BancoDeDadosException {
         try {
+            connection.createStatement();
             int idPersonagem = getProximoId(connection);
 
             String sql = "INSERT INTO PERSONAGEM\n" +
@@ -71,7 +72,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
         try {
-
+            connection.createStatement();
             String sql = "DELETE FROM PERSONAGEM WHERE ID_PERSONAGEM = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -99,7 +100,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
     @Override
     public Personagem editar(Integer id, Personagem personagem) throws BancoDeDadosException {
         try {
-
+            connection.createStatement();
             String sql = "UPDATE PERSONAGEM SET " +
                     " NOME_PERSONAGEM = ?" +
                     " WHERE ID_PERSONAGEM = ? ";
@@ -128,7 +129,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     public Optional<Personagem> listarPorNome(String nome) throws BancoDeDadosException {
         try {
-
+            connection.createStatement();
             String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -161,7 +162,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     public Personagem listarPorId(Integer id) throws BancoDeDadosException {
         try {
-
+            connection.createStatement();
             String sql = "SELECT * FROM PERSONAGEM WHERE ID_PERSONAGEM = ?"; //TODO: verificar se o id é o mesmo do personagem
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -193,7 +194,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
     public Personagem retornaPersonagemPorJogador(Integer id) throws BancoDeDadosException {
         try {
-
+            connection.createStatement();
             String sql = "SELECT * FROM PERSONAGEM WHERE ID_JOGADOR = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
