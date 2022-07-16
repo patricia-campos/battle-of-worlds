@@ -2,6 +2,7 @@ package br.com.dbc.trabalhofinalmodulo2.mapper;
 
 import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemClasseDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
@@ -21,6 +22,10 @@ public class ClassePersonagemMapper {
     }
 
     public ClassePersonagem fromCreateDTO(ClassePersonagemCreateDTO classePersonagemCreateDTO) {
+        return objectMapper.convertValue(classePersonagemCreateDTO, ClassePersonagem.class);
+    }
+
+    public ClassePersonagem fromCreateClasse(PersonagemClasseDTO classePersonagemCreateDTO) {
         return objectMapper.convertValue(classePersonagemCreateDTO, ClassePersonagem.class);
     }
 
