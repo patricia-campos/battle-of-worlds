@@ -4,14 +4,9 @@ import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.ClassePersonagemMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.repository.ClassePersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class ClassePersonagemService {
