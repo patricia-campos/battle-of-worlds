@@ -2,6 +2,7 @@ package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.*;
+import br.com.dbc.trabalhofinalmodulo2.service.PersonagemClasseService;
 import br.com.dbc.trabalhofinalmodulo2.service.PersonagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,6 +20,9 @@ public class PersonagemControler {
 
     @Autowired
     private PersonagemService personagemService;
+
+    @Autowired
+    private PersonagemClasseService personagemClasseService;
 
     @Operation(summary = "Lista todos personagens", description = "Lista todos personagens")
     @ApiResponses(
@@ -46,6 +50,19 @@ public class PersonagemControler {
                               @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO,
                               @Valid @RequestBody ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException {
         return personagemService.adicionar(personagemCreateDTO, idJogador);
+    }
+
+    @Operation(summary = "Adiciona personagem", description = "Adiciona um personagem a um jogador")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Personagem adicionado com sucesso"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @PostMapping("/novoPersonagemClasse")
+    public PersonagemDTO criarPersonLigadoJogador(@RequestBody PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException {
+        return personagemClasseService.adicionarPersonagemComClasse(personagemClasseDTO);
     }
 
     @Operation(summary = "Edita um Personagem", description = "Edita um Personagem ja existente")

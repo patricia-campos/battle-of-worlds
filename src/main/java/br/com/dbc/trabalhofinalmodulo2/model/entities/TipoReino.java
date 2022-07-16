@@ -5,7 +5,9 @@ import java.util.Arrays;
 public enum TipoReino {
 
     LUZ("1"),
-    SOMBRAS("2");
+    SOMBRAS("2"),
+    LUA("3"),
+    MARTE("4");
 
     private String tipo;
 

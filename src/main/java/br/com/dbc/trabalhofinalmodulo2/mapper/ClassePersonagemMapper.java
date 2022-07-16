@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.mapper;
 
 import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemClasseDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,9 @@ public class ClassePersonagemMapper {
 
     public ClassePersonagem fromCreateDTO(ClassePersonagemCreateDTO classePersonagemCreateDTO) {
         return objectMapper.convertValue(classePersonagemCreateDTO, ClassePersonagem.class);
+    }
+
+    public ClassePersonagem fromCreateClasse(PersonagemClasseDTO personagemClasseDTO){
+        return objectMapper.convertValue(personagemClasseDTO, ClassePersonagem.class);
     }
 }

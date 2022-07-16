@@ -23,7 +23,7 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
         Statement stmt = connection.createStatement();
         ResultSet res = stmt.executeQuery(sql);
-
+        connection.close();
         if (res.next()) {
             return res.getInt("proximoIdPersonagem");
         }
