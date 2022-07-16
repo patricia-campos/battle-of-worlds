@@ -1,6 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.repository;
 
-import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
+
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
 
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
+        Statement stmt = connection.createStatement();
         String sql = "Select SEQ_BATALHA.nextval mysequence FROM DUAL";
 
-        Statement stmt = connection.createStatement();
         ResultSet res = stmt.executeQuery(sql);
 
         if (res.next()){
@@ -34,6 +34,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
     public Batalha adicionar (Batalha object) throws BancoDeDadosException {
 
         try {
+            connection.createStatement();
 
             Integer proximoId = this.getProximoId(connection);
 
@@ -107,6 +108,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
     public Batalha buscarBatalha(int id) throws BancoDeDadosException {
         Connection con = null;
         try {
+            connection.createStatement();
 
             String sql = "SELECT * FROM BATALHA WHERE ID_BATALHA = ?";
 

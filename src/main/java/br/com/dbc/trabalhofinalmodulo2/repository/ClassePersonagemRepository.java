@@ -15,7 +15,6 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
     @Autowired
     private Connection connection;
-
     @Override
     public Integer getProximoId(Connection connection) throws SQLException {
         String sql = "Select SEQ_CLASSE_PERSONAGEM.nextval mysequence from dual";
@@ -41,6 +40,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             String sql = "INSERT INTO CLASSE_PERSONAGEM (ID_CLASSE_PERSONAGEM, ID_PERSONAGEM, NOME_CLASSE_PERSONAGEM, VIDA_PERSONAGEM, DEFESA_PERSONAGEM, ATAQUE_PERSONAGEM)\n" +
                     "\tVALUES (SEQ_CLASSE_PERSONAGEM.nextval, ?, ?, ?, ?, ?)";
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setDouble(1, idPersonagem);
             stmt.setString(2, objeto.getTipoPersonagem().toString());
@@ -84,7 +84,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             sql.append("ATAQUE_PERSONAGEM");
             sql.append("WHERE ID_CLASSE_PERSONAGEM = ?");
 
-
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql.toString());
 
             stmt.setDouble(1, id);
@@ -156,6 +156,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
             String sql = "SELECT * FROM CLASSE_PERSONAGEM WHERE ID_PERSONAGEM = ?";
 
+            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);

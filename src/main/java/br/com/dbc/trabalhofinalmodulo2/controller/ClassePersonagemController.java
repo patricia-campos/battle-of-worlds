@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-public class ClassePersonagem {
+public class ClassePersonagemController {
 
     @Autowired
     private ClassePersonagemService classePersonagemService;
@@ -35,5 +35,4 @@ public class ClassePersonagem {
     }
 
     //=================================================================================================================
-
 }
