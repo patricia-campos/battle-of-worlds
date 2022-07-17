@@ -63,7 +63,6 @@ public class CenarioController {
     //=================================================================================================================
 
 
-
     @PutMapping("/editarCenario")
     public CenarioDTO editar(@RequestBody CenarioCreateDTO cenarioDTO, @RequestParam int id) throws BancoDeDadosException, Exception {
         return cenarioService.editar(cenarioDTO, id);

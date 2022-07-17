@@ -1,7 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorCreateDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

@@ -9,6 +9,6 @@ import javax.validation.constraints.NotNull;
 public class ClassePersonagemDTO extends ClassePersonagemCreateDTO{
 
     @Schema(description = "ID - Identificador único da classe do personagem")
-    @NotNull
+    @NotNull(message = "Id do personagem não pode ser nulo")
     private int idClassePersonagem;
 }

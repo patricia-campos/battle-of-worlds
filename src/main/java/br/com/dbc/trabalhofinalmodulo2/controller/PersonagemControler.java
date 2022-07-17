@@ -2,14 +2,16 @@ package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.*;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemClasseDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemPutDTO;
 import br.com.dbc.trabalhofinalmodulo2.service.PersonagemClasseService;
 import br.com.dbc.trabalhofinalmodulo2.service.PersonagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

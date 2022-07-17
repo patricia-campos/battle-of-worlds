@@ -9,6 +9,6 @@ import javax.validation.constraints.NotNull;
 public class CenarioDTO extends CenarioCreateDTO{
 
     @Schema(description = "ID - Identificador único do cenário da batalha")
-    @NotNull
+    @NotNull(message = "Id cenário não pode ser nulo")
     private int idCenario;
 }
