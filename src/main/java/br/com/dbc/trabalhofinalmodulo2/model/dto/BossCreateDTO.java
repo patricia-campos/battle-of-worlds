@@ -21,17 +21,14 @@ public class BossCreateDTO {
     private String nome;
 
     @NotNull(message = "A vida do boss não pode ser nula")
-    @NotEmpty(message = "A vida do boss não pode ser vazia")
     @Schema(description = "Vida do boss")
     private Double vida;
 
     @NotNull(message = "O ataque do boss não pode ser nulo")
-    @NotEmpty(message = "O ataque do boss não pode ser vazio")
     @Schema(description = "Ataque do boss")
     private Double ataque;
 
     @NotNull(message = "O defesa do boss não pode ser nulo")
-    @NotEmpty(message = "O defesa do boss não pode ser vazio")
     @Schema(description = "Defesa do boss")
     private Double defesa;
 

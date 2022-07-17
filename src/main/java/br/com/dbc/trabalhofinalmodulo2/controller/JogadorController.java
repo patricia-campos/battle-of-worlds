@@ -50,8 +50,8 @@ public class JogadorController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<JogadorDTO> buscar(@PathVariable Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
-        return ResponseEntity.ok(jogadorService.listarPorId(id));
+    public JogadorDTO buscar(@PathVariable Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+        return jogadorService.listarPorId(id);
     }
 
     @Operation(summary = "Cria um jogador", description = "Cria um novo jogador")
@@ -63,8 +63,8 @@ public class JogadorController {
             }
     )
     @PostMapping
-    public ResponseEntity<JogadorDTO> post(@Valid @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
-        return ResponseEntity.ok(jogadorService.adicionar(jogadorDTO));
+    public JogadorDTO post(@Valid @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+        return jogadorService.adicionar(jogadorDTO);
     }
 
     @Operation(summary = "Edita um jogador", description = "Edita um jogador ja existente")
@@ -76,9 +76,9 @@ public class JogadorController {
             }
     )
     @PutMapping("/{id}")
-    public ResponseEntity<JogadorDTO> put(@PathVariable("id") Integer id,
+    public JogadorDTO put(@PathVariable("id") Integer id,
                                           @Validated @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
-        return ResponseEntity.ok(jogadorService.editar(jogadorDTO, id));
+        return jogadorService.editar(jogadorDTO, id);
     }
 
     @Operation(summary = "Deleta um jogador", description = "Deleta um jogador ja existente")
