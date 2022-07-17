@@ -89,25 +89,22 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     public Cenario editar(Integer id, Cenario cenario) throws BancoDeDadosException, SQLException {
         Connection connection = dbConfiguration.getConnection();
         try {
-            StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE CENARIO SET ");
-            sql.append(" NOME_CENARIO = ?,");
-            sql.append(" HORARIO = CURRENT_DATE,");
-            sql.append(" TIPO_REINO = ?");
-            sql.append("WHERE ID_CENARIO = ? ");
+            String sql = "UPDATE CENARIO SET " +
+                    " NOME_CENARIO = ?," +
+                    " HORARIO = CURRENT_DATE," +
+                    " TIPO_REINO = ?" +
+                    "WHERE ID_CENARIO = ? ";
 
-            PreparedStatement stmt = connection.prepareStatement(sql.toString());
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, cenario.getNomeCenario());
-
-            //String tipoReino = cenario.getTipoReino().; //jogando o resultado do sql em uma variável
-           //TipoReino tipoReino1 = TipoReino.ofTipo(tipoReino); //convertendo conteúdo do enum trazendo a desc
-
             stmt.setString(2, cenario.getTipoReino().toString());
             stmt.setInt(3, id);
 
-            int res = stmt.executeUpdate();
-            System.out.println("Cenario editado com sucesso" + res);
+            stmt.executeUpdate();
+            cenario.setIdCenario(id);
+
+            System.out.println("Cenario editado com sucesso");
 
             return cenario;
         } catch (SQLException e) {
@@ -180,7 +177,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
                 cenario.setIdCenario(res.getInt("ID_CENARIO"));
                 cenario.setNomeCenario(res.getString("NOME_CENARIO"));
 
-                Integer tipoReino = res.getInt("TIPO_REINO"); //jogando o resultado do sql em uma variável
+                String tipoReino = res.getString("TIPO_REINO"); //jogando o resultado do sql em uma variável
                 TipoReino tipoReino1 = TipoReino.ofTipo(tipoReino); //convertendo conteúdo do enum trazendo a desc
                 cenario.setTipoReino(tipoReino1); //set
 

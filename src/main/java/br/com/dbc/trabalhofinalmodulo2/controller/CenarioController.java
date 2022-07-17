@@ -62,18 +62,9 @@ public class CenarioController {
 
     //=================================================================================================================
 
-    @Operation(summary = "Alterar dados de cenário cadastrado",
-            description = "Altera os dados de cenário cadastrado")
 
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Cenário alterado com sucesso"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-
-    @PutMapping("/editar") // (deve receber todos os dados)
+    
+    @PutMapping("/editara")
     public CenarioDTO editar(@RequestBody CenarioCreateDTO cenarioDTO, @RequestParam int id) throws BancoDeDadosException, Exception {
         return cenarioService.editar(cenarioDTO, id);
     }
