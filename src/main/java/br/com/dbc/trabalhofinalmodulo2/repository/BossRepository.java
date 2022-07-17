@@ -116,7 +116,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
             stmt.setDouble(5, id);
 
             stmt.executeUpdate();
-
+            boss.setIdBoss(id);
             return boss;
 
         } catch (SQLException e) {

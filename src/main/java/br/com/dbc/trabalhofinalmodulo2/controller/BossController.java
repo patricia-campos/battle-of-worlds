@@ -56,8 +56,8 @@ public class BossController {
             }
     )
     @PutMapping("/editar")
-    public BossDTO editar(@RequestBody BossCreateDTO bossCreateDTO) throws BancoDeDadosException, SQLException {
-        return bossService.editar(bossCreateDTO);
+    public BossDTO editar(@RequestBody BossCreateDTO bossCreateDTO, @RequestParam int id) throws BancoDeDadosException, SQLException {
+        return bossService.editar(bossCreateDTO, id);
     }
 
     @Operation(summary = "Deleta um boss", description = "Deleta um boss ja existente")

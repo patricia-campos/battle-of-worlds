@@ -37,8 +37,11 @@ public class BossService {
             bossRepository.remover(id);
     }
 
-    public BossDTO editar(BossCreateDTO boss) throws BancoDeDadosException, SQLException {
-        return bossMapper.toBossDTO(bossRepository.editar(bossMapper.toCreateFromBoss(boss).getIdBoss(), bossMapper.toCreateFromBoss(boss)));
+    public BossDTO editar(BossCreateDTO boss, int id) throws BancoDeDadosException, Exception {
+        if(buscarBoss(id) == null){
+
+        }
+        return bossMapper.toBossDTO(bossRepository.editar(id, bossMapper.toCreateFromBoss(boss)));
     }
 
     public Boss buscarBoss(int id) throws BancoDeDadosException, Exception {
