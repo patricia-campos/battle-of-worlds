@@ -33,7 +33,7 @@ public class EmailService {
 
     //=================================== E-MAIL JOGADOR CADASTRADO===================================
 
-    public void sendEmailJogadorCadastrado(JogadorCreateDTO jogadorDTO, Jogador jogadorCadsatrado) {
+    public void sendEmailJogadorCadastrado(JogadorCreateDTO jogadorDTO, Jogador jogadorCadastrado) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
 
@@ -42,7 +42,7 @@ public class EmailService {
             mimeMessageHelper.setFrom(from);
             mimeMessageHelper.setTo(jogadorDTO.getEmail());
             mimeMessageHelper.setSubject(jogadorDTO.getNomeJogador() + ", o Reino aguardava por você!");
-            mimeMessageHelper.setText(buscarConteudoJogadorCadastrado(jogadorDTO, jogadorCadsatrado), true);
+            mimeMessageHelper.setText(buscarConteudoJogadorCadastrado(jogadorDTO, jogadorCadastrado), true);
 
             emailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException | IOException | TemplateException e) {
@@ -58,8 +58,9 @@ public class EmailService {
         Map<String, Object> dados = new HashMap<>();
 
         dados.put("nome", "Olá, " + jogadorDTO.getNomeJogador() + "! Finalmente você chegou para salvar o reino!");
-        dados.put("mensagem", "Você foi cadastrado(a) com sucesso em Battle of Worlds, seu id no jogo é "
-                + jogadorCadsatrado.getId() + ". Seja bem vindo(a)!");
+        dados.put("mensagem", "Seja bem-vindo(a)! " +
+                "Você foi cadastrado(a) com sucesso em Battle of Worlds, seu id no jogo é "
+                + jogadorCadsatrado.getId());
         dados.put("email", "Qualquer dúvida, nos contate através do e-mail " + from);
 
         Template template = fmConfiguration.getTemplate("email-template.html");
