@@ -15,23 +15,23 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class BossCreateDTO {
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "O nome do boss não pode ser nulo")
+    @NotEmpty(message = "Nome do boss não pode ser vazio")
     @Schema(description = "Nome do Boss")
     private String nome;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "A vida do boss não pode ser nula")
+    @NotEmpty(message = "A vida do boss não pode ser vazia")
     @Schema(description = "Vida do boss")
     private Double vida;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "O ataque do boss não pode ser nulo")
+    @NotEmpty(message = "O ataque do boss não pode ser vazio")
     @Schema(description = "Ataque do boss")
     private Double ataque;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "O defesa do boss não pode ser nulo")
+    @NotEmpty(message = "O defesa do boss não pode ser vazio")
     @Schema(description = "Defesa do boss")
     private Double defesa;
 

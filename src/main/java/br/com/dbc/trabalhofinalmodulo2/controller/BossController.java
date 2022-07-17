@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -30,8 +32,8 @@ public class BossController {
             }
     )
     @PostMapping("/adiciona")
-    public BossDTO create(@RequestBody BossCreateDTO bossCreateDTO) throws BancoDeDadosException, SQLException {
-        return bossService.adicionar(bossCreateDTO);
+    public ResponseEntity<BossDTO> create(@Validated @RequestBody BossCreateDTO bossCreateDTO) throws BancoDeDadosException, SQLException {
+        return ResponseEntity.ok(bossService.adicionar(bossCreateDTO));
     }
 
     @Operation(summary = "Lista os Bosses", description = "Lista todos os Bosses")
@@ -56,7 +58,7 @@ public class BossController {
             }
     )
     @PutMapping("/editar")
-    public BossDTO editar(@RequestBody BossCreateDTO bossCreateDTO, @RequestParam int id) throws BancoDeDadosException, Exception {
+    public BossDTO editar(@Validated @RequestBody BossCreateDTO bossCreateDTO, @RequestParam int id) throws BancoDeDadosException, Exception {
         return bossService.editar(bossCreateDTO, id);
     }
 
