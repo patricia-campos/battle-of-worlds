@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class ClassePersonagem {
     private int idClassePersonagem;
     private int idPersonagem;
-    private TipoClassePersonagem tipoPersonagem;
+    private TipoClassePersonagem tipoClassePersonagem;
     private Double vidaClasse;
     private Double defesaClasse;
     private Double ataqueClasse;

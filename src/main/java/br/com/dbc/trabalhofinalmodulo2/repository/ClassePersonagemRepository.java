@@ -46,7 +46,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, idClasse);
             stmt.setDouble(2, idPersonagem);
-            stmt.setString(3, objeto.getTipoPersonagem().toString());
+            stmt.setString(3, objeto.getTipoClassePersonagem().toString());
             stmt.setDouble(4, objeto.getVidaClasse());
             stmt.setDouble(5, objeto.getDefesaClasse());
             stmt.setDouble(6, objeto.getAtaqueClasse());
@@ -94,7 +94,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setDouble(1, id);
-            stmt.setString(2, object.getTipoPersonagem().toString());
+            stmt.setString(2, object.getTipoClassePersonagem().toString());
             stmt.setDouble(3, object.getVidaClasse());
             stmt.setDouble(4, object.getDefesaClasse());
             stmt.setDouble(5, object.getAtaqueClasse());
@@ -134,9 +134,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
                 classePersonagem.setIdClassePersonagem(res.getInt("ID_CLASSE_PERSONAGEM"));
                 String nomeClassePersonagem = res.getString("NOME_CLASSE_PERSONAGEM");
                 TipoClassePersonagem tipoClassePersonagem = TipoClassePersonagem.valueOf(nomeClassePersonagem);
-                classePersonagem.setTipoPersonagem(tipoClassePersonagem);
-
-
+                classePersonagem.setTipoClassePersonagem(tipoClassePersonagem);
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
                 classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
                 classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
@@ -176,12 +174,13 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
                 classePersonagem.setIdPersonagem(res.getInt("ID_PERSONAGEM"));
                 String nomeClassePersonagem = res.getString("NOME_CLASSE_PERSONAGEM");
                 TipoClassePersonagem tipoClassePersonagem = TipoClassePersonagem.valueOf(nomeClassePersonagem);
-                classePersonagem.setTipoPersonagem(tipoClassePersonagem);
+                classePersonagem.setTipoClassePersonagem(tipoClassePersonagem);
                 classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
                 classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
                 return classePersonagem;
-            } else return null;
+            }
+            else return null;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {

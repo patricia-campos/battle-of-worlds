@@ -24,6 +24,7 @@ public class ClassePersonagemService {
 
     @Autowired
     ClassePersonagemMapper classePersonagemMapper;
+
     @Autowired
     private PersonagemRepository personagemRepository;
 
