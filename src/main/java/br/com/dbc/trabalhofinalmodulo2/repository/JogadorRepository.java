@@ -2,6 +2,7 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -138,7 +139,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
     }
 
     @Override
-    public List<Jogador> listar() throws BancoDeDadosException, SQLException {
+    public List<Jogador> listar() throws BancoDeDadosException, SQLException{
         List<Jogador> jogadorList = new ArrayList<>();
         Connection connection = dbConfiguration.getConnection();
         try {
@@ -212,7 +213,6 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
 
             String sql = "SELECT * FROM JOGADOR WHERE ID_JOGADOR = ?";
 
-            connection.createStatement();
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setInt(1, id);

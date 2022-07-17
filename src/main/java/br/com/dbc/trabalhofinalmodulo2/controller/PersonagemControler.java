@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.*;
 import br.com.dbc.trabalhofinalmodulo2.service.PersonagemClasseService;
 import br.com.dbc.trabalhofinalmodulo2.service.PersonagemService;
@@ -74,7 +75,7 @@ public class PersonagemControler {
             }
     )
    @PutMapping("/{idPersonagem}")
-    public PersonagemDTO put(@PathVariable ("idPersonagem") Integer idPersonagem, @Valid @RequestBody PersonagemPutDTO personagemDTO) throws BancoDeDadosException, SQLException {
+    public PersonagemDTO put(@PathVariable ("idPersonagem") Integer idPersonagem, @Valid @RequestBody PersonagemPutDTO personagemDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
          return personagemService.editar(personagemDTO, idPersonagem);
     }
 
@@ -87,7 +88,7 @@ public class PersonagemControler {
             }
     )
     @DeleteMapping("/{idPersonagem}")
-    public void delete(@PathVariable("idPersonagem") Integer idPersonagem) throws BancoDeDadosException, SQLException {
+    public void delete(@PathVariable("idPersonagem") Integer idPersonagem) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         personagemService.remover(personagemService.listarPorId(idPersonagem));
     }
 }
