@@ -135,8 +135,6 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
                 String nomeClassePersonagem = res.getString("NOME_CLASSE_PERSONAGEM");
                 TipoClassePersonagem tipoClassePersonagem = TipoClassePersonagem.valueOf(nomeClassePersonagem);
                 classePersonagem.setTipoPersonagem(tipoClassePersonagem);
-
-
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
                 classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
                 classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
@@ -181,7 +179,8 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
                 classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
                 return classePersonagem;
-            } else return null;
+            }
+            else return null;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {

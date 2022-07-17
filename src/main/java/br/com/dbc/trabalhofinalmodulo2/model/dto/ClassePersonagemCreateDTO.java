@@ -16,7 +16,7 @@ public class ClassePersonagemCreateDTO {
     @Schema(description = "Nome da classe do personagem")
     @NotNull(message = "Nome da classe do personagem cenário não pode ser nulo")
     private TipoClassePersonagem tipoClassePersonagem;
-     @NotNull
+    @NotNull
     private Double vidaClasse;
     @NotNull
     private Double defesaClasse;
