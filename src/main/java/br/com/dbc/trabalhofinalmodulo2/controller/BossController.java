@@ -3,7 +3,6 @@ package br.com.dbc.trabalhofinalmodulo2.controller;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import br.com.dbc.trabalhofinalmodulo2.service.BossService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -73,19 +72,6 @@ public class BossController {
     @DeleteMapping("/deletar")
     public void editar(@RequestParam int id) throws BancoDeDadosException, Exception {
         bossService.remover(id);
-    }
-
-    @Operation(summary = "Lista os Bosses", description = "Lista todos os Bosses")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Lista com todos os bosses"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @GetMapping("/retornaBoss")
-    public Boss retorna(@RequestParam int id) throws BancoDeDadosException, Exception {
-        return bossService.buscarBoss(id);
     }
 
 }
