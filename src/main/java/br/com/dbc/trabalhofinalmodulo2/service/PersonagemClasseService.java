@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.ClassePersonagemMapper;
 import br.com.dbc.trabalhofinalmodulo2.mapper.PersonagemMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemClasseDTO;
@@ -31,9 +32,10 @@ public class PersonagemClasseService {
     @Autowired
     PersonagemMapper personagemMapper;
 
+    @Autowired
+    private PersonagemService personagemService;
 
-
-    public PersonagemDTO adicionarPersonagemComClasse(PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException, SQLException {
+    public PersonagemDTO adicionarPersonagemComClasse(PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         ClassePersonagem classePersonagem = classePersonagemMapper.fromCreateClasse(personagemClasseDTO);
         if (TipoClassePersonagem.MAGO == personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem()) {
             classePersonagem.setVidaClasse(800.0);
@@ -48,16 +50,17 @@ public class PersonagemClasseService {
             classePersonagem.setAtaqueClasse(150.0);
             classePersonagem.setDefesaClasse(150.0);
         }
+        classePersonagem.setTipoPersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
 
-        Personagem personagem = personagemRepository.listarPorId(classePersonagem.getIdPersonagem());
+
+        Personagem personagem = personagemMapper.fromCreateDTO(personagemService.listarPorId(classePersonagem.getIdPersonagem()));
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagem);
         
-        personagemDTO.setClassePersonagem(classePersonagem);
+        personagemDTO.setClassePersonagem(classePersonagemMapper.fromCreateClasse(classePersonagem));
         personagemDTO.getClassePersonagem().setTipoPersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
 
         classePersonagemRepository.adicionar(classePersonagem,personagem.getId());
 
         return personagemDTO;
     }
-
 }

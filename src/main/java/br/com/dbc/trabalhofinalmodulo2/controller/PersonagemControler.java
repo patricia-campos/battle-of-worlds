@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -48,21 +49,21 @@ public class PersonagemControler {
     )
     @PostMapping("/{idJogador}")
     public PersonagemDTO post(@PathVariable("idJogador") Integer idJogador,
-                              @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO,
-                              @Valid @RequestBody ClassePersonagemCreateDTO classePersonagem) throws BancoDeDadosException, SQLException {
+                              @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO
+                             ) throws BancoDeDadosException, SQLException {
         return personagemService.adicionar(personagemCreateDTO, idJogador);
     }
 
-    @Operation(summary = "Adiciona personagem", description = "Adiciona um personagem a um jogador")
+    @Operation(summary = "Adiciona uma classe em um personagem", description = "Adiciona uma classe a um personagem existente")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Personagem adicionado com sucesso"),
+                    @ApiResponse(responseCode = "200", description = "Classe adicionada com sucesso"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @PostMapping("/novoPersonagemClasse")
-    public PersonagemDTO criarPersonLigadoJogador(@RequestBody PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException, SQLException {
+    public PersonagemDTO criarPersonLigadoJogador(@Valid     @RequestBody PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         return personagemClasseService.adicionarPersonagemComClasse(personagemClasseDTO);
     }
 

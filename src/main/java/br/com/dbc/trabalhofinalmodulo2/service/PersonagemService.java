@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
+import br.com.dbc.trabalhofinalmodulo2.mapper.ClassePersonagemMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemDTO;
@@ -29,7 +30,11 @@ public class PersonagemService {
     @Autowired
     private PersonagemMapper personagemMapper;
 
+    @Autowired
+    private ClassePersonagemService classePersonagemService;
 
+    @Autowired
+    ClassePersonagemMapper classePersonagemMapper;
     public PersonagemDTO adicionar(PersonagemCreateDTO personagem, Integer idJogador) throws BancoDeDadosException, SQLException {
         log.info("Personagem criado");
         if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
@@ -42,7 +47,14 @@ public class PersonagemService {
     }
 
     public List<PersonagemDTO> listarTodos() throws BancoDeDadosException, SQLException {
-        return personagemRepository.listar().stream().map(personagemMapper::toDTO).toList();
+         personagemRepository.listar().stream().map(personagemMapper::toDTO).toList().forEach(p -> {
+            try {
+                p.setClassePersonagem(classePersonagemMapper.fromCreateClasse(classePersonagemService.retornaClassePorPersonagem(p.getId())));
+            } catch (BancoDeDadosException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+         return personagemRepository.listar().stream().map(personagemMapper::toDTO).toList();
     }
 
     public PersonagemDTO editar(PersonagemPutDTO personagem, Integer idPersonagem) throws BancoDeDadosException, SQLException, NaoEncontradoException {
@@ -53,6 +65,7 @@ public class PersonagemService {
         personagemDoBanco.setNomePersonagem(personagem.getNomePersonagem());
         personagem.setNomePersonagem(personagem.getNomePersonagem());
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.editar(idPersonagem, personagemDoBanco));
+        personagemDTO.setClassePersonagem(classePersonagemMapper.fromCreateClasse(classePersonagemService.classePersonagemRepository.listarClassePorPersonagemID(idPersonagem)));
         return personagemDTO;
     }
 

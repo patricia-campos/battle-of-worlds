@@ -8,11 +8,12 @@ import javax.validation.constraints.NotNull;
 @Data
 public class PersonagemClasseDTO {
 
+
     @Schema(description = "Id do personagem")
     @NotNull(message = "Id do personagem não pode ser nulo")
     private int idPersonagem;
 
-    @Schema(description = "id do jogador")
-    @NotNull
+    @Schema(description = "Classe do personagem")
+    @NotNull(message = "Classe do personagem não pode ser nulo")
     ClassePersonagemCreateDTO classePersonagemCreateDTO;
 }

@@ -51,6 +51,7 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             stmt.setDouble(5, objeto.getAtaqueClasse());
 
             int res = stmt.executeUpdate();
+            objeto.setIdClassePersonagem(idClasse);
             System.out.println("Classe adicionada com sucesso");
             return objeto;
 
