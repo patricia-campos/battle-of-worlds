@@ -62,8 +62,6 @@ public class CenarioController {
 
     //=================================================================================================================
 
-    //todo checar o id
-
     @Operation(summary = "Alterar dados de cenário cadastrado",
             description = "Altera os dados de cenário cadastrado")
 
@@ -75,10 +73,9 @@ public class CenarioController {
             }
     )
 
-    @PutMapping("/{idCenario}") // (deve receber todos os dados)
-    public ResponseEntity<CenarioDTO> update(@PathVariable("id") Integer id,
-                                             @Valid @RequestBody CenarioCreateDTO cenarioDTO) throws BancoDeDadosException, SQLException {
-        return ResponseEntity.ok(cenarioService.editar(cenarioDTO));
+    @PutMapping("/editar") // (deve receber todos os dados)
+    public CenarioDTO editar(@RequestBody CenarioCreateDTO cenarioDTO, @RequestParam int id) throws BancoDeDadosException, Exception {
+        return cenarioService.editar(cenarioDTO, id);
     }
 
     //=================================================================================================================
