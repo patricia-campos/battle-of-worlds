@@ -67,8 +67,42 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
     }
 
     @Override
-    public Batalha editar(Integer id, Batalha batalha) throws BancoDeDadosException {
-        return batalha;
+    public Batalha editar(Integer id, Batalha batalha) throws BancoDeDadosException, SQLException {
+        Connection connection = dbConfiguration.getConnection();
+        try {
+            String sql = """
+                    UPDATE BATALHA
+                    SET ID_CENARIO = ?, ID_JOGADOR = ?, ID_BOSS = ?, ROUND_BATALHA = ?, STATUS = ?
+                    WHERE ID_BATALHA = ?""";
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setInt(1, batalha.getIdCenario());
+            stmt.setInt(2, batalha.getIdJogador());
+            stmt.setInt(3, batalha.getIdBoss());
+            stmt.setInt(4, batalha.getRoundBatalha());
+            stmt.setString(5, batalha.getStatus());
+            stmt.setInt(6, batalha.getIdBatalha());
+
+
+            stmt.executeUpdate();
+            batalha.setIdBatalha(id);
+            return batalha;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new BancoDeDadosException(e.getCause());
+
+        } finally {
+
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

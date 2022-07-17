@@ -1,9 +1,12 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.CenarioMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioDTO;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
 import br.com.dbc.trabalhofinalmodulo2.repository.CenarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,19 +40,24 @@ public class CenarioService {
     }
 
 
-    //todo checar id no repository pq n passa como parametro id no controller
-    public CenarioDTO editar(CenarioCreateDTO cenario) throws BancoDeDadosException, SQLException {
-
+    public CenarioDTO editar(CenarioCreateDTO cenario, int id) throws BancoDeDadosException, Exception {
+        buscarCenario(id);
         return cenarioMapper
-                .toCreateDTO(cenarioRepository.editar(cenarioMapper
-                                .fromCreateDTO(cenario)
-                                .getIdCenario(), cenarioMapper.fromCreateDTO(cenario)));
+                .toCreateDTO(cenarioRepository.editar(id, cenarioMapper.fromCreateDTO(cenario)));
     }
 
 
     public void remover(int id) throws BancoDeDadosException, SQLException {
 
         cenarioRepository.remover(id);
+    }
+
+    public Cenario buscarCenario(int id) throws BancoDeDadosException, Exception {
+        Cenario cenario = cenarioRepository.findCenarioById(id);
+        if (cenario == null) {
+            throw new NaoEncontradoException("Cenário não encontrado");
+        }
+        return cenario;
     }
 
 }

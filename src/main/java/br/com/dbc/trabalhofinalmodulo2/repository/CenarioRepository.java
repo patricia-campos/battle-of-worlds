@@ -45,9 +45,6 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
             stmt.setString(1, object.getNomeCenario());
             stmt.setString(2, object.getTipoReino().toString());
 
-            System.out.println(object.getNomeCenario());
-            System.out.println(object.getTipoReino());
-
             stmt.executeUpdate();
             System.out.println("Cenário adicionado com sucesso!");
 
@@ -92,25 +89,22 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
     public Cenario editar(Integer id, Cenario cenario) throws BancoDeDadosException, SQLException {
         Connection connection = dbConfiguration.getConnection();
         try {
-            StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE CENARIO SET ");
-            sql.append(" NOME_CENARIO = ?,");
-            sql.append(" HORARIO = ?,");
-            sql.append(" TIPO_REINO = ?");
-            sql.append("WHERE ID_CENARIO = ? ");
+            String sql = "UPDATE CENARIO SET " +
+                    " NOME_CENARIO = ?," +
+                    " HORARIO = CURRENT_DATE," +
+                    " TIPO_REINO = ?" +
+                    "WHERE ID_CENARIO = ? ";
 
-            PreparedStatement stmt = connection.prepareStatement(sql.toString());
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, cenario.getNomeCenario());
-            stmt.setDate(2, (Date) cenario.getHorario());
+            stmt.setString(2, cenario.getTipoReino().toString());
+            stmt.setInt(3, id);
 
-            //String tipoReino = cenario.getTipoReino().; //jogando o resultado do sql em uma variável
-           //TipoReino tipoReino1 = TipoReino.ofTipo(tipoReino); //convertendo conteúdo do enum trazendo a desc
+            stmt.executeUpdate();
+            cenario.setIdCenario(id);
 
-            stmt.setString(3, cenario.getTipoReino().getTipo());
-
-            int res = stmt.executeUpdate();
-            System.out.println("Cenario editado com sucesso" + res);
+            System.out.println("Cenario editado com sucesso");
 
             return cenario;
         } catch (SQLException e) {
@@ -183,7 +177,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
                 cenario.setIdCenario(res.getInt("ID_CENARIO"));
                 cenario.setNomeCenario(res.getString("NOME_CENARIO"));
 
-                Integer tipoReino = res.getInt("TIPO_REINO"); //jogando o resultado do sql em uma variável
+                String tipoReino = res.getString("TIPO_REINO"); //jogando o resultado do sql em uma variável
                 TipoReino tipoReino1 = TipoReino.ofTipo(tipoReino); //convertendo conteúdo do enum trazendo a desc
                 cenario.setTipoReino(tipoReino1); //set
 
