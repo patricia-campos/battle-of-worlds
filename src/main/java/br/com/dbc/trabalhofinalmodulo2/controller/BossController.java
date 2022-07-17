@@ -69,7 +69,7 @@ public class BossController {
             }
     )
     @DeleteMapping("/deletar")
-    public void editar(@RequestParam int id) throws BancoDeDadosException, SQLException {
+    public void editar(@RequestParam int id) throws BancoDeDadosException, Exception {
         bossService.remover(id);
     }
 

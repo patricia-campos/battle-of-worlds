@@ -36,6 +36,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
         Connection connection = dbConfiguration.getConnection();
         try {
 
+            int id = getProximoId(connection);
             String sql = "INSERT INTO CENARIO (ID_CENARIO, NOME_CENARIO, HORARIO, TIPO_REINO)\n" +
                     "\tVALUES (SEQ_CENARIO.nextval, ?, CURRENT_DATE, ?)";
 
@@ -43,6 +44,9 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
             stmt.setString(1, object.getNomeCenario());
             stmt.setString(2, object.getTipoReino().toString());
+
+            System.out.println(object.getNomeCenario());
+            System.out.println(object.getTipoReino());
 
             stmt.executeUpdate();
             System.out.println("Cenário adicionado com sucesso!");
@@ -99,7 +103,11 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
             stmt.setString(1, cenario.getNomeCenario());
             stmt.setDate(2, (Date) cenario.getHorario());
-//            stmt.set(3, object.getTipoCenario());
+
+            //String tipoReino = cenario.getTipoReino().; //jogando o resultado do sql em uma variável
+           //TipoReino tipoReino1 = TipoReino.ofTipo(tipoReino); //convertendo conteúdo do enum trazendo a desc
+
+            stmt.setString(3, cenario.getTipoReino().getTipo());
 
             int res = stmt.executeUpdate();
             System.out.println("Cenario editado com sucesso" + res);
@@ -135,9 +143,9 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
                 cenario.setNomeCenario(res.getString("NOME_CENARIO"));
                 cenario.setHorario(res.getDate("HORARIO"));
 
-                String tipoReino = res.getString("TIPO_REINO");
-                TipoReino tipoReino1 = TipoReino.valueOf(tipoReino);
-                cenario.setTipoReino(tipoReino1);
+                String tipoReino = res.getString("TIPO_REINO"); //jogando o resultado do sql em uma variável
+                TipoReino tipoReino1 = TipoReino.ofTipo(tipoReino); //convertendo conteúdo do enum trazendo a desc
+                cenario.setTipoReino(tipoReino1); //set
 
                 cenarios.add(cenario);
             }
@@ -175,9 +183,9 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
                 cenario.setIdCenario(res.getInt("ID_CENARIO"));
                 cenario.setNomeCenario(res.getString("NOME_CENARIO"));
 
-                String tipoReino = res.getString("TIPO_REINO");
-                TipoReino tipoReino1 = TipoReino.valueOf(tipoReino);
-                cenario.setTipoReino(tipoReino1);
+                Integer tipoReino = res.getInt("TIPO_REINO"); //jogando o resultado do sql em uma variável
+                TipoReino tipoReino1 = TipoReino.ofTipo(tipoReino); //convertendo conteúdo do enum trazendo a desc
+                cenario.setTipoReino(tipoReino1); //set
 
                 cenario.setHorario(res.getDate("HORARIO"));
                 return cenario;

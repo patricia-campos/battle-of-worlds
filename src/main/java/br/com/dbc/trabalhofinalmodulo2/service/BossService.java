@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.BossMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossDTO;
@@ -30,21 +31,24 @@ public class BossService {
     }
 
     public BossDTO adicionar(BossCreateDTO boss) throws BancoDeDadosException, SQLException {
-            return bossMapper.toBossDTO(bossRepository.adicionar(bossMapper.toCreateFromBoss(boss)));
+        return bossMapper.toBossDTO(bossRepository.adicionar(bossMapper.toCreateFromBoss(boss)));
     }
 
-    public void remover(int id) throws BancoDeDadosException, SQLException {
-            bossRepository.remover(id);
+    public void remover(int id) throws BancoDeDadosException, Exception {
+        buscarBoss(id);
+        bossRepository.remover(id);
     }
 
     public BossDTO editar(BossCreateDTO boss, int id) throws BancoDeDadosException, Exception {
-        if(buscarBoss(id) == null){
-
-        }
+        buscarBoss(id);
         return bossMapper.toBossDTO(bossRepository.editar(id, bossMapper.toCreateFromBoss(boss)));
     }
 
     public Boss buscarBoss(int id) throws BancoDeDadosException, Exception {
-        return bossRepository.buscarBoss(id);
+        Boss boss = bossRepository.buscarBoss(id);
+        if (boss == null) {
+            throw new NaoEncontradoException("Boss não encontrado");
+        }
+        return boss;
     }
 }
