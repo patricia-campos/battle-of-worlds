@@ -50,7 +50,7 @@ public class PersonagemClasseService {
             classePersonagem.setAtaqueClasse(150.0);
             classePersonagem.setDefesaClasse(150.0);
         }
-        classePersonagem.setTipoPersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
+        classePersonagem.setTipoClassePersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
 
 
         Personagem personagem = personagemMapper.fromCreateDTO(personagemService.listarPorId(classePersonagem.getIdPersonagem()));

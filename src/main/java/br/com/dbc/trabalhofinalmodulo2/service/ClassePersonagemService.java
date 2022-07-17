@@ -33,10 +33,7 @@ public class ClassePersonagemService {
 
 
     public List<ClassePersonagemDTO> listarClassePersonagem() throws BancoDeDadosException, SQLException {
-        List<ClassePersonagem> listClasse = classePersonagemRepository.listar();
-        List<ClassePersonagemDTO> listaDTO = listClasse.stream().map(classePersonagemMapper::toClassePersonagemDTO).toList();
-        listaDTO.forEach(p -> listClasse.stream().filter(p1 -> p1.getIdClassePersonagem() == p.getIdClassePersonagem()).forEach(p2 -> p.setTipoClassePersonagem(p2.getTipoPersonagem())));
-        return listaDTO;
+        return classePersonagemRepository.listar().stream().map(classePersonagemMapper::toClassePersonagemDTO).toList();
     }
 
     public ClassePersonagemPostDTO retornaClassePorPersonagem(Integer idPersonagem) throws BancoDeDadosException, SQLException {
