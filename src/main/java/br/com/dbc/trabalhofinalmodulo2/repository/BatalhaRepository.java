@@ -42,19 +42,20 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
             String sql = """
                          INSERT INTO BATALHA
                          (ID_BATALHA, ID_CENARIO, ID_JOGADOR, ID_BOSS, ROUND_BATALHA, STATUS)
-                         VALUES(SEQ_BATALHA.nextval, ?, ?, ?, ?, ?)
+                         VALUES(?, ?, ?, ?, ?, ?)
                         """;
 
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, object.getIdCenario());
-            stmt.setInt(2, object.getIdJogador());
-            stmt.setInt(3, object.getIdBoss());
-            stmt.setInt(4, object.getRoundBatalha());
-            stmt.setString(5, object.getStatus());
+            stmt.setInt(1, proximoId);
+            stmt.setInt(2, object.getIdCenario());
+            stmt.setInt(3, object.getIdJogador());
+            stmt.setInt(4, object.getIdBoss());
+            stmt.setInt(5, object.getRoundBatalha());
+            stmt.setString(6, object.getStatus());
 
-
+            object.setIdBatalha(proximoId);
             stmt.executeUpdate();
-
+            return object;
         } catch (SQLException e) {
             e.printStackTrace();
         }
