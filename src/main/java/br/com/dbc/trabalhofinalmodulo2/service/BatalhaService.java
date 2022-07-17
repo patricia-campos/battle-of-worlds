@@ -1,11 +1,11 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
+import br.com.dbc.trabalhofinalmodulo2.mapper.BossMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.VidaMenorQueZero;
 import br.com.dbc.trabalhofinalmodulo2.mapper.BatalhaMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
@@ -28,13 +28,16 @@ public class BatalhaService {
     BatalhaMapper batalhaMapper;
 
     @Autowired
-    BossRepository bossRepository;
+    BossMapper bossMapper;
 
     @Autowired
-    CenarioRepository cenarioRepository;
+    BossService bossService;
 
     @Autowired
-    JogadorRepository jogadorRepository;
+    CenarioService cenarioService;
+
+    @Autowired
+    JogadorService jogadorService;
 
     @Autowired
     PersonagemRepository personagemRepository;
@@ -43,7 +46,10 @@ public class BatalhaService {
     ClassePersonagemRepository classePersonagemRepository;
 
 
-    public BatalhaDTO adicionar(BatalhaCreateDTO batalha) throws BancoDeDadosException, SQLException {
+    public BatalhaDTO adicionar(BatalhaCreateDTO batalha) throws BancoDeDadosException, Exception {
+        jogadorService.listarPorId(batalha.getIdJogador());
+        bossService.buscarBoss(batalha.getIdBoss());
+        cenarioService.buscarCenario(batalha.getIdCenario());
         Batalha batalha1 = batalhaMapper.fromCreateDTO(batalha);
         return batalhaMapper.toBatalhaDTO(batalhaRepository.adicionar(batalha1));
     }
@@ -65,11 +71,11 @@ public class BatalhaService {
         batalhaRepository.editar(id, batalha);
     }
 
-    public String atacar(int idBatalha) throws BossNaoEncontradoException, BancoDeDadosException, VidaMenorQueZero, SQLException {
+    public String atacar(int idBatalha) throws Exception, BancoDeDadosException {
 
 
         Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
-        Boss bossAtacado = bossRepository.buscarBoss(batalha.getIdBoss());
+        Boss bossAtacado = bossService.buscarBoss(batalha.getIdBoss());
         Personagem personagem = personagemRepository.retornaPersonagemPorJogador(batalha.getIdJogador());
         ClassePersonagem classePersonagem = classePersonagemRepository.listarClassePorPersonagemID(personagem.getId());
         if (bossAtacado.getVida() <= 0) {
@@ -82,14 +88,15 @@ public class BatalhaService {
         Double danoEfetuado = defesaBoss - ataqueDoJogador;
         Double vidaNova = bossAtacado.getVida() - danoEfetuado;
         bossAtacado.setVida(vidaNova);
-        bossRepository.editar(batalha.getIdBoss(), bossAtacado);
+
+        bossService.editar(bossMapper.toCreateDTO(bossAtacado), batalha.getIdBoss());
 
         return "Seu dano foi de: " + danoEfetuado + "\nA vida do boss é " + vidaNova;
     }
 
-    public String defender(int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero, SQLException {
+    public String defender(int idBatalha) throws BancoDeDadosException, Exception {
         Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
-        Boss bossAtacado = bossRepository.buscarBoss(batalha.getIdBoss());
+        Boss bossAtacado = bossService.buscarBoss(batalha.getIdBoss());
         Double ataqueBoss = bossAtacado.getAtaque();
         Personagem personagem = personagemRepository.retornaPersonagemPorJogador(batalha.getIdJogador());
         ClassePersonagem classePersonagem = classePersonagemRepository.listarClassePorPersonagemID(personagem.getId());

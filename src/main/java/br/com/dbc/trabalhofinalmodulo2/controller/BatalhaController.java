@@ -30,7 +30,7 @@ public class BatalhaController {
             }
     )
     @PostMapping("/iniciar")
-    public BatalhaDTO iniciar(@RequestBody BatalhaCreateDTO batalhaCreateDTO) throws BancoDeDadosException, SQLException {
+    public BatalhaDTO iniciar(@RequestBody BatalhaCreateDTO batalhaCreateDTO) throws BancoDeDadosException, Exception {
         return batalhaService.adicionar(batalhaCreateDTO);
     }
 
@@ -43,7 +43,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/atacar")
-    public String atacar(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero, SQLException {
+    public String atacar(@RequestParam int idBatalha) throws BancoDeDadosException, Exception {
         return batalhaService.atacar(idBatalha);
     }
 
@@ -56,7 +56,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/defender")
-    public String defender(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, VidaMenorQueZero, SQLException {
+    public String defender(@RequestParam int idBatalha) throws BancoDeDadosException, Exception {
         return batalhaService.defender(idBatalha);
     }
 
