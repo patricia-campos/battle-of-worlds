@@ -5,7 +5,6 @@ import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.CenarioMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Cenario;
 import br.com.dbc.trabalhofinalmodulo2.repository.CenarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -132,11 +132,10 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
             while (res.next()) {
                 ClassePersonagem classePersonagem = new ClassePersonagem();
                 classePersonagem.setIdClassePersonagem(res.getInt("ID_CLASSE_PERSONAGEM"));
-
                 String nomeClassePersonagem = res.getString("NOME_CLASSE_PERSONAGEM");
                 TipoClassePersonagem tipoClassePersonagem = TipoClassePersonagem.valueOf(nomeClassePersonagem);
-
                 classePersonagem.setTipoPersonagem(tipoClassePersonagem);
+
 
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));
                 classePersonagem.setDefesaClasse(res.getDouble("DEFESA_PERSONAGEM"));
