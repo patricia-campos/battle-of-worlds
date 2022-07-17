@@ -61,7 +61,7 @@ public class BatalhaService {
     }
 
     //No momento do projeto não está implementado
-    public void editar(Integer id, Batalha batalha) throws BancoDeDadosException {
+    public void editar(Integer id, Batalha batalha) throws BancoDeDadosException, SQLException {
         batalhaRepository.editar(id, batalha);
     }
 
@@ -112,7 +112,7 @@ public class BatalhaService {
     public String fugir(int idBatalha) throws BancoDeDadosException, SQLException {
         Batalha batalha = batalhaRepository.buscarBatalha(idBatalha);
         batalha.setStatus("Derrota");
-        batalhaRepository.adicionar(batalha);
+        batalhaRepository.editar(batalha.getIdBatalha(),batalha);
 
         return "Você fugiu com sucesso o boss era de mais para você :( ";
     }
