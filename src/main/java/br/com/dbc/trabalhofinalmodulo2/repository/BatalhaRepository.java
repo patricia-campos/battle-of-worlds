@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public class BatalhaRepository implements Repositorio<Integer, Batalha> {
-
+//Criar idPersonagem na batalha em vez de idJogador
 
     @Autowired
     private DbConfiguration dbConfiguration;
