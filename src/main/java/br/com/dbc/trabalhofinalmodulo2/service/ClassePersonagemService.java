@@ -35,8 +35,8 @@ public class ClassePersonagemService {
         return classePersonagemRepository.listar().stream().map(classePersonagemMapper::toClassePersonagemDTO).toList();
     }
 
-    public ClassePersonagem retornaClassePorPersonagem(Integer idPersonagem) throws BancoDeDadosException, SQLException {
-        return classePersonagemRepository.listarClassePorPersonagemID(idPersonagem);
+    public ClassePersonagemPostDTO retornaClassePorPersonagem(Integer idPersonagem) throws BancoDeDadosException, SQLException {
+        return classePersonagemMapper.fromCreateDTOClasse(classePersonagemRepository.listarClassePorPersonagemID(idPersonagem));
     }
 }
 

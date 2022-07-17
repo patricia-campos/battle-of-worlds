@@ -39,4 +39,8 @@ public class ClassePersonagemMapper {
         return objectMapper.convertValue(classePersonagem, ClassePersonagemDTO.class);
     }
 
+    public ClassePersonagemPostDTO fromCreateDTOClasse(ClassePersonagem classePersonagem) {
+        return objectMapper.convertValue(classePersonagem, ClassePersonagemPostDTO.class);
+    }
+
 }

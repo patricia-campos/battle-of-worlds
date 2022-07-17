@@ -47,14 +47,15 @@ public class PersonagemService {
     }
 
     public List<PersonagemDTO> listarTodos() throws BancoDeDadosException, SQLException {
-         personagemRepository.listar().stream().map(personagemMapper::toDTO).toList().forEach(p -> {
-            try {
-                p.setClassePersonagem(classePersonagemMapper.fromCreateClasse(classePersonagemService.retornaClassePorPersonagem(p.getId())));
-            } catch (BancoDeDadosException | SQLException e) {
-                throw new RuntimeException(e);
-            }
+        List<PersonagemDTO> listaDto = personagemRepository.listar().stream().map(personagemMapper::toDTO).toList();
+        listaDto.forEach(p -> {
+             try {
+                 p.setClassePersonagem(classePersonagemService.retornaClassePorPersonagem(p.getId()));
+             } catch (BancoDeDadosException | SQLException e) {
+                 e.printStackTrace();
+             }
         });
-         return personagemRepository.listar().stream().map(personagemMapper::toDTO).toList();
+         return listaDto;
     }
 
     public PersonagemDTO editar(PersonagemPutDTO personagem, Integer idPersonagem) throws BancoDeDadosException, SQLException, NaoEncontradoException {
