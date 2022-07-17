@@ -63,7 +63,7 @@ public class JogadorController {
             }
     )
     @PostMapping
-    public ResponseEntity<JogadorDTO> post(@Valid @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException {
+    public ResponseEntity<JogadorDTO> post(@Valid @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         return ResponseEntity.ok(jogadorService.adicionar(jogadorDTO));
     }
 

@@ -28,10 +28,10 @@ public class JogadorService {
     @Autowired
     private EmailService emailService;
 
-    public JogadorDTO adicionar(JogadorCreateDTO jogador) throws BancoDeDadosException, SQLException {
+    public JogadorDTO adicionar(JogadorCreateDTO jogador) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         log.info("Jogador criado");
          if (jogadorRepository.listarPorNome(jogador.getNomeJogador()).isPresent()) {
-             throw new BancoDeDadosException("Jogador já existe");
+             throw new NaoEncontradoException("Jogador já existe");
          }
         Jogador jogadorEntity = jogadorMapper.fromCreateDTO(jogador);
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRepository.adicionar(jogadorEntity));
