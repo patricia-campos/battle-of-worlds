@@ -3,7 +3,6 @@ package br.com.dbc.trabalhofinalmodulo2.controller;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BossDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Boss;
 import br.com.dbc.trabalhofinalmodulo2.service.BossService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
