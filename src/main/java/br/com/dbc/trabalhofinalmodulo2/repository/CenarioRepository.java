@@ -185,7 +185,7 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
                 return cenario;
             }
 
-            return cenario;
+            return null;
 
         } catch (SQLException e) {
             e.printStackTrace();

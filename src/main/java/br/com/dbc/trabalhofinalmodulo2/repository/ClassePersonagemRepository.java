@@ -83,28 +83,27 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
 
         try {
 
-            StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE CLASSE_PERSONAGEM SET ");
-            sql.append("ID_PERSONAGEM = ?,");
-            sql.append("NOME_CLASSE_PERSONAGEM = ?,");
-            sql.append("VIDA_PERSONAGEM = ?,");
-            sql.append("DEFESA_PERSONAGEM = ?,");
-            sql.append("ATAQUE_PERSONAGEM");
-            sql.append("WHERE ID_CLASSE_PERSONAGEM = ?");
+            String sql = "UPDATE CLASSE_PERSONAGEM SET " +
+                    "ID_PERSONAGEM = ?," +
+                    "NOME_CLASSE_PERSONAGEM = ?," +
+                    "VIDA_PERSONAGEM = ?," +
+                    "DEFESA_PERSONAGEM = ?," +
+                    "ATAQUE_PERSONAGEM = ? " +
+                    "WHERE ID_CLASSE_PERSONAGEM = ?";
 
-            PreparedStatement stmt = connection.prepareStatement(sql.toString());
+            PreparedStatement stmt = connection.prepareStatement(sql);
 
             stmt.setDouble(1, id);
             stmt.setString(2, object.getTipoPersonagem().toString());
             stmt.setDouble(3, object.getVidaClasse());
             stmt.setDouble(4, object.getDefesaClasse());
             stmt.setDouble(5, object.getAtaqueClasse());
-            stmt.setDouble(6, object.getIdClassePersonagem());
+            stmt.setInt(6, object.getIdClassePersonagem());
 
-            int res = stmt.executeUpdate();
-            System.out.println("Editado com sucesso");
+            stmt.executeUpdate();
             return object;
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
@@ -176,11 +175,8 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
                 ClassePersonagem classePersonagem = new ClassePersonagem();
                 classePersonagem.setIdClassePersonagem(res.getInt("ID_CLASSE_PERSONAGEM"));
                 classePersonagem.setIdPersonagem(res.getInt("ID_PERSONAGEM"));
-
-
                 String nomeClassePersonagem = res.getString("NOME_CLASSE_PERSONAGEM");
                 TipoClassePersonagem tipoClassePersonagem = TipoClassePersonagem.valueOf(nomeClassePersonagem);
-
                 classePersonagem.setTipoPersonagem(tipoClassePersonagem);
                 classePersonagem.setAtaqueClasse(res.getDouble("ATAQUE_PERSONAGEM"));
                 classePersonagem.setVidaClasse(res.getDouble("VIDA_PERSONAGEM"));

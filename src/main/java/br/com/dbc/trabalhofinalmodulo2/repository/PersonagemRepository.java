@@ -210,8 +210,10 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
                 personagem.setNomePersonagem(res.getString("NOME_PERSONAGEM"));
                 personagem.setId(res.getInt("ID_PERSONAGEM"));
                 personagem.setIdJogador(res.getInt("ID_JOGADOR"));
-                return Objects.equals(personagem.getId(), id) ? personagem : null;
-            } else return null;
+                return personagem;
+            }
+
+            return null;
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {
