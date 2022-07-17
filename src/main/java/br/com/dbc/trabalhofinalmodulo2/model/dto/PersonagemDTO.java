@@ -1,6 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.model.dto;
 
-import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
+import br.com.dbc.trabalhofinalmodulo2.service.ClassePersonagemPostDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -15,6 +15,6 @@ public class PersonagemDTO extends PersonagemCreateDTO {
     private int idJogador;
 
     @NotNull
-    ClassePersonagem classePersonagem;
+    ClassePersonagemPostDTO classePersonagem;
 
 }
