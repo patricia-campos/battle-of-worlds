@@ -103,16 +103,16 @@ public class EmailService {
 
     //=================================== E-MAIL JOGADOR EXCLUÍDO ===================================
 
-    public void sendEmailJogadorExcluido(Jogador jogador) {
+    public void sendEmailJogadorExcluido(JogadorCreateDTO jogadorDTO) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
 
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setFrom(from);
-            mimeMessageHelper.setTo(jogador.getEmail());
-            mimeMessageHelper.setSubject(jogador.getNomeJogador() + ", você está nos deixando?");
-            mimeMessageHelper.setText(buscarConteudoJogadorExcluido(jogador));
+            mimeMessageHelper.setTo(jogadorDTO.getEmail());
+            mimeMessageHelper.setSubject(jogadorDTO.getNomeJogador() + ", você está nos deixando?");
+            mimeMessageHelper.setText(buscarConteudoJogadorExcluido(jogadorDTO), true);
 
             emailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException | IOException | TemplateException e) {
@@ -121,11 +121,11 @@ public class EmailService {
     }
 
     // MÉTODO QUE BUSCA NO DTO OS DADOS QUE SERÃO INSERIDOS NO TEMPLATE DO EMAIL
-    public String buscarConteudoJogadorExcluido(Jogador jogador) throws IOException, TemplateException {
+    public String buscarConteudoJogadorExcluido(JogadorCreateDTO jogadorDTO) throws IOException, TemplateException {
 
         Map<String, Object> dados = new HashMap<>();
 
-        dados.put("nome", jogador.getNomeJogador() + ", o Reino sentirá falta da sua presença ...");
+        dados.put("nome", jogadorDTO.getNomeJogador() + ", o Reino sentirá falta da sua presença ...");
         dados.put("mensagem", "Seu cadastro foi excluído com sucesso, mas você pode voltar quando quiser! ");
         dados.put("email", "Qualquer dúvida, nos contate através do e-mail " + from);
 

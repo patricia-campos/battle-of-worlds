@@ -53,7 +53,7 @@ public class JogadorService {
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
 
         //Chama método de envio de e-mail
-        emailService.sendEmailJogadorExcluido(jogadorRecuperado);
+        emailService.sendEmailJogadorExcluido(jogadorDTO);
         log.warn("Enviando E-mail.. " + jogadorDTO.getEmail()+ "!");
 
         jogadorRepository.remover(jogadorDTO.getId());
