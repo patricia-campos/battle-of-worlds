@@ -39,16 +39,19 @@ public class ClassePersonagemRepository implements Repositorio<Integer, ClassePe
     public ClassePersonagem adicionar(ClassePersonagem objeto, int idPersonagem) throws BancoDeDadosException, SQLException {
         Connection connection = dbConfiguration.getConnection();
         try {
-
+            int idClasse = getProximoId(connection);
             String sql = "INSERT INTO CLASSE_PERSONAGEM (ID_CLASSE_PERSONAGEM, ID_PERSONAGEM, NOME_CLASSE_PERSONAGEM, VIDA_PERSONAGEM, DEFESA_PERSONAGEM, ATAQUE_PERSONAGEM)\n" +
-                    "\tVALUES (SEQ_CLASSE_PERSONAGEM.nextval, ?, ?, ?, ?, ?)";
+                    "\tVALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setDouble(1, idPersonagem);
-            stmt.setString(2, objeto.getTipoPersonagem().toString());
-            stmt.setDouble(3, objeto.getVidaClasse());
-            stmt.setDouble(4, objeto.getDefesaClasse());
-            stmt.setDouble(5, objeto.getAtaqueClasse());
+            stmt.setInt(1, idClasse);
+            stmt.setDouble(2, idPersonagem);
+            stmt.setString(3, objeto.getTipoPersonagem().toString());
+            stmt.setDouble(4, objeto.getVidaClasse());
+            stmt.setDouble(5, objeto.getDefesaClasse());
+            stmt.setDouble(6, objeto.getAtaqueClasse());
+
+
 
             int res = stmt.executeUpdate();
             objeto.setIdClassePersonagem(idClasse);

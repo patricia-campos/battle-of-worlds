@@ -60,6 +60,7 @@ public class PersonagemClasseService {
         personagemDTO.getClassePersonagem().setTipoPersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
 
         classePersonagemRepository.adicionar(classePersonagem,personagem.getId());
+        personagemDTO.getClassePersonagem().setIdClassePersonagem(classePersonagem.getIdClassePersonagem());
 
         return personagemDTO;
     }
