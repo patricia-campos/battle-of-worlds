@@ -175,7 +175,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
         return bossList;
     }
 
-    public Boss buscarBoss(int id) throws BossNaoEncontradoException, BancoDeDadosException, SQLException {
+    public Boss buscarBoss(int id) throws BancoDeDadosException, SQLException {
         Connection connection = dbConfiguration.getConnection();
         try {
             String sql = "SELECT * FROM BOSS WHERE ID_BOSS = ?";
@@ -195,7 +195,7 @@ public class BossRepository implements Repositorio<Integer, Boss> {
                 return boss;
             }
 
-            return boss;
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new BancoDeDadosException(e.getCause());
