@@ -75,17 +75,4 @@ public class BossController {
         bossService.remover(id);
     }
 
-    @Operation(summary = "Lista os Bosses", description = "Lista todos os Bosses")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Lista com todos os bosses"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @GetMapping("/retornaBoss")
-    public Boss retorna(@RequestParam int id) throws BancoDeDadosException, Exception {
-        return bossService.buscarBoss(id);
-    }
-
 }
