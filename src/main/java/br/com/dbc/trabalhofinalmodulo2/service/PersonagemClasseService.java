@@ -55,7 +55,6 @@ public class PersonagemClasseService {
         personagemDTO.setClassePersonagem(classePersonagem);
         personagemDTO.getClassePersonagem().setTipoPersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
 
-        personagemRepository.adicionar(personagem,personagem.getIdJogador());
         classePersonagemRepository.adicionar(classePersonagem,personagem.getId());
 
         return personagemDTO;

@@ -22,6 +22,10 @@ public class PersonagemMapper {
         return objectMapper.convertValue(personagemCreateDTO, Personagem.class);
     }
 
+    public Personagem fromCreateDTO(PersonagemDTO personagemDTO) {
+        return objectMapper.convertValue(personagemDTO, Personagem.class);
+    }
+
 //    public PersonagemDTO toDTOPut(Personagem personagem) {
 //        return objectMapper.convertValue(personagem, PersonagemDTO.class);
 //    }

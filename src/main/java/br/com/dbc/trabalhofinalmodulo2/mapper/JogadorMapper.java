@@ -19,4 +19,8 @@ public class JogadorMapper {
     public Jogador fromCreateDTO(JogadorCreateDTO jogadorCreateDTO) {
         return objectMapper.convertValue(jogadorCreateDTO, Jogador.class);
     }
+
+    public Jogador fromCreateDTO(JogadorDTO jogadorDTO) {
+        return objectMapper.convertValue(jogadorDTO, Jogador.class);
+    }
 }

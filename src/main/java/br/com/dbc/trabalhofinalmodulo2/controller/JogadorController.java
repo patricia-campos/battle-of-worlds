@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
 import br.com.dbc.trabalhofinalmodulo2.service.EmailService;
@@ -49,7 +50,7 @@ public class JogadorController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<JogadorDTO> buscar(@PathVariable Integer id) throws BancoDeDadosException, SQLException {
+    public ResponseEntity<JogadorDTO> buscar(@PathVariable Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         return ResponseEntity.ok(jogadorService.listarPorId(id));
     }
 
@@ -76,7 +77,7 @@ public class JogadorController {
     )
     @PutMapping("/{id}")
     public ResponseEntity<JogadorDTO> put(@PathVariable("id") Integer id,
-                                          @Validated @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException {
+                                          @Validated @RequestBody JogadorCreateDTO jogadorDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         return ResponseEntity.ok(jogadorService.editar(jogadorDTO, id));
     }
 
@@ -89,7 +90,7 @@ public class JogadorController {
             }
     )
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) throws BancoDeDadosException, SQLException {
+    public void delete(@PathVariable("id") Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         jogadorService.remover(jogadorService.listarPorId(id));
     }
 }

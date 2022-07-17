@@ -1,6 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.JogadorMapper;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
@@ -58,9 +59,9 @@ public class JogadorService {
         jogadorRepository.remover(jogadorDTO.getId());
     }
 
-    public JogadorDTO editar(JogadorCreateDTO jogador, Integer id) throws BancoDeDadosException, SQLException {
+    public JogadorDTO editar(JogadorCreateDTO jogador, Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         log.info("Jogador Editado");
-        Jogador jogadorRecuperado = jogadorRepository.listarPorId(id);
+        Jogador jogadorRecuperado = jogadorMapper.fromCreateDTO(listarPorId(id));
         jogadorRecuperado.setNomeJogador(jogador.getNomeJogador());
         jogadorRecuperado.setSenha(jogador.getSenha());
         jogadorRecuperado.setEmail(jogador.getEmail());
@@ -77,18 +78,14 @@ public class JogadorService {
         return jogadorRepository.listarPorNome(nome);
     }
 
-//    public Jogador findById(Integer idPessoa) throws BancoDeDadosException {
-//        Jogador pessoaRecuperada = jogadorRepository.listar().stream()
-//                .filter(pessoa -> pessoa.getId().equals(idPessoa))
-//                .findFirst()
-//                .orElseThrow(() -> new BancoDeDadosException("Pessoa não encontrada"));
-//        JogadorDTO jogadorDTO = jogadorMapper.toDTO(pessoaRecuperada);
-//        return pessoaRecuperada;
-//    }
-
-    public JogadorDTO listarPorId(Integer id) throws BancoDeDadosException, SQLException {
+    public JogadorDTO listarPorId(Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         Jogador jogadorRecuperado = jogadorRepository.listarPorId(id);
+        if (jogadorRecuperado == null) {
+            throw new NaoEncontradoException("Jogador não encontrado");
+        }
+        jogadorMapper.toDTO(jogadorRecuperado);
         JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
         return jogadorDTO;
     }
+
 }

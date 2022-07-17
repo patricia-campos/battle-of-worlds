@@ -1,10 +1,13 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
+import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemPutDTO;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.mapper.PersonagemMapper;
+import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
 import br.com.dbc.trabalhofinalmodulo2.model.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.repository.PersonagemRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -42,11 +45,11 @@ public class PersonagemService {
         return personagemRepository.listar().stream().map(personagemMapper::toDTO).toList();
     }
 
-    public PersonagemDTO editar(PersonagemPutDTO personagem, Integer idPersonagem) throws BancoDeDadosException, SQLException {
+    public PersonagemDTO editar(PersonagemPutDTO personagem, Integer idPersonagem) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+        Personagem personagemDoBanco = personagemMapper.fromCreateDTO(listarPorId(idPersonagem));
         if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
             throw new BancoDeDadosException("Personagem já existe");
         }
-        Personagem personagemDoBanco = personagemRepository.listarPorId(idPersonagem);
         personagemDoBanco.setNomePersonagem(personagem.getNomePersonagem());
         personagem.setNomePersonagem(personagem.getNomePersonagem());
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.editar(idPersonagem, personagemDoBanco));
@@ -66,11 +69,15 @@ public class PersonagemService {
         personagemRepository.remover(personagemDTO.getId());
     }
 
-    public PersonagemDTO listarPorId(Integer id) throws BancoDeDadosException, SQLException {
+    public PersonagemDTO listarPorId(Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         Personagem personagemRecuperado = personagemRepository.listarPorId(id);
+        if (personagemRecuperado == null) {
+            throw new NaoEncontradoException("Personagem não encontrado");
+        }
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRecuperado);
         return personagemDTO;
     }
+
 
     public void listarPersonagemsPorJogador(int idJogador) throws BancoDeDadosException, SQLException {
         List<Personagem> listaPersonagem = personagemRepository.listar().stream().filter(a -> Objects.equals(a.getIdJogador(), idJogador)).collect(Collectors.toList());
