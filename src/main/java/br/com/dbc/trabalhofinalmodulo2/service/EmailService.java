@@ -1,7 +1,7 @@
 package br.com.dbc.trabalhofinalmodulo2.service;
 
-import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorCreateDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Jogador;
+import br.com.dbc.trabalhofinalmodulo2.dto.JogadorCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.entities.Jogador;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;

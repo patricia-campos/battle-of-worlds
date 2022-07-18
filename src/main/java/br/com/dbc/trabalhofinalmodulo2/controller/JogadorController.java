@@ -2,8 +2,8 @@ package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorCreateDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.JogadorDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.JogadorCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.JogadorDTO;
 import br.com.dbc.trabalhofinalmodulo2.service.EmailService;
 import br.com.dbc.trabalhofinalmodulo2.service.JogadorService;
 import io.swagger.v3.oas.annotations.Operation;

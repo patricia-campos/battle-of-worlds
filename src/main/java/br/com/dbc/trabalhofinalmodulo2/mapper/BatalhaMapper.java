@@ -1,8 +1,8 @@
 package br.com.dbc.trabalhofinalmodulo2.mapper;
 
-import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.Batalha;
+import br.com.dbc.trabalhofinalmodulo2.dto.BatalhaCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.BatalhaDTO;
+import br.com.dbc.trabalhofinalmodulo2.entities.Batalha;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,10 +1,10 @@
 package br.com.dbc.trabalhofinalmodulo2.mapper;
 
-import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemCreateDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.ClassePersonagemDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.PersonagemClasseDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
-import br.com.dbc.trabalhofinalmodulo2.service.ClassePersonagemPostDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.ClassePersonagemCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.ClassePersonagemDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.PersonagemClasseDTO;
+import br.com.dbc.trabalhofinalmodulo2.entities.ClassePersonagem;
+import br.com.dbc.trabalhofinalmodulo2.dto.ClassePersonagemPostDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
-package br.com.dbc.trabalhofinalmodulo2.service;
+package br.com.dbc.trabalhofinalmodulo2.dto;
 
-import br.com.dbc.trabalhofinalmodulo2.model.entities.TipoClassePersonagem;
+import br.com.dbc.trabalhofinalmodulo2.entities.TipoClassePersonagem;
 import lombok.Data;
 
 @Data

@@ -1,8 +1,8 @@
 package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioCreateDTO;
-import br.com.dbc.trabalhofinalmodulo2.model.dto.CenarioDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.CenarioCreateDTO;
+import br.com.dbc.trabalhofinalmodulo2.dto.CenarioDTO;
 import br.com.dbc.trabalhofinalmodulo2.service.CenarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

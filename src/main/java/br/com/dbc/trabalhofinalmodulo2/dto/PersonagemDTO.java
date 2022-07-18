@@ -1,6 +1,5 @@
-package br.com.dbc.trabalhofinalmodulo2.model.dto;
+package br.com.dbc.trabalhofinalmodulo2.dto;
 
-import br.com.dbc.trabalhofinalmodulo2.service.ClassePersonagemPostDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

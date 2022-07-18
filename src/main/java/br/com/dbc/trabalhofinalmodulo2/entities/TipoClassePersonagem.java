@@ -1,4 +1,4 @@
-package br.com.dbc.trabalhofinalmodulo2.model.entities;
+package br.com.dbc.trabalhofinalmodulo2.entities;
 
 public enum TipoClassePersonagem {
 

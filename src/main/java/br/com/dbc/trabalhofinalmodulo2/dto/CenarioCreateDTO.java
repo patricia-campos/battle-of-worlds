@@ -1,6 +1,6 @@
-package br.com.dbc.trabalhofinalmodulo2.model.dto;
+package br.com.dbc.trabalhofinalmodulo2.dto;
 
-import br.com.dbc.trabalhofinalmodulo2.model.entities.TipoReino;
+import br.com.dbc.trabalhofinalmodulo2.entities.TipoReino;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

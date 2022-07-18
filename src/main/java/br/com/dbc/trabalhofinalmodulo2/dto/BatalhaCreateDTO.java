@@ -1,4 +1,4 @@
-package br.com.dbc.trabalhofinalmodulo2.model.dto;
+package br.com.dbc.trabalhofinalmodulo2.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

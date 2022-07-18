@@ -2,8 +2,8 @@ package br.com.dbc.trabalhofinalmodulo2.repository;
 
 import br.com.dbc.trabalhofinalmodulo2.banco.DbConfiguration;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.ClassePersonagem;
-import br.com.dbc.trabalhofinalmodulo2.model.entities.TipoClassePersonagem;
+import br.com.dbc.trabalhofinalmodulo2.entities.ClassePersonagem;
+import br.com.dbc.trabalhofinalmodulo2.entities.TipoClassePersonagem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

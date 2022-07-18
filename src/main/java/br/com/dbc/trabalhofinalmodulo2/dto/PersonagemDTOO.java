@@ -1,4 +1,4 @@
-package br.com.dbc.trabalhofinalmodulo2.model.dto;
+package br.com.dbc.trabalhofinalmodulo2.dto;
 
 import lombok.Data;
 
