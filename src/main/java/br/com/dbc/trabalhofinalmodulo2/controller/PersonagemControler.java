@@ -52,7 +52,7 @@ public class PersonagemControler {
     @PostMapping("/{idJogador}")
     public PersonagemDTO post(@PathVariable("idJogador") Integer idJogador,
                               @Valid @RequestBody PersonagemCreateDTO personagemCreateDTO
-                             ) throws BancoDeDadosException, SQLException {
+                             ) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         return personagemService.adicionar(personagemCreateDTO, idJogador);
     }
 

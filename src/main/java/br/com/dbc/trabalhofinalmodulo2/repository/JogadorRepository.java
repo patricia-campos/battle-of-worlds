@@ -49,13 +49,9 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             stmt.setString(3, object.getSenha());
             stmt.setString(4, object.getEmail());
 
-            int i = stmt.executeUpdate();
+            stmt.executeUpdate();
 
             object.setId(id);
-//            ResultSet rs = connection.prepareStatement("SELECT SEQ_JOGADOR.currval FROM dual").executeQuery();
-//            if (rs.next()) {
-//               object.setId(rs.getInt(1));
-//            }
             System.out.println("Jogador adicionado com sucesso");
 
             return object;
@@ -120,7 +116,7 @@ public class JogadorRepository implements Repositorio<Integer, Jogador> {
             stmt.setInt(4, id);
 
             // Executa-se a consulta
-            int res = stmt.executeUpdate();
+            stmt.executeUpdate();
             System.out.println("Jogador editado com sucesso!");
 
             return jogador;

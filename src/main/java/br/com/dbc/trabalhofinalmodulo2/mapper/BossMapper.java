@@ -26,10 +26,4 @@ public class BossMapper {
         return objectMapper.convertValue(bossCreateDTO, Boss.class);
     }
 
-    public Boss toDTOfromBoss(BossDTO bossDTO) {
-        return objectMapper.convertValue(bossDTO, Boss.class);
-    }
-
-
-
 }

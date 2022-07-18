@@ -10,7 +10,6 @@ import br.com.dbc.trabalhofinalmodulo2.entities.ClassePersonagem;
 import br.com.dbc.trabalhofinalmodulo2.entities.Personagem;
 import br.com.dbc.trabalhofinalmodulo2.entities.TipoClassePersonagem;
 import br.com.dbc.trabalhofinalmodulo2.repository.ClassePersonagemRepository;
-import br.com.dbc.trabalhofinalmodulo2.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +18,6 @@ import java.sql.SQLException;
 
 @Service
 public class PersonagemClasseService {
-
-    @Autowired
-    private PersonagemRepository personagemRepository;
 
     @Autowired
     private ClassePersonagemRepository classePersonagemRepository;

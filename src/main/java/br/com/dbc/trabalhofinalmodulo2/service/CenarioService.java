@@ -40,23 +40,22 @@ public class CenarioService {
 
 
     public CenarioDTO editar(CenarioCreateDTO cenario, int id) throws BancoDeDadosException, Exception {
-        buscarCenario(id);
+        verificarCenario(id);
         return cenarioMapper
                 .toCreateDTO(cenarioRepository.editar(id, cenarioMapper.fromCreateDTO(cenario)));
     }
 
 
     public void remover(int id) throws BancoDeDadosException, Exception {
-        buscarCenario(id);
+        verificarCenario(id);
         cenarioRepository.remover(id);
     }
 
-    public Cenario buscarCenario(int id) throws BancoDeDadosException, Exception {
+    public void verificarCenario(int id) throws BancoDeDadosException, Exception {
         Cenario cenario = cenarioRepository.findCenarioById(id);
         if (cenario == null) {
             throw new NaoEncontradoException("Cenário não encontrado");
         }
-        return cenario;
     }
 
 }

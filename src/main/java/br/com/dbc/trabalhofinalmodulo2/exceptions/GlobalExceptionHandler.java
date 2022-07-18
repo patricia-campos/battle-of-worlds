@@ -42,6 +42,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+
     @ExceptionHandler(VidaMenorQueZero.class)
     public ResponseEntity<Object> handleException(VidaMenorQueZero exception,
                                                   HttpServletRequest request) {

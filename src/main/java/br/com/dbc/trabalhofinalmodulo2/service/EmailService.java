@@ -63,8 +63,7 @@ public class EmailService {
         dados.put("email", "Qualquer dúvida, nos contate através do e-mail " + from);
 
         Template template = fmConfiguration.getTemplate("email-template.html");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
-        return html;
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
     }
 
 
@@ -97,8 +96,7 @@ public class EmailService {
         dados.put("email", "Qualquer dúvida, nos contate através do e-mail " + from);
 
         Template template = fmConfiguration.getTemplate("email-template.html");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
-        return html;
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
     }
 
     //=================================== E-MAIL JOGADOR EXCLUÍDO ===================================
@@ -130,7 +128,6 @@ public class EmailService {
         dados.put("email", "Qualquer dúvida, nos contate através do e-mail " + from);
 
         Template template = fmConfiguration.getTemplate("email-template.html");
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
-        return html;
+        return FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
     }
 }

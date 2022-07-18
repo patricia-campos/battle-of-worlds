@@ -2,7 +2,6 @@ package br.com.dbc.trabalhofinalmodulo2.service;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
-import br.com.dbc.trabalhofinalmodulo2.mapper.ClassePersonagemMapper;
 import br.com.dbc.trabalhofinalmodulo2.mapper.PersonagemMapper;
 import br.com.dbc.trabalhofinalmodulo2.dto.PersonagemCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.dto.PersonagemDTO;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -31,19 +28,14 @@ public class PersonagemService {
     @Autowired
     private ClassePersonagemService classePersonagemService;
 
-    @Autowired
-    private ClassePersonagemMapper classePersonagemMapper;
-
-
-    public PersonagemDTO adicionar(PersonagemCreateDTO personagem, Integer idJogador) throws BancoDeDadosException, SQLException {
-        log.info("Personagem criado");
-        if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
-            throw new BancoDeDadosException("Personagem já existe");
+    public PersonagemDTO adicionar(PersonagemCreateDTO personagem, Integer idJogador) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+        if (personagemRepository.listarPorNome(personagem.getNomePersonagem()) != null) {
+            throw new NaoEncontradoException("Personagem já existe");
         }
+        log.info("Personagem criado");
 
         Personagem personagemEntity = personagemMapper.fromCreateDTO(personagem);
-        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.adicionar(personagemEntity, idJogador));
-        return personagemDTO;
+        return personagemMapper.toDTO(personagemRepository.adicionar(personagemEntity, idJogador));
     }
 
     public List<PersonagemDTO> listarTodos() throws BancoDeDadosException, SQLException {
@@ -60,7 +52,7 @@ public class PersonagemService {
 
     public PersonagemDTO editar(PersonagemPutDTO personagem, Integer idPersonagem) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         Personagem personagemDoBanco = personagemMapper.fromCreateDTO(listarPorId(idPersonagem));
-        if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
+        if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).getNomePersonagem().equals(personagem.getNomePersonagem())) {
             throw new BancoDeDadosException("Personagem já existe");
         }
         personagemDoBanco.setNomePersonagem(personagem.getNomePersonagem());
@@ -88,15 +80,6 @@ public class PersonagemService {
         if (personagemRecuperado == null) {
             throw new NaoEncontradoException("Personagem não encontrado");
         }
-        PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRecuperado);
-        return personagemDTO;
-    }
-
-
-    public void listarPersonagemsPorJogador(int idJogador) throws BancoDeDadosException, SQLException {
-        List<Personagem> listaPersonagem = personagemRepository.listar().stream().filter(a -> Objects.equals(a.getIdJogador(), idJogador)).collect(Collectors.toList());
-        for (Personagem personagem : listaPersonagem) {
-            System.out.println(personagem);
-        }
+        return personagemMapper.toDTO(personagemRecuperado);
     }
 }

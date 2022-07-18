@@ -1,7 +1,6 @@
 package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
-import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.dto.BatalhaCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.dto.BatalhaDTO;
@@ -82,7 +81,7 @@ public class BatalhaController {
             }
     )
     @GetMapping("/fugir")
-    public String fugir(@RequestParam int idBatalha) throws BancoDeDadosException, BossNaoEncontradoException, SQLException {
+    public String fugir(@RequestParam int idBatalha) throws BancoDeDadosException, SQLException {
         return batalhaService.fugir(idBatalha);
     }
 

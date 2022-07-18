@@ -40,9 +40,11 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         try {
             int idPersonagem = getProximoId(connection);
 
-            String sql = "INSERT INTO PERSONAGEM\n" +
-                    "(ID_PERSONAGEM, ID_JOGADOR, NOME_PERSONAGEM)\n" +
-                    "VALUES(?, ?, ?)\n";
+            String sql = """
+                    INSERT INTO PERSONAGEM
+                    (ID_PERSONAGEM, ID_JOGADOR, NOME_PERSONAGEM)
+                    VALUES(?, ?, ?)
+                    """;
 
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -128,10 +130,10 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
         }
     }
 
-    public Optional<Personagem> listarPorNome(String nome) throws BancoDeDadosException, SQLException {
+    public Personagem listarPorNome(String nome) throws BancoDeDadosException, SQLException {
         Connection connection = dbConfiguration.getConnection();
         try {
-            String sql = "SELECT * FROM JOGADOR WHERE NOME_JOGADOR = ?";
+            String sql = "SELECT * FROM PERSONAGEM WHERE NOME_PERSONAGEM = ?";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -142,12 +144,15 @@ public class PersonagemRepository implements Repositorio<Integer, Personagem> {
 
             if (res.next()) {
                 Personagem personagem = new Personagem();
-                personagem.setNomePersonagem(res.getString("NOME_JOGADOR"));
+                personagem.setNomePersonagem(res.getString("NOME_PERSONAGEM"));
                 personagem.setId(res.getInt("ID_PERSONAGEM"));
                 personagem.setIdJogador(res.getInt("ID_JOGADOR"));
-                return Optional.of(personagem);
-            } else return Optional.empty();
+                return personagem;
+            }
+
+            return null;
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {

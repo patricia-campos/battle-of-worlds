@@ -4,7 +4,6 @@ import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.dto.JogadorCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.dto.JogadorDTO;
-import br.com.dbc.trabalhofinalmodulo2.service.EmailService;
 import br.com.dbc.trabalhofinalmodulo2.service.JogadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,8 +23,6 @@ public class JogadorController {
 
     @Autowired
     private JogadorService jogadorService;
-    @Autowired
-    private EmailService emailService;
 
     @Operation(summary = "Lista todos jogadores", description = "Lista todos jogadores")
     @ApiResponses(

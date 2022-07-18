@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -74,9 +73,6 @@ public class JogadorService {
         return jogadorMapper.toDTO(jogadorRecuperado);
     }
 
-    public Optional<Jogador> retornaJogador(String nome) throws BancoDeDadosException, SQLException {
-        return jogadorRepository.listarPorNome(nome);
-    }
 
     public JogadorDTO listarPorId(Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         Jogador jogadorRecuperado = jogadorRepository.listarPorId(id);
@@ -84,8 +80,7 @@ public class JogadorService {
             throw new NaoEncontradoException("Jogador não encontrado");
         }
         jogadorMapper.toDTO(jogadorRecuperado);
-        JogadorDTO jogadorDTO = jogadorMapper.toDTO(jogadorRecuperado);
-        return jogadorDTO;
+        return jogadorMapper.toDTO(jogadorRecuperado);
     }
 
 }
