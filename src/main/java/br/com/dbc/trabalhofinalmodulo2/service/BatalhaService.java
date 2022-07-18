@@ -62,8 +62,9 @@ public class BatalhaService {
     }
 
     //No momento do projeto não está implementado
-    public void remover(Batalha batalha) throws BancoDeDadosException {
-        batalhaRepository.remover(batalha.getIdBatalha());
+    public void remover(Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+        findById(id);
+        batalhaRepository.remover(id);
     }
 
     //No momento do projeto não está implementado
@@ -137,4 +138,11 @@ public class BatalhaService {
         return "Você fugiu com sucesso o boss era de mais para você :( ";
     }
 
+    private Batalha findById(Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+        Batalha batalha = batalhaRepository.buscarBatalha(id);
+        if (batalha == null) {
+            throw new NaoEncontradoException("Batalha não encontrada");
+        }
+        return batalha;
+    }
 }

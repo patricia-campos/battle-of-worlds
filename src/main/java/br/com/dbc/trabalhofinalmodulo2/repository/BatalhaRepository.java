@@ -62,10 +62,35 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
         return null;
     }
 
-    @Override
-    public boolean remover(Integer id) throws BancoDeDadosException {
-        return false;
-    }
+        @Override
+        public boolean remover(Integer id) throws BancoDeDadosException, SQLException {
+            Connection connection = dbConfiguration.getConnection();
+            try {
+
+                String sql = "DELETE FROM BATALHA WHERE ID_BATALHA = ?";
+
+                PreparedStatement stmt = connection.prepareStatement(sql);
+
+                stmt.setInt(1, id);
+
+                int res = stmt.executeUpdate();
+                System.out.println("Batalha removida");
+
+                return res > 0;
+
+            } catch (SQLException e) {
+                throw new BancoDeDadosException(e.getCause());
+            } finally {
+                try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
     @Override
     public Batalha editar(Integer id, Batalha batalha) throws BancoDeDadosException, SQLException {
@@ -162,7 +187,7 @@ public class BatalhaRepository implements Repositorio<Integer, Batalha> {
                 return batalha;
             }
 
-            return batalha;
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new BancoDeDadosException(e.getCause());

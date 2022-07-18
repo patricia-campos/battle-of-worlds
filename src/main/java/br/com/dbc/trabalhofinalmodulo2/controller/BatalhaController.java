@@ -2,6 +2,7 @@ package br.com.dbc.trabalhofinalmodulo2.controller;
 
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BancoDeDadosException;
 import br.com.dbc.trabalhofinalmodulo2.exceptions.BossNaoEncontradoException;
+import br.com.dbc.trabalhofinalmodulo2.exceptions.NaoEncontradoException;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaCreateDTO;
 import br.com.dbc.trabalhofinalmodulo2.model.dto.BatalhaDTO;
 import br.com.dbc.trabalhofinalmodulo2.service.BatalhaService;
@@ -31,6 +32,11 @@ public class BatalhaController {
     @PostMapping("/iniciar")
     public BatalhaDTO iniciar(@RequestBody BatalhaCreateDTO batalhaCreateDTO) throws BancoDeDadosException, Exception {
         return batalhaService.adicionar(batalhaCreateDTO);
+    }
+
+    @DeleteMapping("/{idBatalha}")
+    public void deletar(@PathVariable Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+        batalhaService.remover(id);
     }
 
     @Operation(summary = "Ataca o boss", description = "Jogador faz um ataque no boss")
