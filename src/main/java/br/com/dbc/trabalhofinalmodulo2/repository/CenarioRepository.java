@@ -37,16 +37,17 @@ public class CenarioRepository implements Repositorio<Integer, Cenario> {
 
             int id = getProximoId(connection);
             String sql = "INSERT INTO CENARIO (ID_CENARIO, NOME_CENARIO, HORARIO, TIPO_REINO)\n" +
-                    "\tVALUES (SEQ_CENARIO.nextval, ?, CURRENT_DATE, ?)";
+                    "\tVALUES (?, ?, CURRENT_DATE, ?)";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, object.getNomeCenario());
-            stmt.setString(2, object.getTipoReino().toString());
+            stmt.setInt(1, id);
+            stmt.setString(2, object.getNomeCenario());
+            stmt.setString(3, object.getTipoReino().toString());
 
             stmt.executeUpdate();
             System.out.println("Cenário adicionado com sucesso!");
-
+            object.setIdCenario(id);
             return object;
 
         } catch (SQLException e) {

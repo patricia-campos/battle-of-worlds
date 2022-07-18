@@ -55,7 +55,7 @@ public class CenarioController {
             }
     )
     @PostMapping
-    public ResponseEntity<CenarioDTO> post(@Valid @RequestBody CenarioDTO cenarioDTO) throws BancoDeDadosException, SQLException {
+    public ResponseEntity<CenarioCreateDTO> post(@Valid @RequestBody CenarioCreateDTO cenarioDTO) throws BancoDeDadosException, SQLException {
 
         return ResponseEntity.ok(cenarioService.adicionar(cenarioDTO));
     }
@@ -81,7 +81,7 @@ public class CenarioController {
             }
     )
     @DeleteMapping("/{idCenario}")
-    public void remover(@PathVariable("idCenario") Integer id) throws BancoDeDadosException, SQLException {
+    public void remover(@PathVariable("idCenario") Integer id) throws BancoDeDadosException, Exception {
         cenarioService.remover(id);
     }
     //=================================================================================================================

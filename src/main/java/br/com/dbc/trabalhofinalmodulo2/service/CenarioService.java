@@ -46,8 +46,8 @@ public class CenarioService {
     }
 
 
-    public void remover(int id) throws BancoDeDadosException, SQLException {
-
+    public void remover(int id) throws BancoDeDadosException, Exception {
+        buscarCenario(id);
         cenarioRepository.remover(id);
     }
 
