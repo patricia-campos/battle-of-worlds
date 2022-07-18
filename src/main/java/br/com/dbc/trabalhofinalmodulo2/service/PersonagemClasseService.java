@@ -57,7 +57,7 @@ public class PersonagemClasseService {
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagem);
         
         personagemDTO.setClassePersonagem(classePersonagemMapper.fromCreateClasse(classePersonagem));
-        personagemDTO.getClassePersonagem().setTipoPersonagem(personagemClasseDTO.getPersonagemClasseCreateDTO().getTipoClassePersonagem());
+        personagemDTO.getClassePersonagem().setTipoClassePersonagem(personagemClasseDTO.getPersonagemClasseCreateDTO().getTipoClassePersonagem());
 
         classePersonagemRepository.adicionar(classePersonagem,personagem.getId());
         personagemDTO.getClassePersonagem().setIdClassePersonagem(classePersonagem.getIdClassePersonagem());

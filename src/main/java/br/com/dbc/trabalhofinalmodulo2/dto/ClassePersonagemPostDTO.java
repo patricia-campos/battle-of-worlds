@@ -16,7 +16,7 @@ public class ClassePersonagemPostDTO {
 
     @Schema(description = "Tipo de classe do personagem")
     @NotBlank(message = "Tipo do personagem é obrigatório")
-    private TipoClassePersonagem tipoPersonagem;
+    private TipoClassePersonagem tipoClassePersonagem;
 
     @Schema(description = "Vida da Classe")
     @NotBlank(message = "Vida do personagem é obrigatório")
