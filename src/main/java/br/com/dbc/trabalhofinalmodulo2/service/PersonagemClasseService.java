@@ -37,27 +37,27 @@ public class PersonagemClasseService {
 
     public PersonagemDTO adicionarPersonagemComClasse(PersonagemClasseDTO personagemClasseDTO) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         ClassePersonagem classePersonagem = classePersonagemMapper.fromCreateClasse(personagemClasseDTO);
-        if (TipoClassePersonagem.MAGO == personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem()) {
+        if (TipoClassePersonagem.MAGO == personagemClasseDTO.getPersonagemClasseCreateDTO().getTipoClassePersonagem()) {
             classePersonagem.setVidaClasse(800.0);
             classePersonagem.setAtaqueClasse(200.0);
             classePersonagem.setDefesaClasse(100.0);
-        } else if(TipoClassePersonagem.GUERREIRO == personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem()){
+        } else if(TipoClassePersonagem.GUERREIRO == personagemClasseDTO.getPersonagemClasseCreateDTO().getTipoClassePersonagem()){
             classePersonagem.setVidaClasse(800.0);
             classePersonagem.setAtaqueClasse(100.0);
             classePersonagem.setDefesaClasse(200.0);
-        }else if(TipoClassePersonagem.ELFO == personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem()){
+        }else if(TipoClassePersonagem.ELFO == personagemClasseDTO.getPersonagemClasseCreateDTO().getTipoClassePersonagem()){
             classePersonagem.setVidaClasse(800.0);
             classePersonagem.setAtaqueClasse(150.0);
             classePersonagem.setDefesaClasse(150.0);
         }
-        classePersonagem.setTipoClassePersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
+        classePersonagem.setTipoClassePersonagem(personagemClasseDTO.getPersonagemClasseCreateDTO().getTipoClassePersonagem());
 
 
         Personagem personagem = personagemMapper.fromCreateDTO(personagemService.listarPorId(classePersonagem.getIdPersonagem()));
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagem);
         
         personagemDTO.setClassePersonagem(classePersonagemMapper.fromCreateClasse(classePersonagem));
-        personagemDTO.getClassePersonagem().setTipoPersonagem(personagemClasseDTO.getClassePersonagemCreateDTO().getTipoClassePersonagem());
+        personagemDTO.getClassePersonagem().setTipoPersonagem(personagemClasseDTO.getPersonagemClasseCreateDTO().getTipoClassePersonagem());
 
         classePersonagemRepository.adicionar(classePersonagem,personagem.getId());
         personagemDTO.getClassePersonagem().setIdClassePersonagem(classePersonagem.getIdClassePersonagem());

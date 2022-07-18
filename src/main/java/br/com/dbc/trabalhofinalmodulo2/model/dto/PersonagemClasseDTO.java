@@ -15,5 +15,5 @@ public class PersonagemClasseDTO {
 
     @Schema(description = "Classe do personagem")
     @NotNull(message = "Classe do personagem não pode ser nulo")
-    ClassePersonagemCreateDTO classePersonagemCreateDTO;
+    PersonagemClasseCreateDTO personagemClasseCreateDTO;
 }
