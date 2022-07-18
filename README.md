@@ -5,7 +5,7 @@
 Nossa equipe escolheu o tema Jogos para iniciar o trabalho final dos módulos iniciais do programa VemSer. <br>
 Desenvolvemos um jogo RPG em formato de texto onde o usuário enfrenta um vilão para tentar salvar algum dos reinos que o game oferece para as batalhas. <br><br>
 No novo módulo, a aplicação agora é uma api hospedada no Heroku, que pode ser acessada pelo link abaixo: <br>
-https://battle-of-worlds.herokuapp.com/swagger-ui/index.html#/
+https://vemser-pessoa-api-patricia.herokuapp.com/swagger-ui/index.html
 
 <br><br>
 Acesse nosso diagrama UML através do link: https://miro.com/app/board/uXjVOqHKkdg=/?share_link_id=9087179294
