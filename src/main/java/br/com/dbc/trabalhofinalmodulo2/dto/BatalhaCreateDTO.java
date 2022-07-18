@@ -27,10 +27,6 @@ public class BatalhaCreateDTO {
     @Schema(description = "Id do boss que ocorreu a batalha")
     private int idBoss;
 
-    @NotNull(message = "O round da batalha não pode ser nulo")
-    @Schema(description = "Quantos rounds durou a batalha")
-    private int roundBatalha;
-
     @NotNull(message = "O status da batalha não pode ser nulo")
     @NotEmpty(message = "O status da batalha não pode ser vazio")
     @Schema(description = "Resultado da batalha")
