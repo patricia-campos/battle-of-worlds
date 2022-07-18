@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 public class BossService {
 
     @Autowired
-    BossRepository bossRepository;
+    private BossRepository bossRepository;
 
     @Autowired
-    BossMapper bossMapper;
+    private BossMapper bossMapper;
 
     //Lista e exibe os Bosses cadastrados - READ
     public List<BossDTO> listar() throws BancoDeDadosException, SQLException {

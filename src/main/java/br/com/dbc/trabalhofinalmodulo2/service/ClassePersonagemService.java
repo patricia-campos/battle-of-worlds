@@ -17,10 +17,10 @@ import java.util.List;
 public class ClassePersonagemService {
 
     @Autowired
-    ClassePersonagemRepository classePersonagemRepository;
+    private ClassePersonagemRepository classePersonagemRepository;
 
     @Autowired
-    ClassePersonagemMapper classePersonagemMapper;
+    private ClassePersonagemMapper classePersonagemMapper;
 
     @Autowired
     private PersonagemRepository personagemRepository;

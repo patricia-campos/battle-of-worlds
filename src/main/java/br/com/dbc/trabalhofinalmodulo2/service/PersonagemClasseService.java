@@ -21,16 +21,16 @@ import java.sql.SQLException;
 public class PersonagemClasseService {
 
     @Autowired
-    PersonagemRepository personagemRepository;
+    private PersonagemRepository personagemRepository;
 
     @Autowired
-    ClassePersonagemRepository classePersonagemRepository;
+    private ClassePersonagemRepository classePersonagemRepository;
 
     @Autowired
-    ClassePersonagemMapper classePersonagemMapper;
+    private ClassePersonagemMapper classePersonagemMapper;
 
     @Autowired
-    PersonagemMapper personagemMapper;
+    private PersonagemMapper personagemMapper;
 
     @Autowired
     private PersonagemService personagemService;

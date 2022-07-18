@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 public class CenarioService {
 
     @Autowired
-    CenarioRepository cenarioRepository;
+    private CenarioRepository cenarioRepository;
 
     @Autowired
-    CenarioMapper cenarioMapper;
+    private CenarioMapper cenarioMapper;
 
 
     public CenarioDTO adicionar(CenarioCreateDTO cenario) throws BancoDeDadosException, SQLException {

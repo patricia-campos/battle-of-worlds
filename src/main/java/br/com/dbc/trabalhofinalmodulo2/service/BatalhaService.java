@@ -23,28 +23,28 @@ import java.util.stream.Collectors;
 public class BatalhaService {
 
     @Autowired
-    BatalhaRepository batalhaRepository;
+    private BatalhaRepository batalhaRepository;
 
     @Autowired
-    BatalhaMapper batalhaMapper;
+    private BatalhaMapper batalhaMapper;
 
     @Autowired
-    BossMapper bossMapper;
+    private BossMapper bossMapper;
 
     @Autowired
-    BossService bossService;
+    private BossService bossService;
 
     @Autowired
-    CenarioService cenarioService;
+    private CenarioService cenarioService;
 
     @Autowired
-    JogadorService jogadorService;
+    private JogadorService jogadorService;
 
     @Autowired
-    PersonagemRepository personagemRepository;
+    private PersonagemRepository personagemRepository;
 
     @Autowired
-    ClassePersonagemRepository classePersonagemRepository;
+    private ClassePersonagemRepository classePersonagemRepository;
 
     public BatalhaDTO adicionar(BatalhaCreateDTO batalha) throws BancoDeDadosException, Exception {
         jogadorService.listarPorId(batalha.getIdJogador());

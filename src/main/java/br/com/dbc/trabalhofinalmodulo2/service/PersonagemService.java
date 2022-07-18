@@ -32,7 +32,9 @@ public class PersonagemService {
     private ClassePersonagemService classePersonagemService;
 
     @Autowired
-    ClassePersonagemMapper classePersonagemMapper;
+    private ClassePersonagemMapper classePersonagemMapper;
+
+
     public PersonagemDTO adicionar(PersonagemCreateDTO personagem, Integer idJogador) throws BancoDeDadosException, SQLException {
         log.info("Personagem criado");
         if (personagemRepository.listarPorNome(personagem.getNomePersonagem()).isPresent()) {
@@ -64,7 +66,7 @@ public class PersonagemService {
         personagemDoBanco.setNomePersonagem(personagem.getNomePersonagem());
         personagem.setNomePersonagem(personagem.getNomePersonagem());
         PersonagemDTO personagemDTO = personagemMapper.toDTO(personagemRepository.editar(idPersonagem, personagemDoBanco));
-        personagemDTO.setClassePersonagem(classePersonagemMapper.fromCreateClasse(classePersonagemService.classePersonagemRepository.listarClassePorPersonagemID(idPersonagem)));
+        personagemDTO.setClassePersonagem(classePersonagemService.retornaClassePorPersonagem(idPersonagem));
         return personagemDTO;
     }
 
