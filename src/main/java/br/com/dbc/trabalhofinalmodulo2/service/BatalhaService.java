@@ -85,7 +85,7 @@ public class BatalhaService {
             batalha.setStatus("Vitoria");
             batalhaRepository.editar(batalha.getIdBatalha(),batalha);
             throw new VidaMenorQueZero("Vida do boss menor que 0");
-        }else if (classePersonagem.getVidaClasse() == 0){
+        }else if (classePersonagem.getVidaClasse() <= 0){
             batalha.setStatus("Derrota");
             batalhaRepository.editar(batalha.getIdBatalha(),batalha);
             throw new VidaMenorQueZero("Vida do jogador menor que 0");
@@ -117,7 +117,7 @@ public class BatalhaService {
             batalha.setStatus("Vitoria");
             batalhaRepository.editar(batalha.getIdBatalha(),batalha);
             throw new VidaMenorQueZero("Vida do boss menor que 0");
-        }else if (classePersonagem.getVidaClasse() == 0){
+        }else if (classePersonagem.getVidaClasse() <= 0){
             batalha.setStatus("Derrota");
             batalhaRepository.editar(batalha.getIdBatalha(),batalha);
             throw new VidaMenorQueZero("Vida do jogador menor que 0");
