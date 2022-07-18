@@ -12,15 +12,16 @@ Acesse nosso diagrama UML através do link: https://miro.com/app/board/uXjVOqHKk
 
 
 
-## 🛡️ Status do Projeto Battle of Worlds - Vem Ser
+## 🛡️ Requisitos do Projeto Battle of Worlds - Vem Ser
 
 - [x] Módulo 3 - Trabalho Final
-- XXXXX
-- XXXX
-- XXXX
-- XXXX
-- XXXX
-- XXXXX
+- Implementação das APIs do tema escolhido 
+- Utilizar Injeção de Dependência de forma correta
+- Utilizar validação de dados
+- Utilizar Lombok e ObjectMapper
+- Utilizar Swagger
+- Envio de e-mail
+- Mínimo 4 serviços com as operações get, post, put e delete.
 
 
 ## ⚔️ Colaboradores
