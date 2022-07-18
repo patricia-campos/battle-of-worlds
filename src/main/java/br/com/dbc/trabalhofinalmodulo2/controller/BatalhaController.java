@@ -34,8 +34,8 @@ public class BatalhaController {
         return batalhaService.adicionar(batalhaCreateDTO);
     }
 
-    @DeleteMapping("/{idBatalha}")
-    public void deletar(@PathVariable Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
+    @DeleteMapping("/deletar")
+    public void deletar(@RequestParam Integer id) throws BancoDeDadosException, SQLException, NaoEncontradoException {
         batalhaService.remover(id);
     }
 
